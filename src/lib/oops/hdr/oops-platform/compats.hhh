@@ -1,0 +1,49 @@
+/* Oopsilon
+ * Compatibility & platform-specific declarations
+ * Copyright (c) 2015 D. Mackay. All rights reserved. */
+
+#ifndef CMCONF_HHH
+#define CMCONF_HHH
+
+#include <stdint.h>
+
+#cmakedefine HAVE_MALLOC_H
+#ifdef HAVE_MALLOC_H
+#include <malloc.h>
+#endif
+#cmakedefine HAVE_UNISTD_H
+#cmakedefine HAVE_FCNTL_H
+#cmakedefine HAVE_CXXABI_H
+#cmakedefine HAVE_MKSTEMP 1
+
+/* later, add a check for HAVE_MKSTEMP */
+
+#cmakedefine WATCOM @WATCOM@
+#cmakedefine OOPS_VERINFO "@OOPS_VERINFO@"
+#define COMPILER_INFO "@CMAKE_CXX_COMPILER_ID@ @CMAKE_CXX_COMPILER_VERSION@"
+#define SYSTEM_INFO "@CMAKE_SYSTEM@"
+
+#ifdef WATCOM
+#define toupper _toupper
+#endif
+
+#if defined(__GNUC__) || defined(__GNUG__) || defined(__clang__)
+#define PRINTFUNCNAME __PRETTY_FUNCTION__
+#define ATTRNORETURN __attribute__ ((noreturn))
+#define SPECNORETURN
+#elif defined (_MSC_VER)
+#define PRINTFUNCNAME __FUNCSIG__
+#define ATTRNORETURN
+#define SPECNORETURN  __declspec(noreturn)
+#else
+#define PRINTFUNCNAME __func__
+#define ATTRNORETURN
+#define SPECNORETURN
+#endif
+
+#if !defined(HAVE_UNISTD_H)
+#define YY_NO_UNISTD_H
+#define isatty(x) 0
+#endif
+
+#endif

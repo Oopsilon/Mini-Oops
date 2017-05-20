@@ -1,0 +1,21 @@
+AccessModifierOffset: -2
+AlignTrailingComments: true
+AlignConsecutiveAssignments: true
+# use this when we move to Clang 3.8
+# AlignConsecutiveDeclarations: true
+AlignOperands: true
+AllowAllParametersOfDeclarationOnNextLine: true
+AllowShortBlocksOnASingleLine: true
+AllowShortCaseLabelsOnASingleLine: true
+AllowShortFunctionsOnASingleLine: true
+BreakBeforeBraces: Allman
+ColumnLimit: 80
+DerivePointerAlignment: false
+DerivePointerBinding: false
+IndentWidth: 4
+Language: Cpp
+PointerAlignment: Middle
+Standard: Cpp03
+TabWidth: 4
+SpaceBeforeParens: Always
+SpaceBeforeAssignmentOperators: true

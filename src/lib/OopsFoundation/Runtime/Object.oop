@@ -1,0 +1,23 @@
+class Object : noSuper
+|
+    CLS isa.
+|
+    CLS isa.
+    size_t refcnt.
+    CLS super.
+    long instanceSize.
+    vtbl vt.
+|
++ hello: aWord
+[
+    self test hello: (aWord hello: aWord) with: aWord with: aWord.
+]
+
+end
+
+class Test : Object
+|
+    Object testIVar.
+|
+
+end
