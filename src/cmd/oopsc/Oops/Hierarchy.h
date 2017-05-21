@@ -17,12 +17,23 @@
 /* Preserve the indentation. */
 /* clang-format off */
 
-class OopDesc;
-class   SmiOopDesc;
-class   MemOopDesc;
-class     KlassOopDesc;
-class     MethOopDesc;
+template <class T> class Oop;
+
+typedef Oop<class OopDesc> oop;
+typedef Oop<class   SmiOopDesc> smiOop;
+typedef Oop<class   MemOopDesc> memOop;
+typedef Oop<class     ClassOopDesc> classOop;
+typedef Oop<class     MethOopDesc> methOop;
+/*          class     VecOopDesc */
+
 /* C++ STL wrapper objects */
-class     VecOopDesc;
+
+template <class T> class VecOopDesc;
+
+template <typename T>
+struct vecOop
+{
+    typedef Oop<VecOopDesc<T> > type;
+};
 
 /* clang-format on */

@@ -68,6 +68,9 @@
         <File Name="cmd/oopsc/Oops/MemOop.h"/>
         <File Name="cmd/oopsc/Oops/SmiOop.h"/>
         <File Name="cmd/oopsc/Oops/VecOop.h"/>
+        <VirtualDirectory Name="Klass">
+          <File Name="cmd/oopsc/Oops/Klass/Klass.h"/>
+        </VirtualDirectory>
       </VirtualDirectory>
       <VirtualDirectory Name="Memory">
         <File Name="cmd/oopsc/Memory/Oop.h"/>

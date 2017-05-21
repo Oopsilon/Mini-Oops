@@ -14,9 +14,9 @@
 
 #include "Desc.h"
 
-class VecOopDesc : public OopDesc
+template <typename T> class VecOopDesc : public OopDesc
 {
-    std::vector<Oop<OopDesc> > contents;
+    std::vector<T> contents;
 
   public:
 };

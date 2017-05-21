@@ -1,5 +1,5 @@
 /* Oopsilon
- * Small integer
+ * Object descriptors: Small integer object
  *
  *      Copyright Notice
  *
