@@ -12,7 +12,9 @@
  *      End Copyright Notice
  */
 
-#include "Oop.h"
+#pragma once
+
+#include "Desc.h"
 
 /* A MemOopDesc is an Oop which points to an object - i.e. an object with
  * memory, not a tagged pointer like an smi. */

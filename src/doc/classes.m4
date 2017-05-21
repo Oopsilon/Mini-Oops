@@ -1,8 +1,7 @@
 digraph G {
     node [shape = record];
     
-    class(Object);
-    class(SmallInteger);
+    classes(`Object', `SmallInteger')
     
     isa(ObjectMetaCls, ObjectMetaCls);
     isa(ObjectCls, ObjectMetaCls);

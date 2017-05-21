@@ -12,7 +12,9 @@
  *      End Copyright Notice
  */
 
-#include "Oop.h"
+#pragma once
+
+#include "Desc.h"
 
 /* An Smi is a small integer's underlying representation. */
 typedef uintptr_t Smi;

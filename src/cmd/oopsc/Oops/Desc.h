@@ -12,7 +12,11 @@
  *      End Copyright Notice
  */
 
+#pragma once
+
 #include "Memory/Oop.h"
+
+#include "Hierarchy.h"
 
 /* An oop is the root type of any object in the Mini-Oops system.
  * It may be a MemOop (which is an allocated object) or an SmiOop (which is an

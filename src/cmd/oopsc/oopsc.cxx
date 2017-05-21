@@ -22,7 +22,8 @@
 #include "gram.tab.h"
 #include "scan.yy.h"
 
-#include "Oops/smiOop.h"
+#include "Oops/ClassOop.h"
+#include "Oops/SmiOop.h"
 #include "VM/vm.h"
 
 #include "AST/Program.h"

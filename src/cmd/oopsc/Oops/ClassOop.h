@@ -1,5 +1,5 @@
 /* Oopsilon
- * Object-oriented pointers - forward declaration of the hierarchy.
+ * Object descriptors: Class object
  *
  *      Copyright Notice
  *
@@ -14,15 +14,12 @@
 
 #pragma once
 
-/* Preserve the indentation. */
-/* clang-format off */
+#include "Desc.h"
+#include "Klass/Klass.h"
 
-class OopDesc;
-class   SmiOopDesc;
-class   MemOopDesc;
-class     KlassOopDesc;
-class     MethOopDesc;
-/* C++ STL wrapper objects */
-class     VecOopDesc;
+class ClassOopDesc : public OopDesc
+{
+    Klass klass;
 
-/* clang-format on */
+  public:
+};

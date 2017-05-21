@@ -1,5 +1,5 @@
 /* Oopsilon
- * Object-oriented pointers - forward declaration of the hierarchy.
+ * Object descriptors: C++ Vector object
  *
  *      Copyright Notice
  *
@@ -12,17 +12,11 @@
  *      End Copyright Notice
  */
 
-#pragma once
+#include "Desc.h"
 
-/* Preserve the indentation. */
-/* clang-format off */
+class VecOopDesc : public OopDesc
+{
+    std::vector<Oop<OopDesc> > contents;
 
-class OopDesc;
-class   SmiOopDesc;
-class   MemOopDesc;
-class     KlassOopDesc;
-class     MethOopDesc;
-/* C++ STL wrapper objects */
-class     VecOopDesc;
-
-/* clang-format on */
+  public:
+};

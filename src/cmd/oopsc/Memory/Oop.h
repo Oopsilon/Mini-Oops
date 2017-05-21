@@ -12,6 +12,8 @@
  *      End Copyright Notice
  */
 
+#pragma once
+
 #include <cstdint>
 
 #include "oops-platform/misc.h"
