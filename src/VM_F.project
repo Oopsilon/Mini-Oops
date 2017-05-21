@@ -62,15 +62,16 @@
         <File Name="cmd/oopsc/VM/VM.h"/>
       </VirtualDirectory>
       <VirtualDirectory Name="Oops">
-        <File Name="cmd/oopsc/Oops/ClassOop.h"/>
-        <File Name="cmd/oopsc/Oops/Desc.h"/>
-        <File Name="cmd/oopsc/Oops/Hierarchy.h"/>
-        <File Name="cmd/oopsc/Oops/MemOop.h"/>
-        <File Name="cmd/oopsc/Oops/SmiOop.h"/>
-        <File Name="cmd/oopsc/Oops/VecOop.h"/>
         <VirtualDirectory Name="Klass">
           <File Name="cmd/oopsc/Oops/Klass/Klass.h"/>
         </VirtualDirectory>
+        <File Name="cmd/oopsc/Oops/ClassDesc.h"/>
+        <File Name="cmd/oopsc/Oops/Desc.h"/>
+        <File Name="cmd/oopsc/Oops/Hierarchy.h"/>
+        <File Name="cmd/oopsc/Oops/MemDesc.h"/>
+        <File Name="cmd/oopsc/Oops/SmiDesc.h"/>
+        <File Name="cmd/oopsc/Oops/SymbolDesc.h"/>
+        <File Name="cmd/oopsc/Oops/VecDesc.h"/>
       </VirtualDirectory>
       <VirtualDirectory Name="Memory">
         <File Name="cmd/oopsc/Memory/Oop.h"/>

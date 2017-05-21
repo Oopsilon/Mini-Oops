@@ -25,7 +25,7 @@
 class Klass
 {
     classOop superClass;
-    vecOop<methOop>::type nstVars;
+    vecOop<symbolOop>::type nstVars;
     vecOop<methOop>::type methods;
 
   public:

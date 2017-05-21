@@ -12,6 +12,10 @@
  *      End Copyright Notice
  */
 
+#pragma once
+
+#include <vector>
+
 #include "Desc.h"
 
 template <typename T> class VecOopDesc : public OopDesc
