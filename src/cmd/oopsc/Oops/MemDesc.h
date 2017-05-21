@@ -22,7 +22,10 @@ class MemOopDesc : public OopDesc
 {
     /* Every object in the system has a class - and every class is some subtype
      * of the class descriptor type KlassDesc. */
-    Oop<KlassDesc> klass;
+    /* classOop isa; */
+    /* ^ This has been moved to OopDesc in order to deal with a C++ compiler
+     * issue. But in fact it should be located here, as only MemOops have an
+     * isa field. */
 
   public:
 };

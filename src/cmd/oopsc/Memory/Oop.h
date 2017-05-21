@@ -18,6 +18,8 @@
 
 #include "oops-platform/misc.h"
 
+#include "oops-cxx/packstrc.h"
+
 const size_t platformBits = sizeof (void *);
 const size_t smiBits      = platformBits - 1;
 
@@ -28,12 +30,14 @@ template <typename T> struct Oop
     union {
         struct
         {
-            uintptr_t smiValue[smiBits];
-            uintptr_t isMemOop[1];
-        };
+            uintptr_t smiValue : smiBits;
+            uintptr_t isMemOop : 1;
+        } PACKSTRUCT;
         T * memOopValue;
-    };
+    } PACKSTRUCT;
 
     T * operator* () const { return memOopValue; }
     T * operator-> () const { return memOopValue; }
-};
+} PACKSTRUCT;
+
+#include "oops-cxx/endpack.h"

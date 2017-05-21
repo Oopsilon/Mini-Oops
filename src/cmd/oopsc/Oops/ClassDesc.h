@@ -22,4 +22,5 @@ class ClassOopDesc : public OopDesc
     Klass klass;
 
   public:
+    inline Klass * getKlass () { return &klass; }
 };

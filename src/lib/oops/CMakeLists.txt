@@ -5,7 +5,7 @@ configure_file (${PROJECT_SOURCE_DIR}/hdr/oops-platform/compats.hhh
 
 add_library (oops oops-platform/misc.cxx)
 
-set (oops_cxx_pdhrs oops-cxx/Object.h)
+set (oops_cxx_phdrs oops-cxx/Object.h oops-cxx/packstrc.h oops-cxx/endpack.h)
 set (oops_plat_phdrs oops-platform/misc.h)
 set (oops_object_phdrs oops-object/object.h)
 

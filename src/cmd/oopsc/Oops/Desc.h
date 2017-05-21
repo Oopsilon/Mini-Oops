@@ -28,6 +28,9 @@
  * that reason they are immutable objects. */
 class OopDesc
 {
+  protected:
+    classOop isa;
+
   public:
     bool is_smi () const
     {

@@ -33,6 +33,6 @@ class SmiOopDesc : OopDesc
      * Oop<SmiOopDesc> assigned. */
     Smi value () const
     {
-        return *(new ((void *)this) Oop<SmiOopDesc> ())->smiValue;
+        return (new ((void *)this) Oop<SmiOopDesc> ())->smiValue;
     }
 };

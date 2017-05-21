@@ -23,6 +23,7 @@
 #include "scan.yy.h"
 
 #include "Oops/ClassDesc.h"
+#include "Oops/MemDesc.h"
 #include "Oops/SmiDesc.h"
 #include "Oops/SymbolDesc.h"
 #include "VM/vm.h"
@@ -114,6 +115,8 @@ int main (int argc, char * argv[])
     printf (OOPSC_COMPNAME);
     printf (KBLU "[" COMPILER_INFO " on " SYSTEM_INFO ", " __DATE__
                  ", at " __TIME__ "]\n" KNRM);
+
+    printf ("OopDesc size: %d\n", sizeof (oop));
 
     if (argc < 2)
         fatalError ("Usage: %s path/to/Oopsilon/Package.oop\n", argv[0]);
