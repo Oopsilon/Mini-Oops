@@ -1,5 +1,5 @@
 /* Oopsilon
- * Tag: object reference handle
+ * Object-oriented pointers - forward declaration of the hierarchy.
  *
  *      Copyright Notice
  *
@@ -12,20 +12,12 @@
  *      End Copyright Notice
  */
 
-#include <cstdint>
+/* Preserve the indentation. */
+/* clang-format off */
 
-#include "oops-platform/misc.h"
+class OopDesc;
+class   SmiOopDesc;
+class   MemOopDesc;
+class     KlassOopDesc;
 
-const int platformBits = sizeof (void *);
-
-struct Tag
-{
-    union {
-        struct
-        {
-            uintptr_t smiValue[platformBits - 1];
-            uintptr_t isMemOop[1];
-        };
-        uintptr_t value;
-    };
-};
+/* clang-format on */

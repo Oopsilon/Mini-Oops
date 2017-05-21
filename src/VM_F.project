@@ -63,10 +63,13 @@
       </VirtualDirectory>
       <VirtualDirectory Name="Oops">
         <File Name="cmd/oopsc/Oops/oop.h"/>
-        <File Name="cmd/oopsc/Oops/Oop.h"/>
+        <File Name="cmd/oopsc/Oops/Hierarchy.h"/>
+        <File Name="cmd/oopsc/Oops/MemOop.h"/>
+        <File Name="cmd/oopsc/Oops/SmiOop.h"/>
+        <File Name="cmd/oopsc/Oops/Desc.h"/>
       </VirtualDirectory>
       <VirtualDirectory Name="Memory">
-        <File Name="cmd/oopsc/Memory/Tag.h"/>
+        <File Name="cmd/oopsc/Memory/Oop.h"/>
       </VirtualDirectory>
     </VirtualDirectory>
     <VirtualDirectory Name="flex">

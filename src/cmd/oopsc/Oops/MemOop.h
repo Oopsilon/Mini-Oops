@@ -1,5 +1,5 @@
 /* Oopsilon
- * Small integer
+ * Object descriptors: Memory Object
  *
  *      Copyright Notice
  *
@@ -14,10 +14,13 @@
 
 #include "Oop.h"
 
-typedef uintptr_t Smi;
-
-class SmiOop : Oop
+/* A MemOopDesc is an Oop which points to an object - i.e. an object with
+ * memory, not a tagged pointer like an smi. */
+class MemOopDesc : public OopDesc
 {
+    /* Every object in the system has a class - and every class is some subtype
+     * of the class descriptor type KlassDesc. */
+    Oop<KlassDesc> klass;
+
   public:
-    Smi value () { return *(new ((void *)this) Tag ())->smiValue; }
 };
