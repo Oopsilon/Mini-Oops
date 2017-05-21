@@ -1,3 +1,17 @@
+/* Oopsilon
+ * Entry point
+ *
+ *      Copyright Notice
+ *
+ * Copyright (c) 2017 D. Mackay. All rights reserved.
+ *
+ * This file and its contents are supplied under the terms of the Peer
+ * Production Licence as found in the Oopsilon project's source repository,
+ * and David Mackay is the sole copyright holder.
+ *
+ *      End Copyright Notice
+ */
+
 #include <cstdio>
 #include <fstream>
 #include <string>
@@ -8,10 +22,16 @@
 #include "gram.tab.h"
 #include "scan.yy.h"
 
+#include "Oops/smiOop.h"
+#include "VM/vm.h"
+
 #include "AST/Program.h"
 #include "AST/Symbol.h"
 
-#define OOPSC_COMPNAME KBLD KMAG "Oopsilon Static Compiler" KNRM "\n"
+VM theVM;
+VM & vm = theVM;
+
+#define OOPSC_COMPNAME KBLD KMAG "Oopsilon Dynamic Compiler" KNRM "\n"
 
 #if defined(_MSC_VER)
 #include <conio.h>

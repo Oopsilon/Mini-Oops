@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<CodeLite_Project Name="CFL" Version="10.0.0" InternalType="">
+<CodeLite_Project Name="VM_F" Version="10.0.0" InternalType="">
+  <Plugins>
+    <Plugin Name="qmake">
+      <![CDATA[00010001N0005Debug000000000000]]>
+    </Plugin>
+  </Plugins>
   <VirtualDirectory Name="lib">
     <VirtualDirectory Name="OopsFoundation">
       <VirtualDirectory Name="Runtime">
@@ -53,6 +58,16 @@
       <File Name="cmd/oopsc/CMakeLists.txt"/>
       <File Name="cmd/oopsc/oopsc.cxx"/>
       <File Name="cmd/oopsc/oopsc.h"/>
+      <VirtualDirectory Name="VM">
+        <File Name="cmd/oopsc/VM/VM.h"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="Oops">
+        <File Name="cmd/oopsc/Oops/oop.h"/>
+        <File Name="cmd/oopsc/Oops/Oop.h"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="Memory">
+        <File Name="cmd/oopsc/Memory/Tag.h"/>
+      </VirtualDirectory>
     </VirtualDirectory>
     <VirtualDirectory Name="flex">
       <File Name="cmd/flex/win_flex.exe"/>
@@ -64,11 +79,6 @@
     </VirtualDirectory>
     <File Name="cmd/CMakeLists.txt"/>
   </VirtualDirectory>
-  <Plugins>
-    <Plugin Name="qmake">
-      <![CDATA[00010001N0005Debug000000000000]]>
-    </Plugin>
-  </Plugins>
   <Reconciliation>
     <Regexes/>
     <Excludepaths/>
@@ -133,7 +143,6 @@
     </Configuration>
   </Settings>
   <VirtualDirectory Name="src">
-    <File Name="CFL.project"/>
     <File Name="CMakeLists.txt"/>
   </VirtualDirectory>
   <VirtualDirectory Name="tools">
