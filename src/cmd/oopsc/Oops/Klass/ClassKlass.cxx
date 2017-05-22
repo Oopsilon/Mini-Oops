@@ -1,5 +1,5 @@
 /* Oopsilon
- * Klasses: Klass type for metaclasses.
+ * Klasses: Klass descriptor for Class objects.
  *
  *      Copyright Notice
  *
@@ -12,13 +12,11 @@
  *      End Copyright Notice
  */
 
-#pragma once
+#include "ClassKlass.h"
+#include "../ClassDesc.h"
 
-#include "MemKlass.h"
-
-/* This is the Klass of metaclasses. */
-class ClassKlass : public MemKlass
+size_t ClassKlass::instanceSize ()
 {
-  public:
-    virtual size_t instanceSize ();
-};
+    dbg ("Class dispatch works\n");
+    return sizeof (ClassOopDesc);
+}

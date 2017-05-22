@@ -19,7 +19,7 @@
 #include "../Hierarchy.h"
 
 /* This is the superklass of all the objects that use allocated memory. */
-class MemKlass : Klass
+class MemKlass : public Klass
 {
   public:
 };

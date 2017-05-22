@@ -30,5 +30,5 @@ class Klass
 
   public:
     /* Return the size of an instance of this class. */
-    virtual size_t instanceSize ();
+    virtual size_t instanceSize (){};
 };

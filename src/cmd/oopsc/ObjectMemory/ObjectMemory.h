@@ -26,6 +26,10 @@ class ObjectMemory
     classOop _smiOopClass;
     classOop _symbolOopClass;
 
+    classOop lowLevelAllocMetaClass ();
+
+    void notice (const char * format, ...);
+
   public:
     void preboot ();
 

@@ -19,8 +19,10 @@
 
 class ClassOopDesc : public OopDesc
 {
-    Klass klass;
+    Klass * klass;
 
   public:
-    inline Klass * getKlass () { return &klass; }
+    inline Klass *& getKlass () { return klass; }
+
+    inline size_t instanceSize () { return klass->instanceSize (); }
 };

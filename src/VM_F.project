@@ -69,6 +69,7 @@
           <File Name="cmd/oopsc/Oops/Klass/MemKlass.h"/>
           <File Name="cmd/oopsc/Oops/Klass/SymbolKlass.h"/>
           <File Name="cmd/oopsc/Oops/Klass/VecKlass.h"/>
+          <File Name="cmd/oopsc/Oops/Klass/ClassKlass.cxx"/>
         </VirtualDirectory>
         <File Name="cmd/oopsc/Oops/ClassDesc.h"/>
         <File Name="cmd/oopsc/Oops/Desc.h"/>
