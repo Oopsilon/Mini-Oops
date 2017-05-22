@@ -60,12 +60,15 @@
       <File Name="cmd/oopsc/oopsc.h"/>
       <VirtualDirectory Name="VM">
         <File Name="cmd/oopsc/VM/VM.h"/>
+        <File Name="cmd/oopsc/VM/VM.cxx"/>
       </VirtualDirectory>
       <VirtualDirectory Name="Oops">
         <VirtualDirectory Name="Klass">
           <File Name="cmd/oopsc/Oops/Klass/Klass.h"/>
           <File Name="cmd/oopsc/Oops/Klass/ClassKlass.h"/>
           <File Name="cmd/oopsc/Oops/Klass/MemKlass.h"/>
+          <File Name="cmd/oopsc/Oops/Klass/SymbolKlass.h"/>
+          <File Name="cmd/oopsc/Oops/Klass/VecKlass.h"/>
         </VirtualDirectory>
         <File Name="cmd/oopsc/Oops/ClassDesc.h"/>
         <File Name="cmd/oopsc/Oops/Desc.h"/>
@@ -75,8 +78,10 @@
         <File Name="cmd/oopsc/Oops/SymbolDesc.h"/>
         <File Name="cmd/oopsc/Oops/VecDesc.h"/>
       </VirtualDirectory>
-      <VirtualDirectory Name="Memory">
-        <File Name="cmd/oopsc/Memory/Oop.h"/>
+      <VirtualDirectory Name="ObjectMemory">
+        <File Name="cmd/oopsc/ObjectMemory/Oop.h"/>
+        <File Name="cmd/oopsc/ObjectMemory/ObjectMemory.h"/>
+        <File Name="cmd/oopsc/ObjectMemory/ObjectMemory.cxx"/>
       </VirtualDirectory>
     </VirtualDirectory>
     <VirtualDirectory Name="flex">

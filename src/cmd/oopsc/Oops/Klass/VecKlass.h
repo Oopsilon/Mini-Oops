@@ -1,5 +1,5 @@
 /* Oopsilon
- * Klasses: Klass type for Mem objects.
+ * Klasses: Klass type for Vec objects.
  *
  *      Copyright Notice
  *
@@ -14,12 +14,11 @@
 
 #pragma once
 
-#include "ObjectMemory/Oop.h"
+#include "../VecDesc.h"
+#include "MemKlass.h"
 
-#include "../Hierarchy.h"
-
-/* This is the superklass of all the objects that use allocated memory. */
-class MemKlass : Klass
+template <typename T> class VecKlass : MemKlass
 {
   public:
+    size_t instanceSize () { return sizeof (VecDesc); }
 };

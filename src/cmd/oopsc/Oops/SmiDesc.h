@@ -16,9 +16,6 @@
 
 #include "Desc.h"
 
-/* An Smi is a small integer's underlying representation. */
-typedef uintptr_t Smi;
-
 /* The SmiOopDesc is actually empty. It is zero-length. So it simply operates
  * on its own 'this' value - which is not actually a pointer to any valid
  * region of memory, but is an integer with an LSB of 1. */

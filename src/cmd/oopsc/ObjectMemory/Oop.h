@@ -1,5 +1,6 @@
 /* Oopsilon
- * Tag: object reference handle
+ * Oop: object reference handle (either points to an object, or is an inline
+ * Smi.)
  *
  *      Copyright Notice
  *
@@ -23,6 +24,9 @@
 const size_t platformBits = sizeof (void *);
 const size_t smiBits      = platformBits - 1;
 
+/* An Smi is a small integer's underlying representation. */
+typedef uintptr_t Smi;
+
 /* An Oop is an Object-Oriented Pointer.
  * It is the handle used to refer to OopDescs. */
 template <typename T> struct Oop
@@ -30,11 +34,25 @@ template <typename T> struct Oop
     union {
         struct
         {
-            uintptr_t smiValue : smiBits;
-            uintptr_t isMemOop : 1;
+            Smi smiValue : smiBits;
+            /* Don't change this to a bool. Doing so fucks the packing.
+             * It has to be the same type as the other member of the packed
+             * struct. */
+            Smi isSmiOop : 1;
         } PACKSTRUCT;
         T * memOopValue;
     } PACKSTRUCT;
+
+    Oop () : memOopValue (NULL) {}
+    Oop (Smi aNumber) : isSmiOop (true) {}
+    Oop (T * anObj) : memOopValue (anObj) {}
+
+    bool operator! () const { return memOopValue == 0; }
+    bool operator== (const Oop<T> & rhs)
+    {
+        return memOopValue == rhs.memOopValue;
+    }
+    bool operator!= (const Oop<T> & rhs) { return !operator== (rhs); }
 
     T * operator* () const { return memOopValue; }
     T * operator-> () const { return memOopValue; }

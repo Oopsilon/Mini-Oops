@@ -11,6 +11,8 @@ set (oopsc_srcs
     ${PROJECT_BINARY_DIR}/gram.tab.cxx ${PROJECT_BINARY_DIR}/scan.yy.cxx
     ANSYN/State.cxx ANSYN/MsgSyntax.cxx
     AST/AST.cxx AST/Symbol.cxx
+    ObjectMemory/ObjectMemory.cxx
+    VM/VM.cxx
 	oopsc.cxx)
 
 add_executable (oopsc "")

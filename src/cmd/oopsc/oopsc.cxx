@@ -26,15 +26,10 @@
 #include "Oops/MemDesc.h"
 #include "Oops/SmiDesc.h"
 #include "Oops/SymbolDesc.h"
-#include "VM/vm.h"
+#include "VM/VM.h"
 
 #include "AST/Program.h"
 #include "AST/Symbol.h"
-
-VM theVM;
-VM & vm = theVM;
-
-#define OOPSC_COMPNAME KBLD KMAG "Oopsilon Dynamic Compiler" KNRM "\n"
 
 #if defined(_MSC_VER)
 #include <conio.h>
@@ -111,10 +106,6 @@ string Oopsc::generate () { return ""; }
 
 int main (int argc, char * argv[])
 {
-    printf (OOPS_BANNER);
-    printf (OOPSC_COMPNAME);
-    printf (KBLU "[" COMPILER_INFO " on " SYSTEM_INFO ", " __DATE__
-                 ", at " __TIME__ "]\n" KNRM);
 
     printf ("OopDesc size: %d\n", sizeof (oop));
 

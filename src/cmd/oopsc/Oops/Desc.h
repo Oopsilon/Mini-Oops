@@ -14,7 +14,7 @@
 
 #pragma once
 
-#include "Memory/Oop.h"
+#include "ObjectMemory/Oop.h"
 
 #include "Hierarchy.h"
 
@@ -34,6 +34,6 @@ class OopDesc
   public:
     bool is_smi () const
     {
-        return (new ((void *)this) Oop<OopDesc> ())->isMemOop;
+        return (new ((void *)this) Oop<OopDesc> ())->isSmiOop;
     }
 };

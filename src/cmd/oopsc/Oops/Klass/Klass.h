@@ -14,7 +14,7 @@
 
 #pragma once
 
-#include "Memory/Oop.h"
+#include "ObjectMemory/Oop.h"
 
 #include "../Hierarchy.h"
 

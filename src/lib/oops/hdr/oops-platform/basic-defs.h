@@ -15,10 +15,7 @@
 #define KCYN "\x1B[36m"
 #define KWHT "\x1B[37m"
 
-#define OOPS_BANNER                                                            \
-    KBLD KMAG OOPS_VERINFO KNRM                                                \
-        "\n"                                                                   \
-        "Copyright (c) 2017 D. Mackay. All rights reserved.\n"
+#define OOPS_BANNER "Copyright (c) 2017 D. Mackay. All rights reserved.\n"
 
 extern "C" void dbg2 (const char * funcName, const char * fmt, ...);
 extern "C" SPECNORETURN void fatalError2 (const char * funcName,

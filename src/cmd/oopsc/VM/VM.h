@@ -1,5 +1,5 @@
 /* Oopsilon
- * VM class definition
+ * VM class definition.
  *
  *      Copyright Notice
  *
@@ -12,8 +12,18 @@
  *      End Copyright Notice
  */
 
+#include "ObjectMemory/ObjectMemory.h"
+
 class VM
 {
+    ObjectMemory mem;
+
+  public:
+    static VM globalVM;
+
+    void notice (const char * format, ...);
+
+    VM ();
 };
 
 extern VM & vm;
