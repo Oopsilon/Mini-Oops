@@ -29,5 +29,6 @@ class Klass
     vecOop<methOop>::type methods;
 
   public:
+    /* Return the size of an instance of this class. */
     virtual size_t instanceSize ();
 };

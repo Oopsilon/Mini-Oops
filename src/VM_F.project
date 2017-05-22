@@ -64,6 +64,8 @@
       <VirtualDirectory Name="Oops">
         <VirtualDirectory Name="Klass">
           <File Name="cmd/oopsc/Oops/Klass/Klass.h"/>
+          <File Name="cmd/oopsc/Oops/Klass/ClassKlass.h"/>
+          <File Name="cmd/oopsc/Oops/Klass/MemKlass.h"/>
         </VirtualDirectory>
         <File Name="cmd/oopsc/Oops/ClassDesc.h"/>
         <File Name="cmd/oopsc/Oops/Desc.h"/>
