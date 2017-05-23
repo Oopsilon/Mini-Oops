@@ -98,34 +98,33 @@ calcelapsed()
         $((elapsed / 60 % 60)) $((elapsed % 60))
 }
 
-# $1 = start time
+echo "==== Building C/FL at `$DATE` ===="
+start_time=$SECONDS
+
 failedbuild()
 {
     echo "==== Failure building C/FL at `$DATE` ===="
-    calcelapsed $1 $SECONDS
+    calcelapsed $start_time $SECONDS
     exit 1
 }
 
-# $1 = start time
 passedbuild()
 {
     echo "==== Finished building C/FL at `$DATE` ===="
-    calcelapsed $1 $SECONDS
+    calcelapsed $start_time $SECONDS
     exit 0
 }
 
-
-echo "==== Building C/FL at `$DATE` ===="
-start_time=$SECONDS
+trap 'failedbuild' ERR
 
 cd ${output_dir}
 
 if [ ${run_cmake} = "1" ]
 then
     # The `eval` is bizarrely necessary.
-    eval ${SCAN_BUILD} cmake ${cmake_opts} ${src_root} || failedbuild $start_time $SECONDS
+    eval ${SCAN_BUILD} cmake ${cmake_opts} ${src_root}
 fi
 
-${SCAN_BUILD} $MAKE -j ${jobs} install || failedbuild $start_time $SECONDS
+${SCAN_BUILD} $MAKE -j ${jobs} install
 
 passedbuild $start_time
