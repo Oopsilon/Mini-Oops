@@ -7,7 +7,7 @@ compiler:
 
 before_script:
   - sudo apt-get update -q
-  - sudo apt-get install flex -q
+  - sudo apt-get install flex ksh -q
 
 script:
   - ksh src/tools/Nightly.sh
