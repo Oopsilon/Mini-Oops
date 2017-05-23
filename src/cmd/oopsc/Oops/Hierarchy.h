@@ -18,10 +18,11 @@ template <class T> class Oop;
 
 /* C++ STL wrapper objects */
 template <class T> class VecOopDesc;
+template <class T> class ObjVecOopDesc;
 
 template <class T> struct objVecOop
 {
-    typedef Oop<VecOopDesc<T> > type;
+    typedef Oop<ObjVecOopDesc<T> > type;
 };
 
 typedef Oop<VecOopDesc<char> > byteVecOop;
@@ -33,6 +34,7 @@ typedef Oop<class OopDesc>      oop;
 typedef Oop<class SmiOopDesc>     smiOop;
 typedef Oop<class MemOopDesc>     memOop;
 /* (this is where vecOop fits in)   vecOop; */
+/*                                    objVecOop */
 typedef Oop<class SymbolOopDesc>      symbolOop;
 typedef Oop<class ClassOopDesc>     classOop;
 typedef Oop<class MethOopDesc>      methOop;

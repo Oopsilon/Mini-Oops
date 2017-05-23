@@ -33,5 +33,5 @@ class Klass
     virtual size_t instanceSize (){};
 
     classOop superClass () const { return _superClass; }
-    classOop set_superClass (classOop newSuper) { _superClass = newSuper; }
+    void set_superClass (classOop newSuper) { _superClass = newSuper; }
 };

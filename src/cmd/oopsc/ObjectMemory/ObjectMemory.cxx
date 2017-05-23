@@ -62,5 +62,11 @@ void ObjectMemory::preboot ()
     /* Set the Object Metaclass' superClass to the Object Class. */
     _objectMetaClass->getKlass ()->set_superClass (_objectClass);
 
+    /* Set up OopVec, Symbol here... */
+
+    /* After setting those up, it should become possible to do subclassing by
+     * calling on Object.
+     * There will need to be manual patching-up of Klasses, possibly? */
+
     notice ("Initial Object Memory setup.\n");
 }

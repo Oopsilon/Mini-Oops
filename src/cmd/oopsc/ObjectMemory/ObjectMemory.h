@@ -24,7 +24,7 @@ class ObjectMemory
     classOop _objectMetaClass;
     classOop _objectClass;
     classOop _smiOopClass;
-    classOop _byteArrayClass;
+    classOop _oopVecClass;
     classOop _symbolOopClass;
 
     template <class T> classOop lowLevelAllocClass ();

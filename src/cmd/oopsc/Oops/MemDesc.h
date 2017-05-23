@@ -14,6 +14,8 @@
 
 #pragma once
 
+#include <vector>
+
 #include "Desc.h"
 
 /* A MemOopDesc is an Oop which points to an object - i.e. an object with
@@ -26,6 +28,9 @@ class MemOopDesc : public OopDesc
     /* ^ This has been moved to OopDesc in order to deal with a C++ compiler
      * issue. But in fact it should be located here, as only MemOops have an
      * isa field. */
+
+    /* The instance variables. */
+    std::vector<oop> _nstVars;
 
   public:
 };
