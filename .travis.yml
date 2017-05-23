@@ -10,4 +10,4 @@ before_script:
   - sudo apt-get install flex -q
 
 script:
-  - src/tools/Nightly.sh
+  - ksh src/tools/Nightly.sh

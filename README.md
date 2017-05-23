@@ -1,5 +1,10 @@
 <img src="Doc/Logo/Oopsilon.png" alt="Oopsilon logo" width="585" height="129">
 
+![Travis CI](https://img.shields.io/travis/Oopsilon/Mini-Oops.svg)](https://travis-ci.org/Oopsilon/Mini-Oops)
+![Oopsilon 05/2017](https://img.shields.io/badge/Oopsilon-05%2F2017-red.svg)
+![Platforms: Windows, FreeBSD, OS X, Linux](https://img.shields.io/badge/platforms-FreeBSD%20|%20OS%20X%20|%20Windows%20|%20Linux-lightgrey.svg)
+
+
 ### Overview
 
 This is the Oopsilon VM/F tree (Virtual Machine/Foundation tree.) This is
@@ -57,7 +62,7 @@ A few frequently asked questions about **Oopsilon**:
  * FreeBSD, DragonFly BSD, NetBSD, OpenBSD, OS X
  * GNU/Linux, Musl/BusyBox/Linux
  * Solaris, OpenIndiana
- * Windows, OS/2, eComStation
+ * Windows, ArcaOS, OS/2
 
 > How is Oopsilon built?
 
