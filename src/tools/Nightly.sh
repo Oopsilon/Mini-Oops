@@ -13,9 +13,6 @@
 
 root_dir=$(pwd)
 src_root=${root_dir}/src
-output_dir=${root_dir}/build/out
-
-toolpath=${src_root}/tools/windows
 
 DATE=date
 EXPR=expr
@@ -35,6 +32,10 @@ if [ -e "./nightly.opt" ]
 then
     source ./nightly.opt
 fi
+
+platform_name="`uname -s`-`uname -p`"
+output_dir="${root_dir}/objs/${platform_name}"
+inst_dir="${root_dir}/inst/${platform_name}"
 
 while getopts aA:ij:o:rs: opt
 do
@@ -58,9 +59,8 @@ DEBUG_VERINFO="Oopsilon Development: `$DATE +%c`"
 
 set_opts()
 {
-    install_dir=${output_dir}/instroot
-    cmake_opts+="-DCMAKE_INSTALL_PREFIX=${install_dir}
-        -DOOPS_VERINFO:STRING=\"${VERINFO}\" "
+    cmake_opts+="-DCMAKE_INSTALL_PREFIX=${inst_dir}
+        -DOOPS_VERINFO:STRING=\"${VERINFO}\""
 }
 
 if [ ${analyse} = "1" ]
@@ -80,13 +80,17 @@ set_opts
 
 if [ ${clean} = "1" ]
 then
-    $RM -rf ${output_dir} ${install_dir}
+    echo ${output_dir}
+    $RM -rf ${output_dir} ${inst_dir}
+    $MKDIR ${output_dir}
+    $MKDIR ${inst_dir}
+    cp ${src_root}/tools/.gitignore.tpl ${output_dir}/.gitignore
+    cp ${src_root}/tools/.gitignore.tpl ${inst_dir}/.gitignore
 fi
 
 echo "==== Building C/FL at `$DATE` ===="
 start_time=$SECONDS
 
-$MKDIR ${output_dir}
 cd ${output_dir}
 
 if [ ${run_cmake} = "1" ]

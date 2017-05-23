@@ -1,0 +1,13 @@
+sudo: required
+dist: trusty
+language: c
+compiler:
+  - gcc
+  - clang
+
+before_script:
+  - sudo apt-get update -q
+  - sudo apt-get install flex -q
+
+script:
+  - src/tools/Nightly.sh
