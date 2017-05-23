@@ -88,6 +88,33 @@ then
     cp ${src_root}/tools/.gitignore.tpl ${inst_dir}/.gitignore
 fi
 
+# $1: start time
+# $2: end time
+calcelapsed()
+{
+    elapsed=$(($2 - $1))
+
+    $PRINTF "==== Elapsed build time: %02d:%02d\n" \
+        $((elapsed / 60 % 60)) $((elapsed % 60))
+}
+
+# $1 = start time
+failedbuild()
+{
+    echo "==== Failure building C/FL at `$DATE` ===="
+    calcelapsed $1 $SECONDS
+    exit 1
+}
+
+# $1 = start time
+passedbuild()
+{
+    echo "==== Finished building C/FL at `$DATE` ===="
+    calcelapsed $1 $SECONDS
+    exit 0
+}
+
+
 echo "==== Building C/FL at `$DATE` ===="
 start_time=$SECONDS
 
@@ -96,15 +123,9 @@ cd ${output_dir}
 if [ ${run_cmake} = "1" ]
 then
     # The `eval` is bizarrely necessary.
-    eval ${SCAN_BUILD} cmake ${cmake_opts} ${src_root}
+    eval ${SCAN_BUILD} cmake ${cmake_opts} ${src_root} || failedbuild $start_time $SECONDS
 fi
 
-${SCAN_BUILD} $MAKE -j ${jobs} install
+${SCAN_BUILD} $MAKE -j ${jobs} install || failedbuild $start_time $SECONDS
 
-end_time=$SECONDS
-echo "==== Finished building C/FL at `$DATE` ===="
-
-elapsed=$((end_time - start_time))
-
-$PRINTF "==== Elapsed build time: %02d:%02d\n" \
-    $((elapsed / 60 % 60)) $((elapsed % 60))
+passedbuild $start_time
