@@ -17,8 +17,10 @@
 #include "../VecDesc.h"
 #include "MemKlass.h"
 
-template <typename T> class VecKlass : MemKlass
+template <class T> class VecKlass : MemKlass
 {
   public:
-    size_t instanceSize () { return sizeof (VecDesc); }
+    size_t instanceSize () { return sizeof (VecDesc<T>); }
 };
+
+typedef VecKlass<char> ByteVecClass;

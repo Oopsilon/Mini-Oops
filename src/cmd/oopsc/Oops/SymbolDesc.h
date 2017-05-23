@@ -16,7 +16,7 @@
 
 #include "VecDesc.h"
 
-class SymbolOopDesc : public VecOopDesc<char>
+class SymbolOopDesc : public ByteVecOopDesc
 {
   public:
 };

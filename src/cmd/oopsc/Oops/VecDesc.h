@@ -24,3 +24,5 @@ template <typename T> class VecOopDesc : public OopDesc
 
   public:
 };
+
+typedef VecOopDesc<char> ByteVecOopDesc;

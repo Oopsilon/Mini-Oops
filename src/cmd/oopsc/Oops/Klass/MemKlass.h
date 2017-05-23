@@ -14,9 +14,8 @@
 
 #pragma once
 
-#include "ObjectMemory/Oop.h"
-
 #include "../Hierarchy.h"
+#include "Klass.h"
 
 /* This is the superklass of all the objects that use allocated memory. */
 class MemKlass : public Klass

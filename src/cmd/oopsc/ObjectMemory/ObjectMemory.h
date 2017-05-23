@@ -22,11 +22,12 @@ class ObjectMemory
     memOop _true;
     memOop _false;
     classOop _objectMetaClass;
-    classOop _memOopClass;
+    classOop _objectClass;
     classOop _smiOopClass;
+    classOop _byteArrayClass;
     classOop _symbolOopClass;
 
-    classOop lowLevelAllocMetaClass ();
+    template <class T> classOop lowLevelAllocClass ();
 
     void notice (const char * format, ...);
 

@@ -17,7 +17,7 @@
 #include "MemKlass.h"
 #include "VecDesc.h"
 
-class SymbolKlass : VecKlass<char>
+class SymbolKlass : ByteVecKlass
 {
   public:
     symbolOop allocateSymbol (std::string text);

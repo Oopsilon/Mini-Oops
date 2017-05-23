@@ -31,7 +31,20 @@ class OopDesc
   protected:
     classOop isa;
 
+    void errIfSmi ()
+    {
+        if (is_smi ())
+            fatalError ("Illegal operation on Smi\n");
+    }
+
   public:
+    void set_isa (classOop newIsa)
+    {
+        errIfSmi ();
+        isa = newIsa;
+    }
+
+    /* Tests on type */
     bool is_smi () const
     {
         return (new ((void *)this) Oop<OopDesc> ())->isSmiOop;

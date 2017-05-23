@@ -17,11 +17,18 @@
 #include "Desc.h"
 #include "Klass/Klass.h"
 
+/* Memory layout:
+ * oop isa;
+ * Klass * klass;
+ *   -> nstVars, methods, etc.
+ */
 class ClassOopDesc : public OopDesc
 {
     Klass * klass;
 
   public:
+    /* These is a non-standard setter because it doesn't involve an Oops.
+     * A Klass' lifetime is the lifetime of the ClassDesc it belongs to. */
     inline Klass *& getKlass () { return klass; }
 
     inline size_t instanceSize () { return klass->instanceSize (); }

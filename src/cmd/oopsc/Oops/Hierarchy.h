@@ -19,10 +19,12 @@ template <class T> class Oop;
 /* C++ STL wrapper objects */
 template <class T> class VecOopDesc;
 
-template <typename T> struct vecOop
+template <class T> struct objVecOop
 {
     typedef Oop<VecOopDesc<T> > type;
 };
+
+typedef Oop<VecOopDesc<char> > byteVecOop;
 
 /* Preserve the indentation. */
 /* clang-format off */

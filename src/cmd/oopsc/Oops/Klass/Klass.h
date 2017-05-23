@@ -24,11 +24,14 @@
  * the logic for a Class goes. The ClassOopDesc contains a Klass inline. */
 class Klass
 {
-    classOop superClass;
-    vecOop<symbolOop>::type nstVars;
-    vecOop<methOop>::type methods;
+    classOop _superClass;
+    objVecOop<symbolOop>::type _nstVars;
+    objVecOop<methOop>::type _methods;
 
   public:
     /* Return the size of an instance of this class. */
     virtual size_t instanceSize (){};
+
+    classOop superClass () const { return _superClass; }
+    classOop set_superClass (classOop newSuper) { _superClass = newSuper; }
 };
