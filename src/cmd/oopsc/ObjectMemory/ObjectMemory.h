@@ -21,12 +21,15 @@ class ObjectMemory
 {
     memOop _true;
     memOop _false;
+
     classOop _objectMetaClass;
     classOop _objectClass;
     classOop _smiOopClass;
-    classOop _oopVecClass;
+    classOop _objVecOopClass;
+    classOop _byteVecOopClass;
     classOop _symbolOopClass;
 
+    /* Allocates a new Class for the corresponding Klass type T. */
     template <class T> classOop lowLevelAllocClass ();
 
     void notice (const char * format, ...);
@@ -34,5 +37,9 @@ class ObjectMemory
   public:
     void preboot ();
 
-    template <typename T> Oop<T> lowLevelAlloc (size_t bytes);
+    /* Allocates an object of length bytes, all fields initialised to nil/0. */
+    template <typename T> T lowLevelAlloc (size_t bytes)
+    {
+        return T ((typename T::dtype *)calloc (1, bytes));
+    }
 };

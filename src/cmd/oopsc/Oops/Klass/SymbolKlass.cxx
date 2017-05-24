@@ -1,5 +1,5 @@
 /* Oopsilon
- * VM class definition.
+ * Klasses: Klass type for Symbol objects.
  *
  *      Copyright Notice
  *
@@ -12,17 +12,12 @@
  *      End Copyright Notice
  */
 
-#include "ObjectMemory/ObjectMemory.h"
+#include "VM/VM.h"
 
-class VM
+#include "../SymbolDesc.h"
+#include "SymbolKlass.h"
+
+symbolOop SymbolKlass::allocateSymbol (std::string text)
 {
-  public:
-    static VM globalVM;
-    ObjectMemory mem;
-
-    void notice (const char * format, ...);
-
-    VM ();
-};
-
-extern VM & vm;
+    symbolOop r = vm.mem.lowLevelAlloc<symbolOop> (sizeof (SymbolOopDesc));
+}

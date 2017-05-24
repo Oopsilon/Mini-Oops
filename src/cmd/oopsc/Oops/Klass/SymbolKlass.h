@@ -14,10 +14,9 @@
 
 #pragma once
 
-#include "MemKlass.h"
-#include "VecDesc.h"
+#include "ByteVecKlass.h"
 
-class SymbolKlass : ByteVecKlass
+class SymbolKlass : public ByteVecKlass
 {
   public:
     symbolOop allocateSymbol (std::string text);

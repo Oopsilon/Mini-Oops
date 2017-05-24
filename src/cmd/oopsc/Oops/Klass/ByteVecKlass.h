@@ -1,5 +1,5 @@
 /* Oopsilon
- * VM class definition.
+ * Klasses: Klass type for Byte vector objects.
  *
  *      Copyright Notice
  *
@@ -12,17 +12,11 @@
  *      End Copyright Notice
  */
 
-#include "ObjectMemory/ObjectMemory.h"
+#pragma once
 
-class VM
+#include "MemKlass.h"
+
+class ByteVecKlass : public MemKlass
 {
   public:
-    static VM globalVM;
-    ObjectMemory mem;
-
-    void notice (const char * format, ...);
-
-    VM ();
 };
-
-extern VM & vm;

@@ -31,6 +31,8 @@ typedef uintptr_t Smi;
  * It is the handle used to refer to OopDescs. */
 template <typename T> struct Oop
 {
+    typedef T dtype;
+
     union {
         struct
         {

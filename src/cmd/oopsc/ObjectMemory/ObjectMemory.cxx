@@ -13,14 +13,25 @@
  */
 
 #include <cstdarg>
+#include <type_traits>
+
+#include "Oops/Klass/ClassKlass.h"
+#include "Oops/Klass/ObjVecKlass.h"
+#include "Oops/Klass/SymbolKlass.h"
 
 #include "ObjectMemory.h"
-#include "Oops/Klass/ClassKlass.h"
 
 template <class T> classOop ObjectMemory::lowLevelAllocClass ()
 {
-    classOop r     = lowLevelAlloc<ClassOopDesc> (sizeof (ClassOopDesc));
+    classOop r;
+
+    // static_assert (std::is_base_of <typename Oop, T>::value,
+    //               "Attempted to allocate a Class without valid Klass");
+
+    r = lowLevelAlloc<classOop> (sizeof (ClassOopDesc));
+    /* Set its Klass pointer to a new instance of the Klass T. */
     r->getKlass () = new T;
+
     return r;
 }
 
@@ -35,10 +46,7 @@ void ObjectMemory::notice (const char * format, ...)
     va_end (args);
 }
 
-template <typename T> Oop<T> ObjectMemory::lowLevelAlloc (size_t bytes)
-{
-    return Oop<T> ((T *)calloc (1, bytes));
-}
+// template <typename T> T ObjectMemory::lowLevelAlloc (size_t bytes)
 
 void ObjectMemory::preboot ()
 {
@@ -55,18 +63,24 @@ void ObjectMemory::preboot ()
     _objectMetaClass = lowLevelAllocClass<ClassKlass> ();
     _objectMetaClass->set_isa (_objectMetaClass);
 
-    /* The Object Class */
+    /* The Object Class: objects have Klass of type MemKlass by default. */
     _objectClass = lowLevelAllocClass<MemKlass> ();
     _objectClass->set_isa (_objectMetaClass);
 
     /* Set the Object Metaclass' superClass to the Object Class. */
     _objectMetaClass->getKlass ()->set_superClass (_objectClass);
 
-    /* Set up OopVec, Symbol here... */
+    /* These are the essential Class objects for higher-level initialisation
+     * functions to work. */
+    _objVecOopClass  = lowLevelAllocClass<ObjVecKlass> ();
+    _byteVecOopClass = lowLevelAllocClass<ByteVecKlass> ();
+    _symbolOopClass  = lowLevelAllocClass<SymbolKlass> ();
 
-    /* After setting those up, it should become possible to do subclassing by
-     * calling on Object.
-     * There will need to be manual patching-up of Klasses, possibly? */
+    /* Note: I'm pretty sure that, by defining the hierarchy in the kernel
+     * files, we automatically patch up the class hierarchy anyway, so I don't
+     * think we really need to set up all the base classes explicitly; not even
+     * set up their inheritance links, it should be adequate simply to define
+     * each class that has a special Klass. */
 
     notice ("Initial Object Memory setup.\n");
 }
