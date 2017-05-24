@@ -12,6 +12,8 @@
  *      End Copyright Notice
  */
 
+#pragma once
+
 #include "ObjectMemory/ObjectMemory.h"
 
 class VM

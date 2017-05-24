@@ -17,6 +17,8 @@
 #include "Oops/ClassDesc.h"
 #include "Oops/Hierarchy.h"
 
+#include "ObjectFactory.h"
+
 class ObjectMemory
 {
     memOop _true;
@@ -35,10 +37,13 @@ class ObjectMemory
     void notice (const char * format, ...);
 
   public:
+    ObjectFactory factory;
+
     /* Setup */
     void preboot ();
 
     /* Basic functionality */
+    classOop objVecClass () { return _objVecOopClass; }
     classOop symbolClass () { return _symbolOopClass; }
 
     /* Allocates an object of length bytes, all fields initialised to nil/0. */

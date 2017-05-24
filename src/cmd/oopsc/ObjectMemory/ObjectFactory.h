@@ -1,5 +1,5 @@
 /* Oopsilon
- * Object descriptors: Object vector
+ * Object Memory: Object factory.
  *
  *      Copyright Notice
  *
@@ -14,14 +14,9 @@
 
 #pragma once
 
-#include <type_traits>
+#include "Oops/Hierarchy.h"
 
-#include "VecDesc.h"
-
-template <class T> class ObjVecOopDesc : public VecOopDesc<T>
+struct ObjectFactory
 {
-    // static_assert (std::is_base_of (Oop, T)::value,
-    //               "ObjVecs must contain OOP types");
-
-  public:
+    template <class T> typename objVecOop<T>::type newObjVec ();
 };

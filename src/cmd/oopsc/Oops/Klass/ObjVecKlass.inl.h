@@ -12,14 +12,17 @@
  *      End Copyright Notice
  */
 
-#pragma once
+#include "../ObjVecDesc.h"
+#include "VM/VM.h"
 
-#include "../Hierarchy.h"
-#include "MemKlass.h"
+#include "ObjVecKlass.h"
 
 /* Klass of Object Vectors - T must be an Oop<> type! */
-template <class T> class ObjVecKlass : public MemKlass
+template <class T> typename objVecOop<T>::type ObjVecKlass<T>::allocateObjVec ()
 {
-  public:
-    typename objVecOop<T>::type allocateObjVec ();
-};
+    typedef typename objVecOop<T>::type rType;
+    rType r = vm.mem.lowLevelAlloc<rType> (sizeof (rType));
+    r->set_isa (vm.mem.objVecClass ());
+    // init_binary_object (r->as_byteVecOop (),
+    //                    std::vector<char> (s.begin (), s.end ()));
+}

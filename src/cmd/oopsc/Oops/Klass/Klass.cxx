@@ -12,9 +12,10 @@
  *      End Copyright Notice
  */
 
-#include "Klass.h"
+#include "ObjectMemory/ObjectFactory.inl.h"
 
 void Klass::init ()
 {
-    //_superClass = 0;
+    _nstVars = vm.mem.factory.newObjVec<symbolOop> ();
+    _methods = vm.mem.factory.newObjVec<methOop> ();
 }

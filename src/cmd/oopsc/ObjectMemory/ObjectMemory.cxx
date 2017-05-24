@@ -72,9 +72,17 @@ void ObjectMemory::preboot ()
 
     /* These are the essential Class objects for higher-level initialisation
      * functions to work. */
-    _objVecOopClass  = lowLevelAllocClass<ObjVecKlass> ();
+    _objVecOopClass  = lowLevelAllocClass<ObjVecKlass<oop> > ();
     _byteVecOopClass = lowLevelAllocClass<ByteVecKlass> ();
     _symbolOopClass  = lowLevelAllocClass<SymbolKlass> ();
+
+    /* Now we can initialise all those classes. */
+    notice ("Initialising kernel classes...\n");
+    _objectMetaClass->getKlass ()->init ();
+    _objectClass->getKlass ()->init ();
+    _objVecOopClass->getKlass ()->init ();
+    _byteVecOopClass->getKlass ()->init ();
+    _symbolOopClass->getKlass ()->init ();
 
     /* Note: I'm pretty sure that, by defining the hierarchy in the kernel
      * files, we automatically patch up the class hierarchy anyway, so I don't

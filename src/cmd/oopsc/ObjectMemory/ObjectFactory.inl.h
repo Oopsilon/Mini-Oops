@@ -1,5 +1,5 @@
 /* Oopsilon
- * Object descriptors: Object vector
+ * Object Memory: Object factory inline routines.
  *
  *      Copyright Notice
  *
@@ -12,16 +12,14 @@
  *      End Copyright Notice
  */
 
-#pragma once
+#include "Oops/Klass/ObjVecKlass.h"
+#include "Oops/Klass/ObjVecKlass.inl.h"
+#include "VM/VM.h"
 
-#include <type_traits>
+#include "ObjectFactory.h"
 
-#include "VecDesc.h"
-
-template <class T> class ObjVecOopDesc : public VecOopDesc<T>
+template <class T> typename objVecOop<T>::type ObjectFactory::newObjVec ()
 {
-    // static_assert (std::is_base_of (Oop, T)::value,
-    //               "ObjVecs must contain OOP types");
-
-  public:
-};
+    return ((ObjVecKlass<T> *)vm.mem.objVecClass ()->getKlass ())
+        ->allocateObjVec ();
+}

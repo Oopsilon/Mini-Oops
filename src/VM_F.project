@@ -75,6 +75,7 @@
           <File Name="cmd/oopsc/Oops/Klass/ObjVecKlass.h"/>
           <File Name="cmd/oopsc/Oops/Klass/Klass.cxx"/>
           <File Name="cmd/oopsc/Oops/Klass/ByteVecKlass.cxx"/>
+          <File Name="cmd/oopsc/Oops/Klass/ObjVecKlass.inl.h"/>
         </VirtualDirectory>
         <File Name="cmd/oopsc/Oops/ClassDesc.h"/>
         <File Name="cmd/oopsc/Oops/Desc.h"/>
@@ -89,6 +90,8 @@
         <File Name="cmd/oopsc/ObjectMemory/Oop.h"/>
         <File Name="cmd/oopsc/ObjectMemory/ObjectMemory.h"/>
         <File Name="cmd/oopsc/ObjectMemory/ObjectMemory.cxx"/>
+        <File Name="cmd/oopsc/ObjectMemory/ObjectFactory.h"/>
+        <File Name="cmd/oopsc/ObjectMemory/ObjectFactory.inl.h"/>
       </VirtualDirectory>
     </VirtualDirectory>
     <VirtualDirectory Name="flex">

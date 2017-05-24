@@ -16,9 +16,9 @@
 
 #include <vector>
 
-#include "MemKlass.h"
+#include "VecKlass.h"
 
-class ByteVecKlass : public MemKlass
+class ByteVecKlass : public VecKlass<char>
 {
   public:
     void init_binary_object (byteVecOop obj, std::vector<char> bytes);
