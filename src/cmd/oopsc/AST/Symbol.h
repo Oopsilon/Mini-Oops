@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include <vector>
+
 #include "ANSYN/State.h"
 #include "AST.h"
 
@@ -12,6 +14,7 @@ namespace AST
 
 struct Symbol : public AST, public string
 {
+    typedef std::vector<Symbol> Vector;
     enum
     {
         ESymLiteral,
@@ -32,4 +35,4 @@ struct Symbol : public AST, public string
     void setSymLiteral () { symType = ESymLiteral; }
     void setStringLiteral () { symType = EStringLiteral; }
 };
-}
+};

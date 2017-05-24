@@ -54,6 +54,7 @@
         <File Name="cmd/oopsc/AST/Program.h"/>
         <File Name="cmd/oopsc/AST/Symbol.cxx"/>
         <File Name="cmd/oopsc/AST/Symbol.h"/>
+        <File Name="cmd/oopsc/AST/ClassDef.h"/>
       </VirtualDirectory>
       <File Name="cmd/oopsc/CMakeLists.txt"/>
       <File Name="cmd/oopsc/oopsc.cxx"/>

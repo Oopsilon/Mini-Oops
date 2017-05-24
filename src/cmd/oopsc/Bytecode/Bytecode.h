@@ -14,11 +14,35 @@
 
 enum Bytecode
 {
+    /* A scheme of stack description is used in these comments:
+     * beginning with a square bracket, the rightmost variable is to be on the
+     * top of the stack, and to the left descends the relative position in the
+     * stack. The resulting stack is shown after -- in the same way. If a
+     * bytecode expects to be followed by some byte, or some oop, etc, which is
+     * used as a parameter, this is noted sequentially within | vertical bars. |
+     */
+
+    /* These expect only one parameter, an index. | Index | */
     EPushArg,
     EPushLiteral,
     EPushTemp,
     EPushNstVar,
 
+    /* These expect two parameters: a variable to store on the stack and an
+       index in the bytecode. | Index | [ Variable -- ] */
     EStoreTemp,
     EStoreNstVar,
+
+    /* Sends a message. | Argcount | [ Receiver Selector Args... -- result ] */
+    ESend,
+
+    /* Sends a message to self beginning lookup in the superclass. | Argcount |
+       [ Selector Args... -- result ] */
+    ESuperSend,
+
+    /* Sets the return value. [ ReturnValue ] */
+    EStoreRetVal,
+
+    /* Returns. */
+    EReturn,
 };
