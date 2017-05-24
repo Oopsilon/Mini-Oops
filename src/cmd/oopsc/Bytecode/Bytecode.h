@@ -1,5 +1,5 @@
 /* Oopsilon
- * Object descriptors: Symbol object
+ * Bytecode: Bytecode listing.
  *
  *      Copyright Notice
  *
@@ -12,15 +12,13 @@
  *      End Copyright Notice
  */
 
-#pragma once
-
-#include "VecDesc.h"
-
-class SymbolOopDesc : public ByteVecOopDesc
+enum Bytecode
 {
-  public:
-    byteVecOop as_byteVecOop () { return byteVecOop (this); }
+    EPushArg,
+    EPushLiteral,
+    EPushTemp,
+    EPushNstVar,
 
-    bool operator== (std::string aString) const;
-    bool operator== (const char * aString) const;
+    EStoreTemp,
+    EStoreNstVar,
 };

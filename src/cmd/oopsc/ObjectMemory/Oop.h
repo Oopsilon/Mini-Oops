@@ -44,18 +44,23 @@ template <class T> struct Oop
 
     Smi smiValue () { return uintptr_t (memOopValue) >> 1; }
     bool isSmiOop () { return uintptr_t (memOopValue) & 1; }
+    bool isSmiZero ()
+    {
+        return isSmiOop () && uintptr_t (memOopValue) >> 1 == 0;
+    }
 
     template <class R> R cast ()
     {
         return R ((typename R::dtype *)memOopValue);
     }
 
+    /* Is it nil? */
     bool operator! () const { return memOopValue == 0; }
-    bool operator== (const Oop<T> & rhs)
+    bool operator== (const Oop<T> & rhs) const
     {
         return memOopValue == rhs.memOopValue;
     }
-    bool operator!= (const Oop<T> & rhs) { return !operator== (rhs); }
+    bool operator!= (const Oop<T> & rhs) const { return !operator== (rhs); }
 
     T * operator* () const { return memOopValue; }
     T * operator-> () const { return memOopValue; }

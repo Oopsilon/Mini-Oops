@@ -14,6 +14,8 @@
 
 #pragma once
 
+#include <map>
+
 #include "Oops/ClassDesc.h"
 #include "Oops/Hierarchy.h"
 
@@ -21,15 +23,18 @@
 
 class ObjectMemory
 {
+    /* Map of classes in the system. */
+    std::map<std::string, classOop> classes;
+
     memOop _true;
     memOop _false;
 
     classOop _objectMetaClass;
     classOop _objectClass;
-    classOop _smiOopClass;
-    classOop _objVecOopClass;
-    classOop _byteVecOopClass;
-    classOop _symbolOopClass;
+    classOop _smiClass;
+    classOop _objVecClass;
+    classOop _byteVecClass;
+    classOop _symbolClass;
 
     /* Allocates a new Class for the corresponding Klass type T. */
     template <class T> classOop lowLevelAllocClass ();
@@ -43,8 +48,9 @@ class ObjectMemory
     void preboot ();
 
     /* Basic functionality */
-    classOop objVecClass () { return _objVecOopClass; }
-    classOop symbolClass () { return _symbolOopClass; }
+    classOop smiClas () { return _smiClass; }
+    classOop objVecClass () { return _objVecClass; }
+    classOop symbolClass () { return _symbolClass; }
 
     /* Allocates an object of length bytes, all fields initialised to nil/0. */
     template <typename T> T lowLevelAlloc (size_t bytes)

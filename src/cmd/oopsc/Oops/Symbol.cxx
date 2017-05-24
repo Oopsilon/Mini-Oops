@@ -12,15 +12,14 @@
  *      End Copyright Notice
  */
 
-#pragma once
+#include "SymbolDesc.h"
 
-#include "VecDesc.h"
-
-class SymbolOopDesc : public ByteVecOopDesc
+bool SymbolOopDesc::operator== (std::string aString) const
 {
-  public:
-    byteVecOop as_byteVecOop () { return byteVecOop (this); }
+    return std::string (_contents.begin (), _contents.end ()) == aString;
+}
 
-    bool operator== (std::string aString) const;
-    bool operator== (const char * aString) const;
-};
+bool SymbolOopDesc::operator== (const char * aString) const
+{
+    return std::string (_contents.begin (), _contents.end ()) == aString;
+}

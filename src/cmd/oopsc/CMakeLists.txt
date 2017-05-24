@@ -13,6 +13,7 @@ set (oopsc_srcs
     AST/AST.cxx AST/Symbol.cxx
     Oops/Klass/ClassKlass.cxx Oops/Klass/SymbolKlass.cxx Oops/Klass/Klass.cxx
     Oops/Klass/ByteVecKlass.cxx Oops/Desc.cxx
+    Oops/Symbol.cxx
     ObjectMemory/ObjectMemory.cxx
     VM/VM.cxx
 	oopsc.cxx)

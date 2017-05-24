@@ -86,6 +86,9 @@
         <File Name="cmd/oopsc/Oops/VecDesc.h"/>
         <File Name="cmd/oopsc/Oops/ObjVecDesc.h"/>
         <File Name="cmd/oopsc/Oops/Desc.cxx"/>
+        <File Name="cmd/oopsc/Oops/Context.h"/>
+        <File Name="cmd/oopsc/Oops/Method.h"/>
+        <File Name="cmd/oopsc/Oops/Symbol.cxx"/>
       </VirtualDirectory>
       <VirtualDirectory Name="ObjectMemory">
         <File Name="cmd/oopsc/ObjectMemory/Oop.h"/>
@@ -93,6 +96,9 @@
         <File Name="cmd/oopsc/ObjectMemory/ObjectMemory.cxx"/>
         <File Name="cmd/oopsc/ObjectMemory/ObjectFactory.h"/>
         <File Name="cmd/oopsc/ObjectMemory/ObjectFactory.inl.h"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="Bytecode">
+        <File Name="cmd/oopsc/Bytecode/Bytecode.h"/>
       </VirtualDirectory>
     </VirtualDirectory>
     <VirtualDirectory Name="flex">

@@ -73,17 +73,22 @@ void ObjectMemory::preboot ()
 
     /* These are the essential Class objects for higher-level initialisation
      * functions to work. */
-    _objVecOopClass  = lowLevelAllocClass<ObjVecKlass<oop> > ();
-    _byteVecOopClass = lowLevelAllocClass<ByteVecKlass> ();
-    _symbolOopClass  = lowLevelAllocClass<SymbolKlass> ();
+    _objVecClass  = lowLevelAllocClass<ObjVecKlass<oop> > ();
+    _byteVecClass = lowLevelAllocClass<ByteVecKlass> ();
+    _symbolClass  = lowLevelAllocClass<SymbolKlass> ();
 
     /* Now we can initialise all those classes. */
     notice ("Initialising kernel classes...\n");
     _objectMetaClass->getKlass ()->init ();
     _objectClass->getKlass ()->init ();
-    _objVecOopClass->getKlass ()->init ();
-    _byteVecOopClass->getKlass ()->init ();
-    _symbolOopClass->getKlass ()->init ();
+    _objVecClass->getKlass ()->init ();
+    _byteVecClass->getKlass ()->init ();
+    _symbolClass->getKlass ()->init ();
+
+    classes["Object"]       = _objectClass;
+    classes["ObjectVector"] = _objVecClass;
+    classes["Bytes"]        = _byteVecClass;
+    classes["Symbol"]       = _symbolClass;
 
     /* Note: I'm pretty sure that, by defining the hierarchy in the kernel
      * files, we automatically patch up the class hierarchy anyway, so I don't
@@ -91,7 +96,7 @@ void ObjectMemory::preboot ()
      * set up their inheritance links, it should be adequate simply to define
      * each class that has a special Klass. */
 
-    symbolOop sym = ((SymbolKlass *)_symbolOopClass->getKlass ())
+    symbolOop sym = ((SymbolKlass *)_symbolClass->getKlass ())
                         ->allocateSymbol ("Hello, world!\n");
     printf ("%s\n", sym->describe ().c_str ());
 

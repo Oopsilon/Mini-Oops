@@ -1,5 +1,5 @@
 /* Oopsilon
- * Object descriptors: C++ Vector object
+ * Object descriptors: Context object
  *
  *      Copyright Notice
  *
@@ -14,18 +14,23 @@
 
 #pragma once
 
-#include <vector>
-
 #include "MemDesc.h"
 
-template <typename T> class VecOopDesc : public MemOopDesc
+class ContextDesc : public MemOopDesc
 {
-  protected:
-    std::vector<T> _contents;
+    /* Method being executed. */
+    methodOop method;
+
+    /* Arguments, temporary variables, and stack. */
+    std::vector<oop> args;
+    std::vector<oop> temps;
+    std::vector<oop> stack;
+
+    /* Program counter. */
+    smiOop pc;
+
+    /* Previous context. */
+    contextOop previous;
 
   public:
-    std::vector<T> contents () { return _contents; }
-    void set_contents (std::vector<T> newContents) { _contents = newContents; }
 };
-
-typedef VecOopDesc<char> ByteVecOopDesc;

@@ -1,5 +1,5 @@
 /* Oopsilon
- * Object descriptors: C++ Vector object
+ * Object descriptors: CompiledMethod object.
  *
  *      Copyright Notice
  *
@@ -14,18 +14,15 @@
 
 #pragma once
 
-#include <vector>
-
 #include "MemDesc.h"
 
-template <typename T> class VecOopDesc : public MemOopDesc
+class CompiledMethod : public MemOopDesc
 {
-  protected:
-    std::vector<T> _contents;
+    symbolOop selector;
+    smiOop tempCnt;
+    objVecOop literals;
+    byteVecOop bytecode;
 
   public:
-    std::vector<T> contents () { return _contents; }
-    void set_contents (std::vector<T> newContents) { _contents = newContents; }
+    bool is_named (std::string name) { return *selector == name; }
 };
-
-typedef VecOopDesc<char> ByteVecOopDesc;
