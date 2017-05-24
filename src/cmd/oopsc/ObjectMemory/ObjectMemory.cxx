@@ -82,5 +82,8 @@ void ObjectMemory::preboot ()
      * set up their inheritance links, it should be adequate simply to define
      * each class that has a special Klass. */
 
+    ((SymbolKlass *)_symbolOopClass->getKlass ())
+        ->allocateSymbol ("Hello, world!\n");
+
     notice ("Initial Object Memory setup.\n");
 }

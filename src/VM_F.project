@@ -73,6 +73,8 @@
           <File Name="cmd/oopsc/Oops/Klass/SymbolKlass.cxx"/>
           <File Name="cmd/oopsc/Oops/Klass/ByteVecKlass.h"/>
           <File Name="cmd/oopsc/Oops/Klass/ObjVecKlass.h"/>
+          <File Name="cmd/oopsc/Oops/Klass/Klass.cxx"/>
+          <File Name="cmd/oopsc/Oops/Klass/ByteVecKlass.cxx"/>
         </VirtualDirectory>
         <File Name="cmd/oopsc/Oops/ClassDesc.h"/>
         <File Name="cmd/oopsc/Oops/Desc.h"/>

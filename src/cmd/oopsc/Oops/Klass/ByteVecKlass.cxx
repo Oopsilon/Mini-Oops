@@ -1,5 +1,5 @@
 /* Oopsilon
- * Object descriptors: Symbol object
+ * Klasses: Klass type for Byte vector objects.
  *
  *      Copyright Notice
  *
@@ -12,12 +12,10 @@
  *      End Copyright Notice
  */
 
-#pragma once
+#include "ByteVecKlass.h"
+#include "../VecDesc.h"
 
-#include "VecDesc.h"
-
-class SymbolOopDesc : public ByteVecOopDesc
+void ByteVecKlass::init_binary_object (byteVecOop obj, std::vector<char> bytes)
 {
-  public:
-    byteVecOop as_byteVecOop () { return byteVecOop (this); }
-};
+    obj->set_contents (bytes);
+}

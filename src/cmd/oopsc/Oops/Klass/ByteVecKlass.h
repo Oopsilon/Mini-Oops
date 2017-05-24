@@ -14,9 +14,12 @@
 
 #pragma once
 
+#include <vector>
+
 #include "MemKlass.h"
 
 class ByteVecKlass : public MemKlass
 {
   public:
+    void init_binary_object (byteVecOop obj, std::vector<char> bytes);
 };

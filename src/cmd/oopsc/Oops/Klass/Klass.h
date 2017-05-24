@@ -29,9 +29,15 @@ class Klass
     objVecOop<methOop>::type _methods;
 
   public:
-    /* Return the size of an instance of this class. */
-    virtual size_t instanceSize (){};
+    /* Setup */
+
+    void init ();
 
     classOop superClass () const { return _superClass; }
     void set_superClass (classOop newSuper) { _superClass = newSuper; }
+
+    /* Enquiry */
+
+    /* Return the size of an instance of this class. */
+    virtual size_t instanceSize (){};
 };

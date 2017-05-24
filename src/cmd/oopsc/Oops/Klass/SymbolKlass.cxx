@@ -17,7 +17,10 @@
 #include "../SymbolDesc.h"
 #include "SymbolKlass.h"
 
-symbolOop SymbolKlass::allocateSymbol (std::string text)
+symbolOop SymbolKlass::allocateSymbol (std::string s)
 {
     symbolOop r = vm.mem.lowLevelAlloc<symbolOop> (sizeof (SymbolOopDesc));
+    r->set_isa (vm.mem.symbolClass ());
+    init_binary_object (r->as_byteVecOop (),
+                        std::vector<char> (s.begin (), s.end ()));
 }

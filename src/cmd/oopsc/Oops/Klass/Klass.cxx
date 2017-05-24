@@ -1,5 +1,5 @@
 /* Oopsilon
- * Object descriptors: Symbol object
+ * Klasses: Base Klass type.
  *
  *      Copyright Notice
  *
@@ -12,12 +12,9 @@
  *      End Copyright Notice
  */
 
-#pragma once
+#include "Klass.h"
 
-#include "VecDesc.h"
-
-class SymbolOopDesc : public ByteVecOopDesc
+void Klass::init ()
 {
-  public:
-    byteVecOop as_byteVecOop () { return byteVecOop (this); }
-};
+    //_superClass = 0;
+}

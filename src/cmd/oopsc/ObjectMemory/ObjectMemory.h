@@ -35,7 +35,11 @@ class ObjectMemory
     void notice (const char * format, ...);
 
   public:
+    /* Setup */
     void preboot ();
+
+    /* Basic functionality */
+    classOop symbolClass () { return _symbolOopClass; }
 
     /* Allocates an object of length bytes, all fields initialised to nil/0. */
     template <typename T> T lowLevelAlloc (size_t bytes)

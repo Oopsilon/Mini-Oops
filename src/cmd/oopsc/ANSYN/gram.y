@@ -33,6 +33,7 @@ listings ::= listings directive(D).
 
 directive ::= class.
 
+class(i) ::= CLASS sym_lit(N) COLON sym_lit (S) opt_meth_decl_list(m) END.
 class(i) ::= CLASS sym_lit(N) COLON sym_lit (S) vardefs(IV) opt_vdecl_list(CV)
              BAR opt_meth_decl_list(m) END.
 class(i) ::= CLASS sym_lit(N) COLON sym_lit (S) vardefs(IV) 

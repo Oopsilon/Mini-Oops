@@ -11,7 +11,8 @@ set (oopsc_srcs
     ${PROJECT_BINARY_DIR}/gram.tab.cxx ${PROJECT_BINARY_DIR}/scan.yy.cxx
     ANSYN/State.cxx ANSYN/MsgSyntax.cxx
     AST/AST.cxx AST/Symbol.cxx
-    Oops/Klass/ClassKlass.cxx Oops/Klass/SymbolKlass.cxx
+    Oops/Klass/ClassKlass.cxx Oops/Klass/SymbolKlass.cxx Oops/Klass/Klass.cxx
+    Oops/Klass/ByteVecKlass.cxx
     ObjectMemory/ObjectMemory.cxx
     VM/VM.cxx
 	oopsc.cxx)

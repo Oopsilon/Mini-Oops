@@ -29,7 +29,7 @@
 class OopDesc
 {
   protected:
-    classOop isa;
+    classOop _isa;
 
     void errIfSmi ()
     {
@@ -38,10 +38,15 @@ class OopDesc
     }
 
   public:
+    classOop isa ()
+    {
+        return is_smi () ? /* we should return SMI class here, actually */ _isa
+                         : _isa;
+    }
     void set_isa (classOop newIsa)
     {
         errIfSmi ();
-        isa = newIsa;
+        _isa = newIsa;
     }
 
     /* Tests on type */

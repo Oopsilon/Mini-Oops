@@ -20,9 +20,11 @@
 
 template <typename T> class VecOopDesc : public OopDesc
 {
-    std::vector<T> contents;
+    std::vector<T> _contents;
 
   public:
+    std::vector<T> contents () { return _contents; }
+    void set_contents (std::vector<T> newContents) { _contents = newContents; }
 };
 
 typedef VecOopDesc<char> ByteVecOopDesc;
