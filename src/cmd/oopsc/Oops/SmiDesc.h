@@ -28,8 +28,5 @@ class SmiOopDesc : OopDesc
      * This is why an SmiOop is immutable. A new one should be constructed if a
      * value is to be updated, and the location of the old SmiOop have the new
      * Oop<SmiOopDesc> assigned. */
-    Smi value () const
-    {
-        return (new ((void *)this) Oop<SmiOopDesc> ())->smiValue;
-    }
+    Smi value () const { return (smiOop (this)).smiValue (); }
 };

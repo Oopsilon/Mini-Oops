@@ -29,25 +29,26 @@ typedef uintptr_t Smi;
 
 /* An Oop is an Object-Oriented Pointer.
  * It is the handle used to refer to OopDescs. */
-template <typename T> struct Oop
+template <class T> struct Oop
 {
+    /* The type the Oop points to. Use this for e.g. allocation size choice. */
     typedef T dtype;
 
-    union {
-        struct
-        {
-            Smi smiValue : smiBits;
-            /* Don't change this to a bool. Doing so fucks the packing.
-             * It has to be the same type as the other member of the packed
-             * struct. */
-            Smi isSmiOop : 1;
-        } PACKSTRUCT;
-        T * memOopValue;
-    } PACKSTRUCT;
+    /* Note - we should really use an object table */
+    T * memOopValue;
 
-    Oop () : memOopValue (NULL) {}
-    Oop (Smi aNumber) : isSmiOop (true) {}
-    Oop (T * anObj) : memOopValue (anObj) {}
+    Oop () { memOopValue = NULL; }
+    Oop (Smi aNumber) { memOopValue = 1; }
+    Oop (T * anObj) { memOopValue = (anObj); }
+    Oop (const T * anObj) { memOopValue = ((T *)anObj); }
+
+    Smi smiValue () { return uintptr_t (memOopValue) >> 1; }
+    bool isSmiOop () { return uintptr_t (memOopValue) & 1; }
+
+    template <class R> R cast ()
+    {
+        return R ((typename R::dtype *)memOopValue);
+    }
 
     bool operator! () const { return memOopValue == 0; }
     bool operator== (const Oop<T> & rhs)

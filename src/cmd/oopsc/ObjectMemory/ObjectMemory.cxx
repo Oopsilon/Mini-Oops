@@ -18,6 +18,7 @@
 #include "Oops/Klass/ClassKlass.h"
 #include "Oops/Klass/ObjVecKlass.h"
 #include "Oops/Klass/SymbolKlass.h"
+#include "Oops/SymbolDesc.h"
 
 #include "ObjectMemory.h"
 
@@ -30,7 +31,7 @@ template <class T> classOop ObjectMemory::lowLevelAllocClass ()
 
     r = lowLevelAlloc<classOop> (sizeof (ClassOopDesc));
     /* Set its Klass pointer to a new instance of the Klass T. */
-    r->getKlass () = new T;
+    r->setKlass (new T);
 
     return r;
 }
@@ -90,8 +91,9 @@ void ObjectMemory::preboot ()
      * set up their inheritance links, it should be adequate simply to define
      * each class that has a special Klass. */
 
-    ((SymbolKlass *)_symbolOopClass->getKlass ())
-        ->allocateSymbol ("Hello, world!\n");
+    symbolOop sym = ((SymbolKlass *)_symbolOopClass->getKlass ())
+                        ->allocateSymbol ("Hello, world!\n");
+    printf ("%s\n", sym->describe ().c_str ());
 
-    notice ("Initial Object Memory setup.\n");
+    notice ("Initial Object Memory set up.\n");
 }

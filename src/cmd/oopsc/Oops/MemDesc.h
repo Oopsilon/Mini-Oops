@@ -33,4 +33,5 @@ class MemOopDesc : public OopDesc
     std::vector<oop> _nstVars;
 
   public:
+    void basic_init () { _nstVars = std::vector<oop> (); }
 };

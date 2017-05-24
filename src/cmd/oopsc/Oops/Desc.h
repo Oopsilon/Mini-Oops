@@ -43,6 +43,7 @@ class OopDesc
         return is_smi () ? /* we should return SMI class here, actually */ _isa
                          : _isa;
     }
+
     void set_isa (classOop newIsa)
     {
         errIfSmi ();
@@ -50,8 +51,8 @@ class OopDesc
     }
 
     /* Tests on type */
-    bool is_smi () const
-    {
-        return (new ((void *)this) Oop<OopDesc> ())->isSmiOop;
-    }
+    bool is_smi () const { return (Oop<OopDesc> (this)).isSmiOop (); }
+
+    /* Enquiry - despatched to Klass */
+    std::string describe ();
 };

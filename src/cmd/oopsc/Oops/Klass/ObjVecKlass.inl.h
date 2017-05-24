@@ -21,8 +21,9 @@
 template <class T> typename objVecOop<T>::type ObjVecKlass<T>::allocateObjVec ()
 {
     typedef typename objVecOop<T>::type rType;
-    rType r = vm.mem.lowLevelAlloc<rType> (sizeof (rType));
+    rType r = vm.mem.lowLevelAlloc<rType> (sizeof (ObjVecOopDesc<oop>));
+    r->basic_init ();
     r->set_isa (vm.mem.objVecClass ());
-    // init_binary_object (r->as_byteVecOop (),
-    //                    std::vector<char> (s.begin (), s.end ()));
+    r->set_contents (std::vector<T> ());
+    return r;
 }

@@ -12,7 +12,7 @@ set (oopsc_srcs
     ANSYN/State.cxx ANSYN/MsgSyntax.cxx
     AST/AST.cxx AST/Symbol.cxx
     Oops/Klass/ClassKlass.cxx Oops/Klass/SymbolKlass.cxx Oops/Klass/Klass.cxx
-    Oops/Klass/ByteVecKlass.cxx
+    Oops/Klass/ByteVecKlass.cxx Oops/Desc.cxx
     ObjectMemory/ObjectMemory.cxx
     VM/VM.cxx
 	oopsc.cxx)

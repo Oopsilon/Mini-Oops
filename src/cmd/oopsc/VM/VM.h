@@ -25,6 +25,8 @@ class VM
     void notice (const char * format, ...);
 
     VM ();
+
+    void boot ();
 };
 
 extern VM & vm;

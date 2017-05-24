@@ -16,9 +16,9 @@
 
 #include <vector>
 
-#include "Desc.h"
+#include "MemDesc.h"
 
-template <typename T> class VecOopDesc : public OopDesc
+template <typename T> class VecOopDesc : public MemOopDesc
 {
     std::vector<T> _contents;
 

@@ -20,7 +20,16 @@
 symbolOop SymbolKlass::allocateSymbol (std::string s)
 {
     symbolOop r = vm.mem.lowLevelAlloc<symbolOop> (sizeof (SymbolOopDesc));
+    r->basic_init ();
     r->set_isa (vm.mem.symbolClass ());
     init_binary_object (r->as_byteVecOop (),
                         std::vector<char> (s.begin (), s.end ()));
+    return r;
+}
+
+std::string SymbolKlass::describe (oop o)
+{
+    symbolOop s = o.cast<symbolOop> ();
+    return "<Symbol: " +
+           std::string (s->contents ().data (), s->contents ().size ()) + ">";
 }

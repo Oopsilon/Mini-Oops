@@ -1,5 +1,5 @@
 /* Oopsilon
- * Klasses: Klass type for Symbol objects.
+ * Object-oriented pointers - basic descriptor.
  *
  *      Copyright Notice
  *
@@ -12,14 +12,7 @@
  *      End Copyright Notice
  */
 
-#pragma once
+#include "Desc.h"
+#include "ClassDesc.h"
 
-#include "ByteVecKlass.h"
-
-class SymbolKlass : public ByteVecKlass
-{
-  public:
-    symbolOop allocateSymbol (std::string text);
-
-    std::string describe (oop anObject);
-};
+std::string OopDesc::describe () { return _isa->getKlass ()->describe (this); }

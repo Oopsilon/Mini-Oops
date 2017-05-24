@@ -29,7 +29,8 @@ class ClassOopDesc : public OopDesc
   public:
     /* These is a non-standard setter because it doesn't involve an Oops.
      * A Klass' lifetime is the lifetime of the ClassDesc it belongs to. */
-    inline Klass *& getKlass () { return klass; }
+    inline Klass * getKlass () { return klass; }
+    inline void setKlass (Klass * newKlass) { klass = newKlass; }
 
     inline size_t instanceSize () { return klass->instanceSize (); }
 };

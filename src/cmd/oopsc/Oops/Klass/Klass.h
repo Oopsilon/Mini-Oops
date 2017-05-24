@@ -36,8 +36,14 @@ class Klass
     classOop superClass () const { return _superClass; }
     void set_superClass (classOop newSuper) { _superClass = newSuper; }
 
-    /* Enquiry */
+    /* Enquiry on Klass */
 
     /* Return the size of an instance of this class. */
     virtual size_t instanceSize (){};
+
+    /* Enquiry on Object
+     * These are despatched from an OOP, not directly to a Klass. */
+
+    /* Describes an object. */
+    virtual std::string describe (oop anObject) { return "<Unknown Object>"; }
 };

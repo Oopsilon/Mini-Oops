@@ -85,6 +85,7 @@
         <File Name="cmd/oopsc/Oops/SymbolDesc.h"/>
         <File Name="cmd/oopsc/Oops/VecDesc.h"/>
         <File Name="cmd/oopsc/Oops/ObjVecDesc.h"/>
+        <File Name="cmd/oopsc/Oops/Desc.cxx"/>
       </VirtualDirectory>
       <VirtualDirectory Name="ObjectMemory">
         <File Name="cmd/oopsc/ObjectMemory/Oop.h"/>

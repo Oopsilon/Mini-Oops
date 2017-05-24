@@ -106,8 +106,7 @@ string Oopsc::generate () { return ""; }
 
 int main (int argc, char * argv[])
 {
-
-    printf ("OopDesc size: %d\n", sizeof (oop));
+    vm.boot ();
 
     if (argc < 2)
         fatalError ("Usage: %s path/to/Oopsilon/Package.oop\n", argv[0]);

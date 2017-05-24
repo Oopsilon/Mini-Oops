@@ -27,6 +27,10 @@ VM::VM ()
     notice (OOPSC_COMPNAME);
     notice (KBLU "[" COMPILER_INFO " on " SYSTEM_INFO ", " __DATE__
                  ", at " __TIME__ "]\n" KNRM);
+}
+
+void VM::boot ()
+{
     notice ("Initialising ObjectMemory...\n");
     mem.preboot ();
 }
