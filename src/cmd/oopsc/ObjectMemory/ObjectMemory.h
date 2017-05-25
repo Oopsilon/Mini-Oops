@@ -53,7 +53,7 @@ class ObjectMemory
     void preboot ();
 
     /* Basic functionality */
-    classOop smiClas () { return _smiClass; }
+    classOop smiClass () { return _smiClass; }
     classOop objVecClass () { return _objVecClass; }
     classOop symbolClass () { return _symbolClass; }
 

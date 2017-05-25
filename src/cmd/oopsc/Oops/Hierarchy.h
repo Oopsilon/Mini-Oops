@@ -33,10 +33,11 @@ typedef Oop<VecOopDesc<char> > byteVecOop;
 typedef Oop<class OopDesc>      oop;
 typedef Oop<class SmiOopDesc>     smiOop;
 typedef Oop<class MemOopDesc>     memOop;
+typedef Oop<class ClassOopDesc>     classOop;
+typedef Oop<class MethodDesc>       methodOop;
+typedef Oop<class ContextDesc>      contextOop;
 /* (this is where vecOop fits in)   vecOop; */
 /*                                    objVecOop */
 typedef Oop<class SymbolOopDesc>      symbolOop;
-typedef Oop<class ClassOopDesc>     classOop;
-typedef Oop<class MethOopDesc>      methOop;
 
 /* clang-format on */

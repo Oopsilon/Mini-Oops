@@ -30,3 +30,25 @@ template <class T> typename objVecOop<T>::type ObjectFactory::newObjVec ()
     return ((ObjVecKlass<T> *)vm.mem.objVecClass ()->getKlass ())
         ->allocateObjVec ();
 }
+
+template <class T>
+typename objVecOop<T>::type ObjectFactory::newObjVec (std::vector<T> contents)
+{
+    typename objVecOop<T>::type result =
+        ((ObjVecKlass<T> *)vm.mem.objVecClass ()->getKlass ())
+            ->allocateObjVec ();
+    result->set_contents (contents);
+    return result;
+}
+
+objVecOop<symbolOop>::type
+ObjectFactory::newSymVec (const std::vector<std::string> contents)
+{
+    std::vector<symbolOop> newVec;
+    objVecOop<symbolOop>::type result;
+
+    for (const auto & str : contents)
+        newVec.push_back (newSymbol (str));
+
+    return newObjVec<symbolOop> (newVec);
+}

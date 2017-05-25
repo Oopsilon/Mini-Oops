@@ -15,9 +15,11 @@
 #include <cstdarg>
 #include <type_traits>
 
+#include "Oops/Context.h"
 #include "Oops/Klass/ClassKlass.h"
 #include "Oops/Klass/ObjVecKlass.h"
 #include "Oops/Klass/SymbolKlass.h"
+#include "Oops/Method.h"
 #include "Oops/ObjVecDesc.h"
 #include "Oops/SymbolDesc.h"
 
@@ -67,10 +69,6 @@ void ObjectMemory::setup_metaclass ()
 
 void ObjectMemory::setup_metaclass_layout ()
 {
-    std::vector<std::string> metaClassNstVarStrs = {
-        "_klass_CXX", "name", "superClass", "nstVarVec", "methodVec"};
-    std::vector<symbolOop> metaClassNstVars;
-
     /* These are the essential Class objects for higher-level initialisation
      * functions to work. */
     _objVecClass  = lowLevelAllocClass<ObjVecKlass<oop> > ();
@@ -78,11 +76,9 @@ void ObjectMemory::setup_metaclass_layout ()
     _symbolClass  = lowLevelAllocClass<SymbolKlass> ();
 
     /* We will now set up metaclass with its instance variables. */
-    for (const auto & nstVarStr : metaClassNstVarStrs)
-        metaClassNstVars.push_back (factory.newSymbol (nstVarStr));
-
     _objectMetaClass->init ();
-    _objectMetaClass->nstVars ()->set_contents (metaClassNstVars);
+    _objectMetaClass->set_nstVars (
+        factory.newSymVec (ClassOopDesc::nstVarNames ()));
 }
 
 void ObjectMemory::preboot ()

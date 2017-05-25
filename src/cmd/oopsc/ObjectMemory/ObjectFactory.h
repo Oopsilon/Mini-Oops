@@ -20,4 +20,8 @@ struct ObjectFactory
 {
     symbolOop newSymbol (std::string text);
     template <class T> typename objVecOop<T>::type newObjVec ();
+    template <class T>
+    typename objVecOop<T>::type newObjVec (std::vector<T> contents);
+    objVecOop<symbolOop>::type
+    newSymVec (const std::vector<std::string> contents);
 };

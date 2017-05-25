@@ -27,6 +27,16 @@
  */
 class ClassOopDesc : public MemOopDesc
 {
+  public:
+    static std::vector<std::string> & nstVarNames ()
+    {
+        const char * varnames[] = {"_klass_CXX", "name", "superClass",
+                                   "nstVarVec", "methodVec"};
+        static std::vector<std::string> varnamesVec = std::vector<std::string> (
+            std::begin (varnames), std::end (varnames));
+        return varnamesVec;
+    }
+
     enum
     {
         EKlass = 1,
@@ -36,7 +46,6 @@ class ClassOopDesc : public MemOopDesc
         EMethods,
     } Layout;
 
-  public:
     /* These is a non-standard setter because it doesn't involve an Oops.
      * A Klass' lifetime is the lifetime of the ClassDesc it belongs to. */
     inline Klass * getKlass () { return nstVar_at<Klass *> (EKlass); }
