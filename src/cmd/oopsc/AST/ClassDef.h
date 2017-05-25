@@ -15,10 +15,10 @@
 namespace AST
 {
 
-struct Selector
+struct SelectorDecl
 {
 
-    struct Keyw
+    struct KeywDecl
     {
         Symbol keyw;
         Symbol argname;
@@ -38,14 +38,33 @@ struct Selector
             Symbol sel;
             Symbol argname;
         } binary;
-        std::vector<Keyw> keywords;
+        std::vector<KeywDecl> keywords;
     };
+
+    SelectorDecl (Symbol anUnary) : selType (EUnary), unary (anUnary) {}
+    SelectorDecl (std::pair<Symbol, Symbol> aBinary)
+        : selType (EBinary), binary ({aBinary.first, aBinary.second})
+    {
+    }
+    SelectorDecl (std::vector<KeywDecl> someKeyws)
+        : selType (EKeyw), keywords (someKeyws)
+    {
+    }
+
+    SelectorDecl (const SelectorDecl & copied)
+    {
+        selType = selType;
+        if (copied.selType == EUnary)
+            unary = copied.unary;
+    }
+
+    ~SelectorDecl () {}
 };
 
 struct Method
 {
-    Symbol selector;
-    Symbol args;
+    bool isClass;
+    SelectorDecl selector;
 };
 
 struct Class

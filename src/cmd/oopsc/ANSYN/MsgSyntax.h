@@ -13,11 +13,13 @@ struct MsgChainEntry
     enum
     {
         EUnaryMsg,
+        EBinaryMsg,
         EKeywList,
     } entryType;
 
     /*union {
         AST::UnaryMsg * unary;
+        AST::BinaryMsg * binary;
         AST::KeywMsg::List * keyws;
     };*/
 

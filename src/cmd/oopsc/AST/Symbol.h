@@ -28,6 +28,11 @@ struct Symbol : public AST, public string
   public:
     static Symbol & oopSymbol ();
 
+    Symbol ()
+        : symType (ESymLiteral), lineInfo (9999, 9999),
+          string ("<INVALID SYMBOL>")
+    {
+    }
     Symbol (ParserState * pS);
 
     void print ();

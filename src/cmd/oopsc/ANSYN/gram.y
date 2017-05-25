@@ -19,8 +19,15 @@
 %left STAR PERCENT SLASH.
 %left BRACKET_OPEN BRACKET_CLOSE.
 
-%type meth_is_class_specifier { bool }
+%type unary_decl { AST::Symbol * }
+%type binary_decl { std::pair<AST::Symbol, AST::Symbol> *}
+%type keyw_decl_list { std::vector<AST::SelectorDecl::KeywDecl> * }
+%type keyw_decl { AST::SelectorDecl::KeywDecl * }
+%type sel_decl { AST::SelectorDecl * }
 
+%type meth_decl { AST::Method * }
+
+%type meth_is_class_specifier { bool }
 
 %syntax_error {
   dbg("%d:%d: Syntax error\n", pState->last_line, pState->last_col);
@@ -46,7 +53,9 @@ opt_meth_decl_list(L) ::= .
 meth_decl_list(L) ::= meth_decl(m).
 meth_decl_list(L) ::= meth_decl_list(l) meth_decl(m).
 
-meth_decl(M) ::= meth_is_class_specifier(c) sel_decl(s) comp_stmt(code).
+meth_decl(M) ::= meth_is_class_specifier(c) sel_decl(s) comp_stmt(code). {
+    M = new AST::Method({c, *s});
+}
 
 meth_is_class_specifier(C) ::= PLUS. { C = true; }
 meth_is_class_specifier(C) ::= MINUS. { C = false; }
@@ -124,12 +133,32 @@ msg_chain(M) ::= keyw_msg(k). { /*M = new MsgChainEntry::List({k});*/ }
 
 msg_expr(M) ::= operand(r) msg_chain(k). { /*M = unpackMsgChain(r, k);*/ }
 
-sel_decl(S) ::= optional_type_annotation(t) keyw_decl_list(k).
 
-keyw_decl_list(L) ::= keyw_decl(k).
-keyw_decl_list(L) ::= keyw_decl_list(l) keyw_decl(k). [KeywMsgPrec] 
+sel_decl(S) ::= sym_lit(s). {
+    S = new AST::SelectorDecl(*s);
+}
+sel_decl(S) ::= binary_decl(b). {
+    S = new AST::SelectorDecl(*b);
+}
+sel_decl(S) ::= keyw_decl_list(k). {
+    S = new AST::SelectorDecl(*k);
+}
 
-keyw_decl(K) ::= keyw_lit(k) optional_type_annotation(t) sym_lit(s).
+keyw_decl_list(L) ::= keyw_decl(k). {
+    L = new std::vector<AST::SelectorDecl::KeywDecl>({*k});
+}
+keyw_decl_list(L) ::= keyw_decl_list(l) keyw_decl(k). { 
+    L = l;
+    L->push_back(*k);
+}
+
+keyw_decl(K) ::= keyw_lit(k) optional_type_annotation(t) sym_lit(s). {
+    K = new AST::SelectorDecl::KeywDecl({*k, *s});
+}
+
+binary_decl(B) ::= BINOP(b) sym_lit(s). {
+    B = new std::pair<AST::Symbol, AST::Symbol>(*b, *s);
+}
 
 unary_decl(U) ::= sym_lit(s).
 

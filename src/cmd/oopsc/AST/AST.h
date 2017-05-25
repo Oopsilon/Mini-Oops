@@ -20,6 +20,5 @@ struct Literal;
 struct AST
 {
     typedef std::list<AST *> List;
-    AST () {}
 };
 }
