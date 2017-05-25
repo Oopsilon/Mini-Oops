@@ -18,9 +18,12 @@
 #include "Oops/Klass/ClassKlass.h"
 #include "Oops/Klass/ObjVecKlass.h"
 #include "Oops/Klass/SymbolKlass.h"
+#include "Oops/ObjVecDesc.h"
 #include "Oops/SymbolDesc.h"
 
 #include "ObjectMemory.h"
+
+const size_t metaClassSize = sizeof (OopDesc) + (sizeof (oop) * 5);
 
 template <class T> classOop ObjectMemory::lowLevelAllocClass ()
 {
@@ -29,7 +32,7 @@ template <class T> classOop ObjectMemory::lowLevelAllocClass ()
     // static_assert (std::is_base_of <typename Oop, T>::value,
     //               "Attempted to allocate a Class without valid Klass");
 
-    r = lowLevelAlloc<classOop> (sizeof (ClassOopDesc));
+    r = lowLevelAlloc<classOop> (metaClassSize);
     /* Set its Klass pointer to a new instance of the Klass T. */
     r->setKlass (new T);
 
@@ -47,7 +50,40 @@ void ObjectMemory::notice (const char * format, ...)
     va_end (args);
 }
 
-// template <typename T> T ObjectMemory::lowLevelAlloc (size_t bytes)
+/* Set up the self-referential metaclass and class structure. */
+void ObjectMemory::setup_metaclass ()
+{
+    /* The Object Metaclass. */
+    _objectMetaClass = lowLevelAllocClass<ClassKlass> ();
+    _objectMetaClass->set_isa (_objectMetaClass);
+
+    /* The Object Class: objects have Klass of type MemKlass by default. */
+    _objectClass = lowLevelAllocClass<MemKlass> ();
+    _objectClass->set_isa (_objectMetaClass);
+
+    /* Set the Object Metaclass' superClass to the Object Class. */
+    _objectMetaClass->set_superClass (_objectClass);
+}
+
+void ObjectMemory::setup_metaclass_layout ()
+{
+    std::vector<std::string> metaClassNstVarStrs = {
+        "_klass_CXX", "name", "superClass", "nstVarVec", "methodVec"};
+    std::vector<symbolOop> metaClassNstVars;
+
+    /* These are the essential Class objects for higher-level initialisation
+     * functions to work. */
+    _objVecClass  = lowLevelAllocClass<ObjVecKlass<oop> > ();
+    _byteVecClass = lowLevelAllocClass<ByteVecKlass> ();
+    _symbolClass  = lowLevelAllocClass<SymbolKlass> ();
+
+    /* We will now set up metaclass with its instance variables. */
+    for (const auto & nstVarStr : metaClassNstVarStrs)
+        metaClassNstVars.push_back (factory.newSymbol (nstVarStr));
+
+    _objectMetaClass->init ();
+    _objectMetaClass->nstVars ()->set_contents (metaClassNstVars);
+}
 
 void ObjectMemory::preboot ()
 {
@@ -60,26 +96,12 @@ void ObjectMemory::preboot ()
             sizeof (ClassKlass));
     notice ("Setting up initial Object Memory...\n");
 
-    /* The Object Metaclass */
-    _objectMetaClass = lowLevelAllocClass<ClassKlass> ();
-    _objectMetaClass->set_isa (_objectMetaClass);
-
-    /* The Object Class: objects have Klass of type MemKlass by default. */
-    _objectClass = lowLevelAllocClass<MemKlass> ();
-    _objectClass->set_isa (_objectMetaClass);
-
-    /* Set the Object Metaclass' superClass to the Object Class. */
-    _objectMetaClass->getKlass ()->set_superClass (_objectClass);
-
-    /* These are the essential Class objects for higher-level initialisation
-     * functions to work. */
-    _objVecClass  = lowLevelAllocClass<ObjVecKlass<oop> > ();
-    _byteVecClass = lowLevelAllocClass<ByteVecKlass> ();
-    _symbolClass  = lowLevelAllocClass<SymbolKlass> ();
+    setup_metaclass ();
+    setup_metaclass_layout ();
 
     /* Now we can initialise all those classes. */
     notice ("Initialising kernel classes...\n");
-    _objectMetaClass->getKlass ()->init ();
+
     _objectClass->getKlass ()->init ();
     _objVecClass->getKlass ()->init ();
     _byteVecClass->getKlass ()->init ();

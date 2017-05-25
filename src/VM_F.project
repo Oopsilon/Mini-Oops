@@ -62,6 +62,7 @@
       <VirtualDirectory Name="VM">
         <File Name="cmd/oopsc/VM/VM.h"/>
         <File Name="cmd/oopsc/VM/VM.cxx"/>
+        <File Name="cmd/oopsc/Oops/SymbolDesc.h"/>
       </VirtualDirectory>
       <VirtualDirectory Name="Oops">
         <VirtualDirectory Name="Klass">
@@ -83,7 +84,6 @@
         <File Name="cmd/oopsc/Oops/Hierarchy.h"/>
         <File Name="cmd/oopsc/Oops/MemDesc.h"/>
         <File Name="cmd/oopsc/Oops/SmiDesc.h"/>
-        <File Name="cmd/oopsc/Oops/SymbolDesc.h"/>
         <File Name="cmd/oopsc/Oops/VecDesc.h"/>
         <File Name="cmd/oopsc/Oops/ObjVecDesc.h"/>
         <File Name="cmd/oopsc/Oops/Desc.cxx"/>

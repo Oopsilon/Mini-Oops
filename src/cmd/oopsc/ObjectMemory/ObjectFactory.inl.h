@@ -14,9 +14,16 @@
 
 #include "Oops/Klass/ObjVecKlass.h"
 #include "Oops/Klass/ObjVecKlass.inl.h"
+#include "Oops/Klass/SymbolKlass.h"
 #include "VM/VM.h"
 
 #include "ObjectFactory.h"
+
+symbolOop ObjectFactory::newSymbol (std::string text)
+{
+    return ((SymbolKlass *)vm.mem.symbolClass ()->getKlass ())
+        ->allocateSymbol (text);
+}
 
 template <class T> typename objVecOop<T>::type ObjectFactory::newObjVec ()
 {

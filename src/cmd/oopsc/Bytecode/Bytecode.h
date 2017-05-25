@@ -22,14 +22,19 @@ enum Bytecode
      * used as a parameter, this is noted sequentially within | vertical bars. |
      */
 
+    EPushTrue,
+    EPushFalse,
+    EPushNil,
+    EPushSelf,
+
     /* These expect only one parameter, an index. | Index | */
     EPushArg,
     EPushLiteral,
     EPushTemp,
     EPushNstVar,
 
-    /* These expect two parameters: a variable to store on the stack and an
-       index in the bytecode. | Index | [ Variable -- ] */
+    /* These expect two parameters: an oop to store on the stack and an
+       index in the bytecode. | Index | [ Oop -- ] */
     EStoreTemp,
     EStoreNstVar,
 

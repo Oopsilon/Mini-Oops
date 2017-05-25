@@ -24,22 +24,18 @@
  * the logic for a Class goes. The ClassOopDesc contains a Klass inline. */
 class Klass
 {
-    classOop _superClass;
-    objVecOop<symbolOop>::type _nstVars;
-    objVecOop<methOop>::type _methods;
+    const char magic[6] = "Magic";
 
   public:
     /* Setup */
 
     void init ();
-
-    classOop superClass () const { return _superClass; }
-    void set_superClass (classOop newSuper) { _superClass = newSuper; }
+    void init (classOop aClass);
 
     /* Enquiry on Klass */
 
     /* Return the size of an instance of this class. */
-    virtual size_t instanceSize (){};
+    virtual size_t instanceSize (classOop aClass);
 
     /* Enquiry on Object
      * These are despatched from an OOP, not directly to a Klass. */

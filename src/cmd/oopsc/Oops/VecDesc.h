@@ -26,6 +26,8 @@ template <typename T> class VecOopDesc : public MemOopDesc
   public:
     std::vector<T> contents () { return _contents; }
     void set_contents (std::vector<T> newContents) { _contents = newContents; }
+
+    inline size_t size () { return _contents.size (); }
 };
 
 typedef VecOopDesc<char> ByteVecOopDesc;

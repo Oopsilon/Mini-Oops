@@ -16,6 +16,16 @@
 
 void Klass::init ()
 {
-    _nstVars = vm.mem.factory.newObjVec<symbolOop> ();
-    _methods = vm.mem.factory.newObjVec<methOop> ();
+    //_nstVars = vm.mem.factory.newObjVec<symbolOop> ();
+    //_methods = vm.mem.factory.newObjVec<methOop> ();
+}
+
+void Klass::init (classOop aClass)
+{
+    aClass->set_nstVars (vm.mem.factory.newObjVec<symbolOop> ());
+}
+
+size_t Klass::instanceSize (classOop aClass)
+{
+    return sizeof (OopDesc) + (sizeof (oop) * aClass->nstVars ()->size ());
 }

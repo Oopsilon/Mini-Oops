@@ -29,9 +29,24 @@ class MemOopDesc : public OopDesc
      * issue. But in fact it should be located here, as only MemOops have an
      * isa field. */
 
-    /* The instance variables. */
-    std::vector<oop> _nstVars;
+    /* The instance variables follow immediately:
+     * oop _nstVars[0];
+     * They are accessed by a 1-based (*NOT* zero-based!) indexing scheme, where
+     * nstVar_at(off_t index) called with an index of 1 will access the first
+     * instance variable.
+     * Note that isa is not regarded as an instance variable; if you are really
+     * into zero-based addressing, try imagining that every object has isa as
+     * its 0th nstVar. */
 
   public:
-    void basic_init () { _nstVars = std::vector<oop> (); }
+    void basic_init () {}
+
+    template <class T = oop> T nstVar_at (off_t index)
+    {
+        return ((T *)(this + 1))[index - 1];
+    }
+    template <class T = oop> void nstVar_at_put (off_t index, T newVal)
+    {
+        ((T *)(this + 1))[index - 1] = newVal;
+    }
 };

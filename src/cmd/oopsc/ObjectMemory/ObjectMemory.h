@@ -16,6 +16,8 @@
 
 #include <map>
 
+#include "oops-platform/cxx.h"
+
 #include "Oops/ClassDesc.h"
 #include "Oops/Hierarchy.h"
 
@@ -36,6 +38,9 @@ class ObjectMemory
     classOop _byteVecClass;
     classOop _symbolClass;
 
+    void setup_metaclass ();
+    void setup_metaclass_layout ();
+
     /* Allocates a new Class for the corresponding Klass type T. */
     template <class T> classOop lowLevelAllocClass ();
 
@@ -55,6 +60,8 @@ class ObjectMemory
     /* Allocates an object of length bytes, all fields initialised to nil/0. */
     template <typename T> T lowLevelAlloc (size_t bytes)
     {
+        notice ("<T = %s> Allocating %d bytes...\n", DemangledTypeName (T),
+                bytes);
         return T ((typename T::dtype *)calloc (1, bytes));
     }
 };

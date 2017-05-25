@@ -18,5 +18,6 @@
 
 struct ObjectFactory
 {
+    symbolOop newSymbol (std::string text);
     template <class T> typename objVecOop<T>::type newObjVec ();
 };
