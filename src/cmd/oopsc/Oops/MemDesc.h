@@ -45,8 +45,17 @@ class MemOopDesc : public OopDesc
     {
         return ((T *)(this + 1))[index - 1];
     }
+
     template <class T = oop> void nstVar_at_put (off_t index, T newVal)
     {
         ((T *)(this + 1))[index - 1] = newVal;
+    }
+
+    /* Places the specified oop into the specified instance variable.
+     * If an instance variable already exists there, destroy the old one. */
+    template <class T = oop> void nstVar_at_replace (off_t index, T newVal)
+    {
+        /* implement destroying later */
+        nstVar_at_put (index, newVal);
     }
 };

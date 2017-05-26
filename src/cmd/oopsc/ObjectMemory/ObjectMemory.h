@@ -54,13 +54,6 @@ class ObjectMemory
     /* Setup */
     void preboot ();
 
-    /* Basic functionality */
-    classOop smiClass () { return _smiClass; }
-    classOop contextClass () { return _contextClass; }
-    classOop methodClass () { return _methodClass; }
-    classOop objVecClass () { return _objVecClass; }
-    classOop symbolClass () { return _symbolClass; }
-
     /* Allocates an object of length bytes, all fields initialised to nil/0. */
     template <typename T> T lowLevelAlloc (size_t bytes)
     {
@@ -68,4 +61,19 @@ class ObjectMemory
                 bytes);
         return T ((typename T::dtype *)calloc (1, bytes));
     }
+
+    /* Basic enquiry on the object memory state. */
+    classOop smiClass () { return _smiClass; }
+    classOop contextClass () { return _contextClass; }
+    classOop methodClass () { return _methodClass; }
+    classOop objVecClass () { return _objVecClass; }
+    classOop symbolClass () { return _symbolClass; }
+
+    /* Creation. */
+    /* Bootstrap-level method. Find a classpair; if it hasn't been found, create
+     * it. If a class is found but lacks a metaclass, create the metaclass. */
+    classOop findOrCreateClass (const std::string name,
+                                const std::string superName,
+                                const std::vector<std::string> clsVars,
+                                const std::vector<std::string> nstVars);
 };

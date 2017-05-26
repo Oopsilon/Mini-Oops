@@ -140,3 +140,48 @@ void ObjectMemory::preboot ()
 
     notice ("Initial Object Memory set up.\n");
 }
+
+classOop
+ObjectMemory::findOrCreateClass (const std::string name,
+                                 const std::string superName,
+                                 const std::vector<std::string> clsVars,
+                                 const std::vector<std::string> nstVars)
+{
+    classOop super         = classes[superName];
+    classOop candidate     = classes[name];
+    classOop candidateMeta = candidate ? candidate->isa () : classOop ();
+
+    if (!super && superName != "noSuper")
+        fatalError ("No such superclass: %s\n", superName.c_str ());
+
+    if (!candidateMeta)
+    {
+        candidateMeta = lowLevelAllocClass<ClassKlass> ();
+        candidateMeta->initMethods ();
+    }
+
+    if (!candidate)
+    {
+        /* Actually, what we really want to do is ask the superclass to
+         * create a subclass here. But we will implement this behaviour later.
+         */
+        candidate = lowLevelAllocClass<MemKlass> ();
+        candidate->initMethods ();
+    }
+
+    candidateMeta->nstVar_at_replace (ClassOopDesc::EName,
+                                      factory.newSymbol (name + " Metaclass"));
+    candidateMeta->set_isa (_objectMetaClass);
+    candidateMeta->set_superClass (super ? super->isa () : _objectClass);
+    candidateMeta->nstVar_at_replace (ClassOopDesc::ENstVars,
+                                      factory.newSymVec (clsVars));
+
+    candidate->nstVar_at_replace (ClassOopDesc::EName,
+                                  factory.newSymbol (name));
+    candidate->set_isa (candidateMeta);
+    candidate->set_superClass (super);
+    candidate->nstVar_at_replace (ClassOopDesc::ENstVars,
+                                  factory.newSymVec (nstVars));
+
+    return candidate;
+}
