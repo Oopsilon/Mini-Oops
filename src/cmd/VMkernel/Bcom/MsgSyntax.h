@@ -6,34 +6,34 @@
 
 #include <list>
 
-//#include "AST/MsgExpr.h"
+#include "Expressions.h"
 
 struct MsgChainEntry
 {
     enum
     {
-        EUnaryMsg,
-        EBinaryMsg,
-        EKeywList,
+        EUnary,
+        EBin,
+        EKeyw,
     } entryType;
 
-    /*union {
+    union {
         AST::UnaryMsg * unary;
-        AST::BinaryMsg * binary;
-        AST::KeywMsg::List * keyws;
-    };*/
+        AST::BinMsg * bin;
+        AST::KeywMsg * keyw;
+    };
 
     typedef std::list<MsgChainEntry> List;
 
-    /*MsgChainEntry (AST::UnaryMsg * anUnary)
-        : entryType (EUnaryMsg), unary (anUnary)
+    MsgChainEntry (AST::UnaryMsg * anUnary)
+        : entryType (EUnary), unary (anUnary)
     {
     }
-    MsgChainEntry (AST::KeywMsg::List * someKeyws)
-        : entryType (EKeywList), keyws (someKeyws)
+    MsgChainEntry (AST::BinMsg * anUnary) : entryType (EBin), bin (anUnary) {}
+    MsgChainEntry (AST::KeywMsg * someKeyws)
+        : entryType (EKeyw), keyw (someKeyws)
     {
-    }*/
+    }
 };
 
-// AST::MsgExpr * unpackMsgChain (AST::Expression * rcvr,
-//                               MsgChainEntry::List * chain);
+AST::MsgExpr * unpackMsgChain (AST::Expr * rcvr, MsgChainEntry::List * chain);

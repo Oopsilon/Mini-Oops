@@ -62,8 +62,6 @@ SYML {ST}({SYM}{ST}|{ST}?)+
 ":"			return TK_COLON;
 "("         return TK_BRACKET_OPEN;
 ")"         return TK_BRACKET_CLOSE;
-"["         return TK_SQB_OPEN;
-"]"         return TK_SQB_CLOSE;
 "+"         return TK_PLUS;
 "-"         return TK_MINUS;
 "<-"        return TK_RETURN;
