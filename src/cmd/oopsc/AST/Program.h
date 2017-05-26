@@ -10,11 +10,15 @@
 
 namespace AST
 {
-
 struct Program : public AST
 {
-    AST::List directives;
+    Directive::List directives;
 
-    void addDirective (AST * aDir) { directives.push_back (aDir); }
+    void addDirective (Directive * aDir) { directives.push_back (aDir); }
+    void compile ()
+    {
+        for (auto & directive : directives)
+            directive->compile ();
+    }
 };
 }

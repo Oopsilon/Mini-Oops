@@ -12,6 +12,8 @@
  *      End Copyright Notice
  */
 
+#include "Symbol.h"
+
 namespace AST
 {
 
@@ -31,15 +33,15 @@ struct SelectorDecl
         EKeyw,
     } selType;
 
-    union {
-        Symbol unary;
-        struct
-        {
-            Symbol sel;
-            Symbol argname;
-        } binary;
-        std::vector<KeywDecl> keywords;
-    };
+    Symbol unary;
+    struct
+    {
+        Symbol sel;
+        Symbol argname;
+    } binary;
+    std::vector<KeywDecl> keywords;
+
+    SelectorDecl () : selType (EUnary), unary ("Invalid Selector") {}
 
     SelectorDecl (Symbol anUnary) : selType (EUnary), unary (anUnary) {}
     SelectorDecl (std::pair<Symbol, Symbol> aBinary)
@@ -51,26 +53,35 @@ struct SelectorDecl
     {
     }
 
-    SelectorDecl (const SelectorDecl & copied)
-    {
-        selType = selType;
-        if (copied.selType == EUnary)
-            unary = copied.unary;
-    }
-
-    ~SelectorDecl () {}
+    std::string selName ();
 };
 
-struct Method
+struct Method : Directive
 {
     bool isClass;
+    Symbol className;
     SelectorDecl selector;
+
+    Method (bool aBool, Symbol aName, SelectorDecl aSel)
+        : isClass (aBool), className (aName), selector (aSel)
+    {
+    }
+
+    void compile ();
 };
 
-struct Class
+struct Class : Directive
 {
     Symbol name, superName;
     Symbol::Vector nstVars, clsVars;
-    std::list<Method> nstMeths, clsMeths;
+
+    void compile ();
+
+    Class (Symbol aName, Symbol aSuper, Symbol::Vector someNstVars,
+           Symbol::Vector someClsVars)
+        : name (aName), superName (aSuper), nstVars (someNstVars),
+          clsVars (someClsVars)
+    {
+    }
 };
 }

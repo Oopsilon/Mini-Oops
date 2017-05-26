@@ -33,5 +33,5 @@ class Oopsc
     Oopsc (std::string RootDir);
     void parse (std::string filename, bool isImported = false);
     string astGraphViz ();
-    string generate ();
+    void compile ();
 };

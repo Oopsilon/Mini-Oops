@@ -1,3 +1,14 @@
 class Object : noSuper
-
+|
+|
+    _klass_CXX.
+    name.
+    superClass.
+    nstVarVec.
+    methods.
+|
 end
+
++ Object isa
+[
+]

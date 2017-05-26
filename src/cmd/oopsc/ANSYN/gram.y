@@ -13,12 +13,20 @@
 %extra_argument { ParserState * pState}
 
 /* Main syntax. */
-%nonassoc SLITERAL SYMLITERAL KEYW BLKARG RETURN INCLUDE CQUOTE.
+%nonassoc SLITERAL SYMLITERAL KEYW BLKARG RETURN INCLUDE.
 %right ASSIGN.
 %left PLUS MINUS.
-%left STAR PERCENT SLASH.
 %left BRACKET_OPEN BRACKET_CLOSE.
 
+%type class { AST::Class * }
+
+%type opt_vardefs { AST::Symbol::Vector * }
+%type vardefs  { AST::Symbol::Vector * }
+%type opt_vdecl_list  { AST::Symbol::Vector * }
+%type vdecl_list  { AST::Symbol::Vector * }
+%type vdecl { AST::Symbol  * }
+
+%type directive { AST::Directive * }
 %type unary_decl { AST::Symbol * }
 %type binary_decl { std::pair<AST::Symbol, AST::Symbol> *}
 %type keyw_decl_list { std::vector<AST::SelectorDecl::KeywDecl> * }
@@ -36,35 +44,46 @@
 file ::= EOF.
 file ::= listings EOF.
 
-listings ::= directive(D).
-listings ::= listings directive(D).
+listings ::= directive(D). { pState->addDirective(D); }
+listings ::= listings directive(D).  { pState->addDirective(D); }
 
 directive ::= class.
+directive ::= meth_decl.
 
-class(i) ::= CLASS sym_lit(N) COLON sym_lit (S) opt_meth_decl_list(m) END.
+/* class name : supername
+ * end
+ */
+class(i) ::= CLASS sym_lit(N) COLON sym_lit (S) END. {
+    i = new AST::Class(*N, *S,  {}, {});
+    delete N;
+    delete S;
+}
 class(i) ::= CLASS sym_lit(N) COLON sym_lit (S) vardefs(IV) opt_vdecl_list(CV)
-             BAR opt_meth_decl_list(m) END.
-class(i) ::= CLASS sym_lit(N) COLON sym_lit (S) vardefs(IV) 
-             opt_meth_decl_list(m) END. 
+             BAR END.{
+    i = new AST::Class(*N, *S,  *IV, *CV);
+        delete N;
+    delete S;
+    delete IV;
+    delete CV;
+}
+class(i) ::= CLASS sym_lit(N) COLON sym_lit (S) vardefs(IV) END. {
+    i = new AST::Class(*N, *S,  *IV, {});
+    delete N;
+    delete S;
+    delete IV;
+} 
 
-opt_meth_decl_list ::= meth_decl_list.
-opt_meth_decl_list(L) ::= .
-
-meth_decl_list(L) ::= meth_decl(m).
-meth_decl_list(L) ::= meth_decl_list(l) meth_decl(m).
-
-meth_decl(M) ::= meth_is_class_specifier(c) sel_decl(s) comp_stmt(code). {
-    M = new AST::Method({c, *s});
+meth_decl(M) ::= meth_is_class_specifier(c) sym_lit(o) sel_decl(s)
+    comp_stmt(code). {
+    M = new AST::Method(c, *o, *s);
+    delete o;
+    delete s;
 }
 
 meth_is_class_specifier(C) ::= PLUS. { C = true; }
 meth_is_class_specifier(C) ::= MINUS. { C = false; }
 
 comp_stmt(C) ::= SQB_OPEN opt_vardefs(v) opt_statements(e) SQB_CLOSE.
-
-comp_stmt(C) ::= cquote_stmt(c).
-
-cquote_stmt(C) ::= cquote(c).
 
 opt_statements(E) ::= statements(e). { E = e;}
 opt_statements(E) ::= .
@@ -136,57 +155,52 @@ msg_expr(M) ::= operand(r) msg_chain(k). { /*M = unpackMsgChain(r, k);*/ }
 
 sel_decl(S) ::= sym_lit(s). {
     S = new AST::SelectorDecl(*s);
+    delete s;
 }
 sel_decl(S) ::= binary_decl(b). {
     S = new AST::SelectorDecl(*b);
+    delete b;
 }
 sel_decl(S) ::= keyw_decl_list(k). {
     S = new AST::SelectorDecl(*k);
+    delete k;
 }
 
 keyw_decl_list(L) ::= keyw_decl(k). {
     L = new std::vector<AST::SelectorDecl::KeywDecl>({*k});
+    delete k;
 }
 keyw_decl_list(L) ::= keyw_decl_list(l) keyw_decl(k). { 
     L = l;
     L->push_back(*k);
+    delete k;
 }
 
-keyw_decl(K) ::= keyw_lit(k) optional_type_annotation(t) sym_lit(s). {
+keyw_decl(K) ::= keyw_lit(k) sym_lit(s). {
     K = new AST::SelectorDecl::KeywDecl({*k, *s});
+    delete k;
+    delete s;
 }
 
 binary_decl(B) ::= BINOP(b) sym_lit(s). {
     B = new std::pair<AST::Symbol, AST::Symbol>(*b, *s);
+    delete b;
+    delete s;
 }
 
-unary_decl(U) ::= sym_lit(s).
-
-optional_type_annotation(T) ::= .
-
 opt_vardefs(L)		::=	vardefs(V).
-opt_vardefs(L)		::= . 
+opt_vardefs(L)		::= . { L = new AST::Symbol::Vector; }
 
-vardefs(L)			::= BAR vdecl_list(V) BAR.
+vardefs(L)			::= BAR opt_vdecl_list(V) BAR. { L = V; }
 
 opt_vdecl_list		::= vdecl_list.
-opt_vdecl_list(L)	::= .
+opt_vdecl_list(L)	::= . { L = new AST::Symbol::Vector; }
 
-vdecl_list(L) ::= vdecl(v) DOT.
-vdecl_list(L) ::= vdecl_list(l) vdecl(v) DOT.
+vdecl_list(L) ::= vdecl(v) DOT. { L = new AST::Symbol::Vector({*v}); delete v; }
+vdecl_list(L) ::= vdecl_list(l) vdecl(v) DOT. { L = l; L->push_back(*v); delete v; }
 
 /* Variable declaration part (someType someVar) */
-vdecl(V) ::= type(t) sym_lit(s).
-
-enclosed_type(T) ::= BRACKET_OPEN sym_type(t) BRACKET_CLOSE.
-/* CQuote types are already enclosed */
-enclosed_type(T) ::= cquote_type(c).
-
-type ::= sym_type.
-type ::= cquote_type.
-
-sym_type(T) ::= sym_lit(s).
-cquote_type(T) ::= ctype(c).
+vdecl(V) ::= sym_lit(s).
 
 opt_sym_literal_list    ::= sym_literal_list.
 opt_sym_literal_list(L) ::= .
@@ -204,8 +218,7 @@ literal_expr(E) ::= str_lit(s). { /*E = new AST::LiteralExpr(*s);*/ }
 /* Block syntax:
  * ^ :hello :world [ ]
  */
-block_expr(B) ::= BLK optional_type_annotation(t) opt_block_formal_list(f)
-                  comp_stmt(c).
+block_expr(B) ::= BR_OPEN opt_block_formal_list(f) BR_CLOSE.
 
 opt_block_formal_list    ::= block_formal_list.
 opt_block_formal_list(L) ::= .
@@ -213,10 +226,8 @@ opt_block_formal_list(L) ::= .
 block_formal_list(L) ::= block_formal(f).
 block_formal_list(L) ::= block_formal_list(l) block_formal(f).
 
-block_formal(F) ::= COLON optional_type_annotation(t) sym_lit(s).
+block_formal(F) ::= COLON sym_lit(s).
 
-ctype(S) ::= CTYPE(L). { S = static_cast<AST::Symbol *>(L); }
-cquote(S) ::= CQUOTE(L). { S = static_cast<AST::Symbol *>(L); }
 sym_lit(S) ::= SYMLITERAL(L). { S = dynamic_cast<AST::Symbol *>(L); }
 keyw_lit(S) ::= KEYW(L). { S = dynamic_cast<AST::Symbol *>(L); }
 str_lit(S) ::= SLITERAL(L). { S = dynamic_cast<AST::Symbol *>(L); }

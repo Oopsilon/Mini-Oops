@@ -102,7 +102,7 @@ void Oopsc::parse (std::string filename, bool isImported)
     yylex_destroy (scanner);
 }
 
-string Oopsc::generate () { return ""; }
+void Oopsc::compile () { program.compile (); }
 
 int main (int argc, char * argv[])
 {
@@ -118,6 +118,7 @@ int main (int argc, char * argv[])
         // ParseTrace (stdout, KCYN "[Analyser::Lemon] " KNRM);
 
         oc.parse ("Package.oop");
+        oc.compile ();
 
         WAIT;
         return 0;

@@ -21,4 +21,10 @@ struct AST
 {
     typedef std::list<AST *> List;
 };
+
+struct Directive
+{
+    typedef std::list<Directive *> List;
+    virtual void compile () { dbg ("Compile request\n"); }
+};
 }

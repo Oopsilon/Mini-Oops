@@ -45,7 +45,7 @@ class ParserState
     }
 
     /* Parser (Lemon) interface */
-    // void addDirective (AST::Directive * aDir);
+    void addDirective (AST::Directive * aDir);
 
     LineInfo lineInfo () { return LineInfo (first_line, first_col); }
 

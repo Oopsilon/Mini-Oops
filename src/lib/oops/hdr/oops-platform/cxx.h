@@ -2,6 +2,8 @@
  * Oopslib: Compatibility functions.
  * Copyright (c) 2017 D. Mackay. All rights reserved. */
 
+#pragma once
+
 #include <typeinfo>
 
 #include "oops-platform/compats.h"

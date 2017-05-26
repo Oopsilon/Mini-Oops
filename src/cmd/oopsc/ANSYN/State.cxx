@@ -6,7 +6,7 @@
 #include "AST/Program.h"
 #include "oopsc.h"
 
-// void ParserState::addDirective (AST::Directive * aDir)
-//{
-//    oc.program.addDirective (aDir);
-//}
+void ParserState::addDirective (AST::Directive * aDir)
+{
+    oc.program.addDirective (aDir);
+}
