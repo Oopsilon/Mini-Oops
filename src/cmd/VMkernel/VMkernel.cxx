@@ -114,7 +114,7 @@ int main (int argc, char * argv[])
         std::ofstream gvOut;
         Oopsc oc (argv[1]);
 
-        // ParseTrace (stdout, KCYN "[Analyser::Lemon] " KNRM);
+        ParseTrace (stdout, KCYN "[Analyser::Lemon] " KNRM);
 
         oc.parse ("Package.oop");
         oc.compile ();

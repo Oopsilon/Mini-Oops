@@ -111,13 +111,8 @@ opt_statements(E) ::= .
 statements(E) ::= expression(e) DOT.
 statements(E) ::= statements(l) expression(e) DOT.
 
-expression ::= assignment_expression.
-
-assignment_expression ::= primary_expression.
-assignment_expression(A) ::= operand(v1) ASSIGN expression(v2).
-
-primary_expression    ::= operand.
-primary_expression    ::= msg_expr.
+expression ::= operand(v1) ASSIGN expression(v2).
+expression ::= msg_expr.
 
 operand    ::= literal_expr.
 operand    ::= ident_expr.
@@ -141,7 +136,7 @@ binary_msg_operand(O) ::= operand(o) opt_unary_msg_chain(c). {
     else
         O = o;
 }
-binary_msg(B) ::= BINARYSEL(s) binary_msg_operand(o). {
+binary_msg(B) ::= binary_selector(s) binary_msg_operand(o). {
     B = new AST::BinMsg(*s, o);
 }
 
@@ -241,37 +236,48 @@ vardefs(L)			::= BAR opt_vdecl_list(V) BAR. { L = V; }
 opt_vdecl_list		::= vdecl_list.
 opt_vdecl_list(L)	::= . { L = new AST::Symbol::Vector; }
 
-vdecl_list(L) ::= vdecl(v) DOT. { L = new AST::Symbol::Vector({*v}); delete v; }
-vdecl_list(L) ::= vdecl_list(l) vdecl(v) DOT. { L = l; L->push_back(*v); delete v; }
+vdecl_list(L) ::= vdecl(v) DOT. {
+    L = new AST::Symbol::Vector({*v});
+    delete v; 
+}
+vdecl_list(L) ::= vdecl_list(l) vdecl(v) DOT. {
+    L = l;
+    L->push_back(*v);
+    delete v;
+}
 
 /* Variable declaration part (someType someVar) */
-vdecl(V) ::= sym_lit(s).
-
-opt_sym_literal_list    ::= sym_literal_list.
-opt_sym_literal_list(L) ::= .
-
-sym_literal_list(L) ::= sym_lit(s).
-sym_literal_list(L) ::= sym_literal_list(l) sym_lit(s).
-    {
-        //L = l;
-        //L->push_back(*s);
-    }
+vdecl ::= sym_lit.
 
 ident_expr(E) ::= sym_lit(s). { E = new AST::IdentExpr(*s); }
 literal_expr(E) ::= str_lit(s). { /*E = new AST::LiteralExpr(*s);*/ }
 
 /* Block syntax:
- * ^ :hello :world [ ]
+ * { :hello :world | local. vars. | statements }
+ * { :hello :world | statements }
+ * { | local. vars. | statements }
+ * { statements }
  */
-block_expr(B) ::= BR_OPEN opt_block_formal_list(f) BR_CLOSE.
+block_expr(B) ::= BR_OPEN block_formal_list(f) block_vardefs statements BR_CLOSE.
+block_expr(B) ::= BR_OPEN block_formal_list(f) statements BR_CLOSE.
+block_expr(B) ::= BR_OPEN vardefs(f) statements BR_CLOSE.
+block_expr(B) ::= BR_OPEN statements BR_CLOSE.
 
-opt_block_formal_list    ::= block_formal_list.
-opt_block_formal_list(L) ::= .
+block_vardefs ::= opt_vdecl_list BAR.
 
 block_formal_list(L) ::= block_formal(f).
 block_formal_list(L) ::= block_formal_list(l) block_formal(f).
 
 block_formal(F) ::= COLON sym_lit(s).
+
+binary_selector ::= BINARYSEL.
+binary_selector ::= arith_selector.
+
+arith_selector ::= plus.
+arith_selector ::= minus.
+
+plus ::= PLUS.
+minus ::= MINUS.
 
 sym_lit(S) ::= SYMLITERAL(L). { S = dynamic_cast<AST::Symbol *>(L); }
 keyw_lit(S) ::= KEYW(L). { S = dynamic_cast<AST::Symbol *>(L); }

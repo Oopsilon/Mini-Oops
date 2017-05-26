@@ -11,6 +11,6 @@ end
 
 + Object isa
 {
-| test. |
-    Object test test add: (five + five squared) to: hello + hello hello.
+| test. test. |
+    Object test test add: (five + five squared) to: hello.
 }
