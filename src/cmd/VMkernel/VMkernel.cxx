@@ -17,7 +17,7 @@
 #include <string>
 #include <utility>
 
-#include "oopsc.h"
+#include "VMkernel.h"
 
 #include "gram.tab.h"
 #include "scan.yy.h"
@@ -28,8 +28,7 @@
 #include "Oops/SymbolDesc.h"
 #include "VM/VM.h"
 
-#include "AST/Program.h"
-#include "AST/Symbol.h"
+#include "Bcom/AST.h"
 
 #if defined(_MSC_VER)
 #include <conio.h>

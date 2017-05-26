@@ -2,10 +2,9 @@
 #include <iostream>
 #include <list>
 
-#include "ANSYN/MsgSyntax.h"
-#include "AST/AST.h"
-#include "AST/Symbol.h"
-#include "AST/ClassDef.h"
+#include "Bcom/MsgSyntax.h"
+#include "Bcom/AST.h"
+#include "Bcom/Defs.h"
 }
 
 %token_prefix TK_

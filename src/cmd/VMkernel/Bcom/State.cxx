@@ -3,8 +3,8 @@
  * Copyright (c) 2017 D. Mackay. All rights reserved. */
 
 #include "State.h"
-#include "AST/Program.h"
-#include "oopsc.h"
+#include "AST.h"
+#include "VMkernel.h"
 
 void ParserState::addDirective (AST::Directive * aDir)
 {

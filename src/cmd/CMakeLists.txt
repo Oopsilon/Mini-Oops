@@ -1,2 +1,2 @@
 add_subdirectory (LemonGen)
-add_subdirectory (oopsc)
+add_subdirectory (VMkernel)

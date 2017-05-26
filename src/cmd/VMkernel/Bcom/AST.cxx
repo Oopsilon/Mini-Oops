@@ -5,7 +5,7 @@
 #include "oops-platform/cxx.h"
 
 #include "AST.h"
-#include "ClassDef.h"
+#include "Defs.h"
 
 #include "VM/VM.h"
 

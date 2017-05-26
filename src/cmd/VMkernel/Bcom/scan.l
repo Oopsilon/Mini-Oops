@@ -1,6 +1,6 @@
 %{
-#include "ANSYN/State.h"
-#include "AST/Symbol.h"
+#include "Bcom/State.h"
+#include "Bcom/AST.h"
 #include "gram.tab.h"
 %}
 

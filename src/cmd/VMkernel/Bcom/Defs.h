@@ -1,5 +1,5 @@
 /* Oopsilon
- * AST: Class and method definitions.
+ * AST: Definitions
  *
  *      Copyright Notice
  *
@@ -12,7 +12,7 @@
  *      End Copyright Notice
  */
 
-#include "Symbol.h"
+#include "AST.h"
 
 namespace AST
 {
@@ -41,6 +41,7 @@ struct SelectorDecl
     } binary;
     std::vector<KeywDecl> keywords;
 
+  public:
     SelectorDecl () : selType (EUnary), unary ("Invalid Selector") {}
 
     SelectorDecl (Symbol anUnary) : selType (EUnary), unary (anUnary) {}

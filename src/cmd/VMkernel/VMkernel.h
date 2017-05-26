@@ -18,7 +18,7 @@
 #include <stack>
 #include <string>
 
-#include "ANSYN/State.h"
+#include "Bcom/State.h"
 
 class Oopsc
 {
@@ -32,6 +32,5 @@ class Oopsc
   public:
     Oopsc (std::string RootDir);
     void parse (std::string filename, bool isImported = false);
-    string astGraphViz ();
     void compile ();
 };

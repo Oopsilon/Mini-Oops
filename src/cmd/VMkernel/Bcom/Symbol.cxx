@@ -2,7 +2,7 @@
  * Oops C++ Compiler (Lexer symbols)
  * Copyright (c) 2017 D. Mackay. All rights reserved. */
 
-#include "Symbol.h"
+#include "AST.h"
 
 AST::Symbol::Symbol (string str) : symType (ESymLiteral), string (str) {}
 
