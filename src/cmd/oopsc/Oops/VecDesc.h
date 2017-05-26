@@ -29,5 +29,3 @@ template <typename T> class VecOopDesc : public MemOopDesc
 
     inline size_t size () { return _contents.size (); }
 };
-
-typedef VecOopDesc<char> ByteVecOopDesc;

@@ -16,7 +16,7 @@
 
 #include "MemDesc.h"
 
-class CompiledMethod : public MemOopDesc
+class Method : public MemOopDesc
 {
     enum
     {

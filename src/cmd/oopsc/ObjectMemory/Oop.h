@@ -55,6 +55,7 @@ template <class T> struct Oop
     }
 
     /* Is it nil? */
+    operator bool () const { return memOopValue != 0; }
     bool operator! () const { return memOopValue == 0; }
     bool operator== (const Oop<T> & rhs) const
     {

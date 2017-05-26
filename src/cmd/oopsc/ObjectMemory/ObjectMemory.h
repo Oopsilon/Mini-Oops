@@ -34,12 +34,14 @@ class ObjectMemory
     classOop _objectMetaClass;
     classOop _objectClass;
     classOop _smiClass;
+    classOop _contextClass;
+    classOop _methodClass;
     classOop _objVecClass;
     classOop _byteVecClass;
     classOop _symbolClass;
 
     void setup_metaclass ();
-    void setup_metaclass_layout ();
+    void setup_kernel_classes ();
 
     /* Allocates a new Class for the corresponding Klass type T. */
     template <class T> classOop lowLevelAllocClass ();
@@ -54,6 +56,8 @@ class ObjectMemory
 
     /* Basic functionality */
     classOop smiClass () { return _smiClass; }
+    classOop contextClass () { return _contextClass; }
+    classOop methodClass () { return _methodClass; }
     classOop objVecClass () { return _objVecClass; }
     classOop symbolClass () { return _symbolClass; }
 

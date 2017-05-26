@@ -31,7 +31,7 @@ class ClassOopDesc : public MemOopDesc
     static std::vector<std::string> & nstVarNames ()
     {
         const char * varnames[] = {"_klass_CXX", "name", "superClass",
-                                   "nstVarVec", "methodVec"};
+                                   "nstVarVec", "methods"};
         static std::vector<std::string> varnamesVec = std::vector<std::string> (
             std::begin (varnames), std::end (varnames));
         return varnamesVec;
@@ -54,9 +54,7 @@ class ClassOopDesc : public MemOopDesc
         nstVar_at_put<Klass *> (EKlass, newKlass);
     }
 
-    inline void init () { getKlass ()->init (this); }
-
-    classOop superClass (oop anObj) { return nstVar_at<classOop> (ESuper); }
+    classOop superClass () { return nstVar_at<classOop> (ESuper); }
     void set_superClass (classOop newSuper)
     {
         nstVar_at_put<classOop> (ESuper, newSuper);
@@ -71,5 +69,23 @@ class ClassOopDesc : public MemOopDesc
         nstVar_at_put (ENstVars, newNstVars);
     }
 
+    inline objVecOop<methodOop>::type methods ()
+    {
+        return nstVar_at<objVecOop<methodOop>::type> (EMethods);
+    }
+    inline void set_methods (objVecOop<methodOop>::type val)
+    {
+        nstVar_at_put (EMethods, val);
+    }
+
+    /* Proxy functions forwarding to Klass */
+    inline void init () { getKlass ()->init (this); }
+    inline void initNstVars () { getKlass ()->initNstVars (this); }
+    inline void initMethods () { getKlass ()->initMethods (this); }
+
     inline size_t instanceSize () { return getKlass ()->instanceSize (this); }
+    inline size_t indexableNstVarsSize ()
+    {
+        return getKlass ()->indexableNstVarsSize (this);
+    }
 };

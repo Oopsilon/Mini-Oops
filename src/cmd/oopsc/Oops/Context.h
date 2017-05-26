@@ -17,7 +17,7 @@
 #include "Hierarchy.h"
 #include "MemDesc.h"
 
-class ContextDesc : public MemOopDesc
+class Context : public MemOopDesc
 {
     enum
     {

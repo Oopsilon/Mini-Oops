@@ -24,18 +24,20 @@
  * the logic for a Class goes. The ClassOopDesc contains a Klass inline. */
 class Klass
 {
-    const char magic[6] = "Magic";
-
   public:
     /* Setup */
 
-    void init ();
     void init (classOop aClass);
+    void initNstVars (classOop aClass);
+    void initMethods (classOop aClass);
 
     /* Enquiry on Klass */
 
-    /* Return the size of an instance of this class. */
+    /* Return the size of an instance of this class - forbidden for Smi. */
     virtual size_t instanceSize (classOop aClass);
+
+    /* Return the size of an instance's indexed vars component. */
+    size_t indexableNstVarsSize (classOop aClass);
 
     /* Enquiry on Object
      * These are despatched from an OOP, not directly to a Klass. */

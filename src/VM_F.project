@@ -62,7 +62,6 @@
       <VirtualDirectory Name="VM">
         <File Name="cmd/oopsc/VM/VM.h"/>
         <File Name="cmd/oopsc/VM/VM.cxx"/>
-        <File Name="cmd/oopsc/Oops/SymbolDesc.h"/>
       </VirtualDirectory>
       <VirtualDirectory Name="Oops">
         <VirtualDirectory Name="Klass">
@@ -78,6 +77,8 @@
           <File Name="cmd/oopsc/Oops/Klass/Klass.cxx"/>
           <File Name="cmd/oopsc/Oops/Klass/ByteVecKlass.cxx"/>
           <File Name="cmd/oopsc/Oops/Klass/ObjVecKlass.inl.h"/>
+          <File Name="cmd/oopsc/Oops/Klass/ContextKlass.h"/>
+          <File Name="cmd/oopsc/Oops/Klass/MethodKlass.h"/>
         </VirtualDirectory>
         <File Name="cmd/oopsc/Oops/ClassDesc.h"/>
         <File Name="cmd/oopsc/Oops/Desc.h"/>
@@ -90,6 +91,7 @@
         <File Name="cmd/oopsc/Oops/Context.h"/>
         <File Name="cmd/oopsc/Oops/Method.h"/>
         <File Name="cmd/oopsc/Oops/Symbol.cxx"/>
+        <File Name="cmd/oopsc/Oops/SymbolDesc.h"/>
       </VirtualDirectory>
       <VirtualDirectory Name="ObjectMemory">
         <File Name="cmd/oopsc/ObjectMemory/Oop.h"/>

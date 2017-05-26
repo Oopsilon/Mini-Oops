@@ -23,9 +23,10 @@ if (NOT FLEX_FOUND)
 endif()
 
 if(MSVC)
-	set (CMAKE_CXX_FLAGS "/w44103 /EHsc")
+	set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /w44103 /EHsc")
 else (CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_CLANG)
-	set (CMAKE_CXX_FLAGS "-std=c++11 -Wno-write-strings")
+	set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \
+                          -std=c++11 -Wno-write-strings")
 endif()
 
 function (FlexComp path)

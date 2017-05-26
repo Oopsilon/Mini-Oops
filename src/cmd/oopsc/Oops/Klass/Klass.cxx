@@ -14,18 +14,31 @@
 
 #include "ObjectMemory/ObjectFactory.inl.h"
 
-void Klass::init ()
+void Klass::init (classOop aClass)
 {
-    //_nstVars = vm.mem.factory.newObjVec<symbolOop> ();
-    //_methods = vm.mem.factory.newObjVec<methOop> ();
+    initNstVars (aClass);
+    initMethods (aClass);
 }
 
-void Klass::init (classOop aClass)
+void Klass::initNstVars (classOop aClass)
 {
     aClass->set_nstVars (vm.mem.factory.newObjVec<symbolOop> ());
 }
 
+void Klass::initMethods (classOop aClass)
+{
+    aClass->set_methods (vm.mem.factory.newObjVec<methodOop> ());
+}
+
 size_t Klass::instanceSize (classOop aClass)
 {
-    return sizeof (OopDesc) + (sizeof (oop) * aClass->nstVars ()->size ());
+    return sizeof (OopDesc) + indexableNstVarsSize (aClass);
+}
+
+size_t Klass::indexableNstVarsSize (classOop aClass)
+{
+    return (sizeof (oop) * aClass->nstVars ()->size ()) +
+           (aClass->superClass ()
+                ? aClass->superClass ()->indexableNstVarsSize ()
+                : 0);
 }

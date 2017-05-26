@@ -25,7 +25,7 @@ template <class T> struct objVecOop
     typedef Oop<ObjVecOopDesc<T> > type;
 };
 
-typedef Oop<VecOopDesc<char> > byteVecOop;
+typedef VecOopDesc<char> ByteVecOopDesc;
 
 /* Preserve the indentation. */
 /* clang-format off */
@@ -34,10 +34,11 @@ typedef Oop<class OopDesc>      oop;
 typedef Oop<class SmiOopDesc>     smiOop;
 typedef Oop<class MemOopDesc>     memOop;
 typedef Oop<class ClassOopDesc>     classOop;
-typedef Oop<class MethodDesc>       methodOop;
-typedef Oop<class ContextDesc>      contextOop;
+typedef Oop<class Method>           methodOop;
+typedef Oop<class Context>          contextOop;
 /* (this is where vecOop fits in)   vecOop; */
 /*                                    objVecOop */
+typedef Oop<      ByteVecOopDesc>     byteVecOop;
 typedef Oop<class SymbolOopDesc>      symbolOop;
 
 /* clang-format on */

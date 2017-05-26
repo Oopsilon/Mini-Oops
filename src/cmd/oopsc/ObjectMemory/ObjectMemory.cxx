@@ -17,7 +17,10 @@
 
 #include "Oops/Context.h"
 #include "Oops/Klass/ClassKlass.h"
+#include "Oops/Klass/ContextKlass.h"
+#include "Oops/Klass/MethodKlass.h"
 #include "Oops/Klass/ObjVecKlass.h"
+#include "Oops/Klass/SmiKlass.h"
 #include "Oops/Klass/SymbolKlass.h"
 #include "Oops/Method.h"
 #include "Oops/ObjVecDesc.h"
@@ -67,18 +70,40 @@ void ObjectMemory::setup_metaclass ()
     _objectMetaClass->set_superClass (_objectClass);
 }
 
-void ObjectMemory::setup_metaclass_layout ()
+void ObjectMemory::setup_kernel_classes ()
 {
     /* These are the essential Class objects for higher-level initialisation
      * functions to work. */
+    _smiClass     = lowLevelAllocClass<SmiKlass> ();
     _objVecClass  = lowLevelAllocClass<ObjVecKlass<oop> > ();
     _byteVecClass = lowLevelAllocClass<ByteVecKlass> ();
     _symbolClass  = lowLevelAllocClass<SymbolKlass> ();
 
     /* We will now set up metaclass with its instance variables. */
-    _objectMetaClass->init ();
+    _objectMetaClass->initMethods ();
     _objectMetaClass->set_nstVars (
         factory.newSymVec (ClassOopDesc::nstVarNames ()));
+
+    /* Now the remaining VMkernel classes. */
+    notice ("Initialising kernel classes...\n");
+
+    /* Those classes with nstVars must have those described. */
+    _contextClass = lowLevelAllocClass<ContextKlass> ();
+    _methodClass  = lowLevelAllocClass<MethodKlass> ();
+
+    _contextClass->initMethods ();
+    _contextClass->set_nstVars (factory.newSymVec (Context::nstVarNames ()));
+
+    _methodClass->initMethods ();
+    _methodClass->set_nstVars (factory.newSymVec (Method::nstVarNames ()));
+
+    /* All classes we've created must be in a defined state - i.e. they must
+     * immediately have their method and nstVar vectors allocated. */
+    _objectClass->init ();
+    _smiClass->init ();
+    _objVecClass->init ();
+    _byteVecClass->init ();
+    _symbolClass->init ();
 }
 
 void ObjectMemory::preboot ()
@@ -93,17 +118,12 @@ void ObjectMemory::preboot ()
     notice ("Setting up initial Object Memory...\n");
 
     setup_metaclass ();
-    setup_metaclass_layout ();
-
-    /* Now we can initialise all those classes. */
-    notice ("Initialising kernel classes...\n");
-
-    _objectClass->getKlass ()->init ();
-    _objVecClass->getKlass ()->init ();
-    _byteVecClass->getKlass ()->init ();
-    _symbolClass->getKlass ()->init ();
+    setup_kernel_classes ();
 
     classes["Object"]       = _objectClass;
+    classes["SMI"]          = _smiClass;
+    classes["Method"]       = _methodClass;
+    classes["Context"]      = _contextClass;
     classes["ObjectVector"] = _objVecClass;
     classes["Bytes"]        = _byteVecClass;
     classes["Symbol"]       = _symbolClass;
