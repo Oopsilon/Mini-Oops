@@ -18,5 +18,5 @@
 size_t ClassKlass::instanceSize ()
 {
     dbg ("Class dispatch works\n");
-    return sizeof (ClassOopDesc);
+    return sizeof (ClassDesc);
 }

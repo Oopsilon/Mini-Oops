@@ -20,5 +20,5 @@
 template <class T> class VecKlass : public MemKlass
 {
   public:
-    size_t instanceSize () { return sizeof (VecOopDesc<T>); }
+    size_t instanceSize () { return sizeof (VecDesc<T>); }
 };

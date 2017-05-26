@@ -25,7 +25,7 @@
  * 4 -> objVecOop<symbolOop> nstVars
  * 5 -> objVecOop<methOop> methods
  */
-class ClassOopDesc : public MemOopDesc
+class ClassDesc : public MemDesc
 {
   public:
     static std::vector<std::string> & nstVarNames ()

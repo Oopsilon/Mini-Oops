@@ -16,7 +16,7 @@
 
 #include "VecDesc.h"
 
-class SymbolOopDesc : public ByteVecOopDesc
+class SymbolDesc : public ByteVecDesc
 {
   public:
     byteVecOop as_byteVecOop () { return byteVecOop (this); }

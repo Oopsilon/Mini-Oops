@@ -18,7 +18,7 @@
 
 #include "VecDesc.h"
 
-template <class T> class ObjVecOopDesc : public VecOopDesc<T>
+template <class T> class ObjVecDesc : public VecDesc<T>
 {
     // static_assert (std::is_base_of (Oop, T)::value,
     //               "ObjVecs must contain OOP types");

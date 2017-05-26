@@ -19,7 +19,7 @@
 
 symbolOop SymbolKlass::allocateSymbol (std::string s)
 {
-    symbolOop r = vm.mem.lowLevelAlloc<symbolOop> (sizeof (SymbolOopDesc));
+    symbolOop r = vm.mem.lowLevelAlloc<symbolOop> (sizeof (SymbolDesc));
     r->basic_init ();
     r->set_isa (vm.mem.symbolClass ());
     init_binary_object (r->as_byteVecOop (),

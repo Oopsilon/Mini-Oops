@@ -16,10 +16,10 @@
 
 #include "Desc.h"
 
-/* The SmiOopDesc is actually empty. It is zero-length. So it simply operates
+/* The SmiDesc is actually empty. It is zero-length. So it simply operates
  * on its own 'this' value - which is not actually a pointer to any valid
  * region of memory, but is an integer with an LSB of 1. */
-class SmiOopDesc : OopDesc
+class SmiDesc : Desc
 {
   public:
     /* Retrieve the value of the integer.

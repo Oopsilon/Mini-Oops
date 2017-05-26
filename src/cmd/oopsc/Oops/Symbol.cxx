@@ -14,12 +14,12 @@
 
 #include "SymbolDesc.h"
 
-bool SymbolOopDesc::operator== (std::string aString) const
+bool SymbolDesc::operator== (std::string aString) const
 {
     return std::string (_contents.begin (), _contents.end ()) == aString;
 }
 
-bool SymbolOopDesc::operator== (const char * aString) const
+bool SymbolDesc::operator== (const char * aString) const
 {
     return std::string (_contents.begin (), _contents.end ()) == aString;
 }

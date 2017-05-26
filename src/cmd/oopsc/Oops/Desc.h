@@ -26,7 +26,7 @@
  * object - the Oop acts as a handle. Note that only a MemOop is a real object.
  * SmiOops are phoneys which work by manipulating their own this-pointer. For
  * that reason they are immutable objects. */
-class OopDesc
+class Desc
 {
   protected:
     classOop _isa;
@@ -51,7 +51,7 @@ class OopDesc
     }
 
     /* Tests on type */
-    bool is_smi () const { return (Oop<OopDesc> (this)).isSmiOop (); }
+    bool is_smi () const { return (oop (this)).isSmiOop (); }
 
     /* Enquiry - despatched to Klass */
     std::string describe ();

@@ -17,28 +17,28 @@
 template <class T> class Oop;
 
 /* C++ STL wrapper objects */
-template <class T> class VecOopDesc;
-template <class T> class ObjVecOopDesc;
+template <class T> class VecDesc;
+template <class T> class ObjVecDesc;
 
 template <class T> struct objVecOop
 {
-    typedef Oop<ObjVecOopDesc<T> > type;
+    typedef Oop<ObjVecDesc<T> > type;
 };
 
-typedef VecOopDesc<char> ByteVecOopDesc;
+typedef VecDesc<char> ByteVecDesc;
 
 /* Preserve the indentation. */
 /* clang-format off */
 
-typedef Oop<class OopDesc>      oop;
-typedef Oop<class SmiOopDesc>     smiOop;
-typedef Oop<class MemOopDesc>     memOop;
-typedef Oop<class ClassOopDesc>     classOop;
-typedef Oop<class Method>           methodOop;
-typedef Oop<class Context>          contextOop;
-/* (this is where vecOop fits in)   vecOop; */
-/*                                    objVecOop */
-typedef Oop<      ByteVecOopDesc>     byteVecOop;
-typedef Oop<class SymbolOopDesc>      symbolOop;
+typedef Oop<class Desc>      oop;
+typedef Oop<class SmiDesc>     smiOop;
+typedef Oop<class MemDesc>     memOop;
+typedef Oop<class ClassDesc>     classOop;
+typedef Oop<class MethodDesc>    methodOop;
+typedef Oop<class ContextDesc>   contextOop;
+/* (this is where vecOop fits in)  vecOop; */
+/*                                   objVecOop */
+typedef Oop<      ByteVecDesc>       byteVecOop;
+typedef Oop<class SymbolDesc>          symbolOop;
 
 /* clang-format on */

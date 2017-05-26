@@ -15,4 +15,4 @@
 #include "Desc.h"
 #include "ClassDesc.h"
 
-std::string OopDesc::describe () { return _isa->getKlass ()->describe (this); }
+std::string Desc::describe () { return _isa->getKlass ()->describe (this); }

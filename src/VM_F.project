@@ -88,10 +88,10 @@
         <File Name="cmd/oopsc/Oops/VecDesc.h"/>
         <File Name="cmd/oopsc/Oops/ObjVecDesc.h"/>
         <File Name="cmd/oopsc/Oops/Desc.cxx"/>
-        <File Name="cmd/oopsc/Oops/Context.h"/>
-        <File Name="cmd/oopsc/Oops/Method.h"/>
         <File Name="cmd/oopsc/Oops/Symbol.cxx"/>
         <File Name="cmd/oopsc/Oops/SymbolDesc.h"/>
+        <File Name="cmd/oopsc/Oops/ContextDesc.h"/>
+        <File Name="cmd/oopsc/Oops/MethodDesc.h"/>
       </VirtualDirectory>
       <VirtualDirectory Name="ObjectMemory">
         <File Name="cmd/oopsc/ObjectMemory/Oop.h"/>

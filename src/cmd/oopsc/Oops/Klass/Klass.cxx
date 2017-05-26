@@ -32,7 +32,7 @@ void Klass::initMethods (classOop aClass)
 
 size_t Klass::instanceSize (classOop aClass)
 {
-    return sizeof (OopDesc) + indexableNstVarsSize (aClass);
+    return sizeof (Desc) + indexableNstVarsSize (aClass);
 }
 
 size_t Klass::indexableNstVarsSize (classOop aClass)

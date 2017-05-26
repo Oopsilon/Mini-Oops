@@ -15,20 +15,20 @@
 #include <cstdarg>
 #include <type_traits>
 
-#include "Oops/Context.h"
+#include "Oops/ContextDesc.h"
 #include "Oops/Klass/ClassKlass.h"
 #include "Oops/Klass/ContextKlass.h"
 #include "Oops/Klass/MethodKlass.h"
 #include "Oops/Klass/ObjVecKlass.h"
 #include "Oops/Klass/SmiKlass.h"
 #include "Oops/Klass/SymbolKlass.h"
-#include "Oops/Method.h"
+#include "Oops/MethodDesc.h"
 #include "Oops/ObjVecDesc.h"
 #include "Oops/SymbolDesc.h"
 
 #include "ObjectMemory.h"
 
-const size_t metaClassSize = sizeof (OopDesc) + (sizeof (oop) * 5);
+const size_t metaClassSize = sizeof (Desc) + (sizeof (oop) * 5);
 
 template <class T> classOop ObjectMemory::lowLevelAllocClass ()
 {
@@ -82,7 +82,7 @@ void ObjectMemory::setup_kernel_classes ()
     /* We will now set up metaclass with its instance variables. */
     _objectMetaClass->initMethods ();
     _objectMetaClass->set_nstVars (
-        factory.newSymVec (ClassOopDesc::nstVarNames ()));
+        factory.newSymVec (ClassDesc::nstVarNames ()));
 
     /* Now the remaining VMkernel classes. */
     notice ("Initialising kernel classes...\n");
@@ -92,10 +92,11 @@ void ObjectMemory::setup_kernel_classes ()
     _methodClass  = lowLevelAllocClass<MethodKlass> ();
 
     _contextClass->initMethods ();
-    _contextClass->set_nstVars (factory.newSymVec (Context::nstVarNames ()));
+    _contextClass->set_nstVars (
+        factory.newSymVec (ContextDesc::nstVarNames ()));
 
     _methodClass->initMethods ();
-    _methodClass->set_nstVars (factory.newSymVec (Method::nstVarNames ()));
+    _methodClass->set_nstVars (factory.newSymVec (MethodDesc::nstVarNames ()));
 
     /* All classes we've created must be in a defined state - i.e. they must
      * immediately have their method and nstVar vectors allocated. */
@@ -108,8 +109,7 @@ void ObjectMemory::setup_kernel_classes ()
 
 void ObjectMemory::preboot ()
 {
-    notice ("Using %d-bit Object-Oriented Pointers\n",
-            sizeof (Oop<ClassOopDesc>) * 8);
+    notice ("Using %d-bit Object-Oriented Pointers\n", sizeof (oop) * 8);
     /* Reasoning: we copy the vptr of the Klass when we subclass something.
      * Perhaps we could use a virtual function in Klass to construct a new Klass
      * for the copied object instead? That would certainly be cleaner. */
@@ -169,18 +169,17 @@ ObjectMemory::findOrCreateClass (const std::string name,
         candidate->initMethods ();
     }
 
-    candidateMeta->nstVar_at_replace (ClassOopDesc::EName,
+    candidateMeta->nstVar_at_replace (ClassDesc::EName,
                                       factory.newSymbol (name + " Metaclass"));
     candidateMeta->set_isa (_objectMetaClass);
     candidateMeta->set_superClass (super ? super->isa () : _objectClass);
-    candidateMeta->nstVar_at_replace (ClassOopDesc::ENstVars,
+    candidateMeta->nstVar_at_replace (ClassDesc::ENstVars,
                                       factory.newSymVec (clsVars));
 
-    candidate->nstVar_at_replace (ClassOopDesc::EName,
-                                  factory.newSymbol (name));
+    candidate->nstVar_at_replace (ClassDesc::EName, factory.newSymbol (name));
     candidate->set_isa (candidateMeta);
     candidate->set_superClass (super);
-    candidate->nstVar_at_replace (ClassOopDesc::ENstVars,
+    candidate->nstVar_at_replace (ClassDesc::ENstVars,
                                   factory.newSymVec (nstVars));
 
     return candidate;

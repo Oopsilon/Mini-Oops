@@ -18,7 +18,7 @@
 
 #include "MemDesc.h"
 
-template <typename T> class VecOopDesc : public MemOopDesc
+template <typename T> class VecDesc : public MemDesc
 {
   protected:
     std::vector<T> _contents;
