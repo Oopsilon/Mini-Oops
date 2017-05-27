@@ -1,5 +1,4 @@
 + Object isa
 {
-| test. test. |
-    Object test test add: (five + five squared) to: hello.
+    @<syscall isa>.
 }

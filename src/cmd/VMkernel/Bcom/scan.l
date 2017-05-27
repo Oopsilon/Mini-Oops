@@ -39,8 +39,10 @@
 
 DECIMAL_INTEGER [1-9][0-9]*
 ST   ([a-zA-Z\x80-\xf3])*
-SYM  [^ \t\v\n\r\f:/.\(\)/+-/*//;.{@]
+SYM  [^ \t\v\n\r\f:/.\(\)/+-/*//;.{@<>]
 NL \n
+
+ /* shuts up codelite */
 
 KEYW {ST}({SYM}{ST}|{ST}?)+":"
 SYML {ST}({SYM}{ST}|{ST}?)+
@@ -49,6 +51,7 @@ SYML {ST}({SYM}{ST}|{ST}?)+
 %x CQUOTE
 %x CTYPE
 %x INCLUDE
+%x SC
 
 %%
 
@@ -68,6 +71,23 @@ SYML {ST}({SYM}{ST}|{ST}?)+
 "<-"        return TK_RETURN;
 "{"         return TK_BR_OPEN;
 "}"         return TK_BR_CLOSE;
+
+"@<syscall" {
+    BEGIN(SC);
+    return TK_SYSCALL;
+}
+
+<SC>">" {
+    BEGIN(INITIAL);
+    return TK_END_SYSCALL;
+}
+
+<SC>{SYML} {
+    yyextra->setResult(new AST::Symbol(yyextra));
+    AsLit(RVAL).setSymLiteral();
+    AsLit(RVAL).assign(yytext);
+    return TK_SYMLITERAL;
+}
 
  /* @include(path/to/file) */
 "@include("   {

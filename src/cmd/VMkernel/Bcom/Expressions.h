@@ -12,6 +12,8 @@
  *      End Copyright Notice
  */
 
+#pragma once
+
 #include "AST.h"
 
 namespace AST
@@ -19,13 +21,35 @@ namespace AST
 
 struct Expr
 {
+    typedef std::list<Expr *> List;
 };
 
-struct IdentExpr
+struct IdentExpr : Expr
 {
     Symbol name;
 
     IdentExpr (Symbol aName) : name (aName) {}
+};
+
+struct AssignExpr : Expr
+{
+    Expr *lhs, *rhs;
+
+    AssignExpr (Expr * anLhs, Expr * anRhs) : lhs (anLhs), rhs (anRhs) {}
+};
+
+struct SyscallStmt : Expr
+{
+    Symbol syscall;
+
+    SyscallStmt (Symbol aSyscall) : syscall (aSyscall) {}
+};
+
+struct ReturnStmt : Expr
+{
+    Expr * returnVal;
+
+    ReturnStmt (Expr * aReturn = NULL) : returnVal (aReturn) {}
 };
 
 /* Components of a MsgExpr */

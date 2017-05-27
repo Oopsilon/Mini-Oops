@@ -9,6 +9,7 @@
     <VirtualDirectory Name="OopsFoundation">
       <VirtualDirectory Name="Runtime">
         <File Name="lib/OopsFoundation/Runtime/Object.oop"/>
+        <File Name="lib/OopsFoundation/Runtime/Hierarchy.oop"/>
       </VirtualDirectory>
       <File Name="lib/OopsFoundation/Package.oop"/>
     </VirtualDirectory>
@@ -17,6 +18,8 @@
         <VirtualDirectory Name="oops-cxx">
           <File Name="lib/oops/hdr/oops-cxx/Object.h"/>
           <File Name="lib/oops/hdr/oops-cxx/optional.h"/>
+          <File Name="lib/oops/hdr/oops-cxx/endpack.h"/>
+          <File Name="lib/oops/hdr/oops-cxx/packstrc.h"/>
         </VirtualDirectory>
         <VirtualDirectory Name="oops-object">
           <File Name="lib/oops/hdr/oops-object/object.h"/>
@@ -39,70 +42,68 @@
     <File Name="lib/CMakeLists.txt"/>
   </VirtualDirectory>
   <VirtualDirectory Name="cmd">
-    <VirtualDirectory Name="oopsc">
-      <VirtualDirectory Name="ANSYN">
-        <File Name="cmd/oopsc/ANSYN/gram.y"/>
-        <File Name="cmd/oopsc/ANSYN/MsgSyntax.cxx"/>
-        <File Name="cmd/oopsc/ANSYN/MsgSyntax.h"/>
-        <File Name="cmd/oopsc/ANSYN/scan.l"/>
-        <File Name="cmd/oopsc/ANSYN/State.cxx"/>
-        <File Name="cmd/oopsc/ANSYN/State.h"/>
-      </VirtualDirectory>
-      <VirtualDirectory Name="AST">
-        <File Name="cmd/oopsc/AST/AST.cxx"/>
-        <File Name="cmd/oopsc/AST/AST.h"/>
-        <File Name="cmd/oopsc/AST/Program.h"/>
-        <File Name="cmd/oopsc/AST/Symbol.cxx"/>
-        <File Name="cmd/oopsc/AST/Symbol.h"/>
-        <File Name="cmd/oopsc/AST/ClassDef.h"/>
-      </VirtualDirectory>
-      <File Name="cmd/oopsc/CMakeLists.txt"/>
-      <File Name="cmd/oopsc/oopsc.cxx"/>
-      <File Name="cmd/oopsc/oopsc.h"/>
-      <VirtualDirectory Name="VM">
-        <File Name="cmd/oopsc/VM/VM.h"/>
-        <File Name="cmd/oopsc/VM/VM.cxx"/>
-      </VirtualDirectory>
+    <VirtualDirectory Name="VMkernel">
       <VirtualDirectory Name="Oops">
         <VirtualDirectory Name="Klass">
-          <File Name="cmd/oopsc/Oops/Klass/Klass.h"/>
-          <File Name="cmd/oopsc/Oops/Klass/ClassKlass.h"/>
-          <File Name="cmd/oopsc/Oops/Klass/MemKlass.h"/>
-          <File Name="cmd/oopsc/Oops/Klass/SymbolKlass.h"/>
-          <File Name="cmd/oopsc/Oops/Klass/VecKlass.h"/>
-          <File Name="cmd/oopsc/Oops/Klass/ClassKlass.cxx"/>
-          <File Name="cmd/oopsc/Oops/Klass/SymbolKlass.cxx"/>
-          <File Name="cmd/oopsc/Oops/Klass/ByteVecKlass.h"/>
-          <File Name="cmd/oopsc/Oops/Klass/ObjVecKlass.h"/>
-          <File Name="cmd/oopsc/Oops/Klass/Klass.cxx"/>
-          <File Name="cmd/oopsc/Oops/Klass/ByteVecKlass.cxx"/>
-          <File Name="cmd/oopsc/Oops/Klass/ObjVecKlass.inl.h"/>
-          <File Name="cmd/oopsc/Oops/Klass/ContextKlass.h"/>
-          <File Name="cmd/oopsc/Oops/Klass/MethodKlass.h"/>
+          <File Name="cmd/VMkernel/Oops/Klass/ByteVecKlass.cxx"/>
+          <File Name="cmd/VMkernel/Oops/Klass/ByteVecKlass.h"/>
+          <File Name="cmd/VMkernel/Oops/Klass/ClassKlass.cxx"/>
+          <File Name="cmd/VMkernel/Oops/Klass/ClassKlass.h"/>
+          <File Name="cmd/VMkernel/Oops/Klass/ContextKlass.h"/>
+          <File Name="cmd/VMkernel/Oops/Klass/Klass.cxx"/>
+          <File Name="cmd/VMkernel/Oops/Klass/Klass.h"/>
+          <File Name="cmd/VMkernel/Oops/Klass/MemKlass.h"/>
+          <File Name="cmd/VMkernel/Oops/Klass/MethodKlass.h"/>
+          <File Name="cmd/VMkernel/Oops/Klass/ObjVecKlass.h"/>
+          <File Name="cmd/VMkernel/Oops/Klass/ObjVecKlass.inl.h"/>
+          <File Name="cmd/VMkernel/Oops/Klass/SmiKlass.h"/>
+          <File Name="cmd/VMkernel/Oops/Klass/SymbolKlass.cxx"/>
+          <File Name="cmd/VMkernel/Oops/Klass/SymbolKlass.h"/>
+          <File Name="cmd/VMkernel/Oops/Klass/VecKlass.h"/>
         </VirtualDirectory>
-        <File Name="cmd/oopsc/Oops/ClassDesc.h"/>
-        <File Name="cmd/oopsc/Oops/Desc.h"/>
-        <File Name="cmd/oopsc/Oops/Hierarchy.h"/>
-        <File Name="cmd/oopsc/Oops/MemDesc.h"/>
-        <File Name="cmd/oopsc/Oops/SmiDesc.h"/>
-        <File Name="cmd/oopsc/Oops/VecDesc.h"/>
-        <File Name="cmd/oopsc/Oops/ObjVecDesc.h"/>
-        <File Name="cmd/oopsc/Oops/Desc.cxx"/>
-        <File Name="cmd/oopsc/Oops/Symbol.cxx"/>
-        <File Name="cmd/oopsc/Oops/SymbolDesc.h"/>
-        <File Name="cmd/oopsc/Oops/ContextDesc.h"/>
-        <File Name="cmd/oopsc/Oops/MethodDesc.h"/>
+        <File Name="cmd/VMkernel/Oops/ClassDesc.h"/>
+        <File Name="cmd/VMkernel/Oops/ContextDesc.h"/>
+        <File Name="cmd/VMkernel/Oops/Desc.cxx"/>
+        <File Name="cmd/VMkernel/Oops/Desc.h"/>
+        <File Name="cmd/VMkernel/Oops/Hierarchy.h"/>
+        <File Name="cmd/VMkernel/Oops/MemDesc.h"/>
+        <File Name="cmd/VMkernel/Oops/MethodDesc.h"/>
+        <File Name="cmd/VMkernel/Oops/ObjVecDesc.h"/>
+        <File Name="cmd/VMkernel/Oops/SmiDesc.h"/>
+        <File Name="cmd/VMkernel/Oops/Symbol.cxx"/>
+        <File Name="cmd/VMkernel/Oops/SymbolDesc.h"/>
+        <File Name="cmd/VMkernel/Oops/VecDesc.h"/>
       </VirtualDirectory>
-      <VirtualDirectory Name="ObjectMemory">
-        <File Name="cmd/oopsc/ObjectMemory/Oop.h"/>
-        <File Name="cmd/oopsc/ObjectMemory/ObjectMemory.h"/>
-        <File Name="cmd/oopsc/ObjectMemory/ObjectMemory.cxx"/>
-        <File Name="cmd/oopsc/ObjectMemory/ObjectFactory.h"/>
-        <File Name="cmd/oopsc/ObjectMemory/ObjectFactory.inl.h"/>
+      <VirtualDirectory Name="Bcom">
+        <File Name="cmd/VMkernel/Bcom/AST.cxx"/>
+        <File Name="cmd/VMkernel/Bcom/AST.h"/>
+        <File Name="cmd/VMkernel/Bcom/Defs.h"/>
+        <File Name="cmd/VMkernel/Bcom/Expressions.h"/>
+        <File Name="cmd/VMkernel/Bcom/gram.y"/>
+        <File Name="cmd/VMkernel/Bcom/MsgSyntax.cxx"/>
+        <File Name="cmd/VMkernel/Bcom/MsgSyntax.h"/>
+        <File Name="cmd/VMkernel/Bcom/scan.l"/>
+        <File Name="cmd/VMkernel/Bcom/State.cxx"/>
+        <File Name="cmd/VMkernel/Bcom/State.h"/>
+        <File Name="cmd/VMkernel/Bcom/Symbol.cxx"/>
       </VirtualDirectory>
       <VirtualDirectory Name="Bytecode">
-        <File Name="cmd/oopsc/Bytecode/Bytecode.h"/>
+        <File Name="cmd/VMkernel/Bytecode/Bytecode.h"/>
       </VirtualDirectory>
+      <VirtualDirectory Name="ObjectMemory">
+        <File Name="cmd/VMkernel/ObjectMemory/ObjectFactory.h"/>
+        <File Name="cmd/VMkernel/ObjectMemory/ObjectFactory.inl.h"/>
+        <File Name="cmd/VMkernel/ObjectMemory/ObjectMemory.cxx"/>
+        <File Name="cmd/VMkernel/ObjectMemory/ObjectMemory.h"/>
+        <File Name="cmd/VMkernel/ObjectMemory/Oop.h"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="VM">
+        <File Name="cmd/VMkernel/VM/VM.cxx"/>
+        <File Name="cmd/VMkernel/VM/VM.h"/>
+      </VirtualDirectory>
+      <File Name="cmd/VMkernel/CMakeLists.txt"/>
+      <File Name="cmd/VMkernel/VMkernel.cxx"/>
+      <File Name="cmd/VMkernel/VMkernel.h"/>
     </VirtualDirectory>
     <VirtualDirectory Name="flex">
       <File Name="cmd/flex/win_flex.exe"/>
@@ -125,6 +126,15 @@
   </Reconciliation>
   <Description/>
   <Dependencies/>
+  <VirtualDirectory Name="src">
+    <File Name="CMakeLists.txt"/>
+    <File Name="VM_F.project"/>
+  </VirtualDirectory>
+  <VirtualDirectory Name="tools">
+    <File Name="tools/FormatSrc.sh"/>
+    <File Name="tools/Nightly.sh"/>
+    <File Name="tools/.gitignore.tpl"/>
+  </VirtualDirectory>
   <Settings Type="Dynamic Library">
     <GlobalSettings>
       <Compiler Options="" C_Options="" Assembler="">
@@ -141,7 +151,7 @@
       </Compiler>
       <Linker Options="" Required="yes"/>
       <ResourceCompiler Options="" Required="no"/>
-      <General OutputFile="" IntermediateDirectory="$(WorkspacePath)/objs/CL" Command="$(WorkspacePath)/inst/CL/bin/oopsc.exe" CommandArguments="lib/OopsFoundation" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(WorkspacePath)/inst/CL" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <General OutputFile="" IntermediateDirectory="$(WorkspacePath)/objs/CL" Command="$(WorkspacePath)/inst/CL/bin/VMkernel.exe" CommandArguments="lib/OopsFoundation" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(WorkspacePath)/inst/CL" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
       <BuildSystem Name="Default"/>
       <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
         <![CDATA[]]>
@@ -177,11 +187,4 @@
       </Completion>
     </Configuration>
   </Settings>
-  <VirtualDirectory Name="src">
-    <File Name="CMakeLists.txt"/>
-  </VirtualDirectory>
-  <VirtualDirectory Name="tools">
-    <File Name="tools/FormatSrc.sh"/>
-    <File Name="tools/Nightly.sh"/>
-  </VirtualDirectory>
 </CodeLite_Project>

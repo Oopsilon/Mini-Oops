@@ -5,6 +5,7 @@
 #include "Bcom/MsgSyntax.h"
 #include "Bcom/AST.h"
 #include "Bcom/Defs.h"
+#include "Bcom/Expressions.h"
 }
 
 %token_prefix TK_
@@ -36,6 +37,10 @@
 
 %type meth_decl { AST::Method * }
 %type meth_is_class_specifier { bool }
+
+%type opt_statements { AST::Expr::List * }
+%type statements { AST::Expr::List * }
+%type statement { AST::Expr * }
 
 %type operand { AST::Expr * }
 %type expression { AST::Expr * }
@@ -105,13 +110,27 @@ meth_is_class_specifier(C) ::= MINUS. { C = false; }
 
 comp_stmt(C) ::= BR_OPEN opt_vardefs(v) opt_statements(e) BR_CLOSE.
 
-opt_statements(E) ::= statements(e). { E = e;}
-opt_statements(E) ::= .
+opt_statements(E) ::= statements(e). { E = e; }
+opt_statements(E) ::= . { E = new AST::Expr::List; }
 
-statements(E) ::= expression(e) DOT.
-statements(E) ::= statements(l) expression(e) DOT.
+statements(E) ::= statement(s). { E = new AST::Expr::List( { s } ); }
+statements(E) ::= statements(l) statement(s). {
+    E = l;
+    E->push_back(s);
+}
 
-expression ::= operand(v1) ASSIGN expression(v2).
+statement(S) ::= expression(e) DOT. { S = e; }
+statement(S) ::= SYSCALL sym_lit(s) END_SYSCALL DOT. {
+    S = new AST::SyscallStmt(*s);
+    delete s;
+}
+statement(S) ::= RETURN expression(e) DOT. {
+    S = new AST::ReturnStmt(e);
+}
+
+expression(E) ::= operand(l) ASSIGN expression(r). {
+    E = new AST::AssignExpr(l, r);
+}
 expression ::= msg_expr.
 
 operand    ::= literal_expr.
@@ -257,6 +276,12 @@ literal_expr(E) ::= str_lit(s). { /*E = new AST::LiteralExpr(*s);*/ }
  * { :hello :world | statements }
  * { | local. vars. | statements }
  * { statements }
+ * Note that a <- return symbol in a block represents a non-local return: it
+ * returns back to the method context from which was called the method context
+ * within which the block was defined. opt_expression represents an expression,
+ * the last within the block, which will be returned as the value of the block
+ * rather than the block itself (which is a block's default return value) if
+ * it is found - i.e. that final expression must NOT be followed with a dot.
  */
 block_expr(B) ::= BR_OPEN block_formal_list(f) block_vardefs statements BR_CLOSE.
 block_expr(B) ::= BR_OPEN block_formal_list(f) statements BR_CLOSE.
