@@ -1,1 +1,2 @@
+@include(Runtime/Hierarchy.oop)
 @include(Runtime/Object.oop)

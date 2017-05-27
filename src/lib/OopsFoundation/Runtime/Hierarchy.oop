@@ -1,0 +1,19 @@
+class Object : noSuper
+|
+|
+    _klass_CXX.
+    name.
+    superClass.
+    nstVarVec.
+    methods.
+|
+end
+
+class Boolean : Object
+end
+
+class True : Boolean
+end
+
+class False : Boolean
+end

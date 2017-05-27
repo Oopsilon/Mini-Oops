@@ -1,6 +1,7 @@
 %{
 #include "Bcom/State.h"
 #include "Bcom/AST.h"
+#include "VMkernel.h"
 #include "gram.tab.h"
 %}
 
@@ -74,8 +75,8 @@ SYML {ST}({SYM}{ST}|{ST}?)+
     yyextra->setResult(new AST::Symbol(yyextra));
 }
 <INCLUDE>")" {
+    yyextra->oc.parse(AsLit(RVAL));
     BEGIN(INITIAL);
-    return TK_INCLUDE;
 }
 <INCLUDE>.|\n AsLit(RVAL) += yytext;
 

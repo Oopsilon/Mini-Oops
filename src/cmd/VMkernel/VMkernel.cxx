@@ -84,14 +84,13 @@ void Oopsc::parse (std::string filename, bool isImported)
     /* Perform the lexing. */
     while ((pState ().token = yylex (scanner)))
     {
-        if (pState ().token == TK_INCLUDE)
-            parse (pState ().lexResult->c_str ());
-        else
-            Parse (parser, pState ().token, pState ().lexResult, &pState ());
+        Parse (parser, pState ().token, pState ().lexResult, &pState ());
     }
 
     /* Submit an EOF to trigger reduction of the file. */
     Parse (parser, TK_EOF, 0, &pState ());
+
+    pStateStack.pop ();
 
     /* Free the parser. */
     ParseFree (parser, free);
