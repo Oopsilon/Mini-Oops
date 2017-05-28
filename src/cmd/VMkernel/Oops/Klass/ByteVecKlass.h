@@ -22,4 +22,5 @@ class ByteVecKlass : public VecKlass<char>
 {
   public:
     void init_binary_object (byteVecOop obj, std::vector<char> bytes);
+    byteVecOop allocateByteVec (std::vector<char> bytes);
 };

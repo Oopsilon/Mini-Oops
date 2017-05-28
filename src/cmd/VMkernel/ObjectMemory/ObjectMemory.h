@@ -70,7 +70,10 @@ class ObjectMemory
     classOop contextClass () { return _contextClass; }
     classOop methodClass () { return _methodClass; }
     classOop objVecClass () { return _objVecClass; }
+    classOop byteVecClass () { return _byteVecClass; }
     classOop symbolClass () { return _symbolClass; }
+
+    classOop findClass (const std::string name) { return classes[name]; }
 
     /* Creation. */
     /* Bootstrap-level method. Find a classpair; if it hasn't been found, create

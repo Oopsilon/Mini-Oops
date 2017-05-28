@@ -12,10 +12,21 @@
  *      End Copyright Notice
  */
 
-#include "ByteVecKlass.h"
+#include "VM/VM.h"
+
 #include "../VecDesc.h"
+#include "ByteVecKlass.h"
 
 void ByteVecKlass::init_binary_object (byteVecOop obj, std::vector<char> bytes)
 {
     obj->set_contents (bytes);
+}
+
+byteVecOop ByteVecKlass::allocateByteVec (std::vector<char> bytes)
+{
+    byteVecOop r = vm.mem.lowLevelAlloc<byteVecOop> (sizeof (ByteVecDesc));
+    r->basic_init ();
+    r->set_isa (vm.mem.byteVecClass ());
+    init_binary_object (r, bytes);
+    return r;
 }

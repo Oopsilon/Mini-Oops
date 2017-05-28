@@ -15,6 +15,7 @@
 #pragma once
 
 #include "MemDesc.h"
+#include "SymbolDesc.h"
 
 class MethodDesc : public MemDesc
 {
@@ -36,10 +37,10 @@ class MethodDesc : public MemDesc
             /* <smiOop>: Temporaries count. */
             "tempCount",
 
-            /* <std::vector<oop> *>: Literal objects. */
+            /* <objVecOop>: Literal objects. */
             "literalVec",
 
-            /* <std::vector<char> *>: Bytecode. */
+            /* <byteVecOop>: Bytecode. */
             "bytecode",
         };
 
@@ -48,29 +49,8 @@ class MethodDesc : public MemDesc
         return varnamesVec;
     }
 
-    symbolOop selector () { return nstVar_at<symbolOop> (ESelector); }
-    void set_selector (symbolOop val) { return nstVar_at_put (ESelector, val); }
-
-    smiOop tempCount () { return nstVar_at<smiOop> (ETempCount); }
-    void set_tempCount (smiOop val) { return nstVar_at_put (ETempCount, val); }
-
-    std::vector<oop> * literalVec ()
+    bool is_named (std::string name)
     {
-        return nstVar_at<std::vector<oop> *> (ELiteralVec);
+        return **nstVar_at<symbolOop> (ESelector) == name;
     }
-    void set_literalVec (std::vector<oop> * val)
-    {
-        return nstVar_at_put (ELiteralVec, val);
-    }
-
-    std::vector<char> * bytecode ()
-    {
-        return nstVar_at<std::vector<char> *> (EBytecode);
-    }
-    void set_bytecode (std::vector<char> * val)
-    {
-        return nstVar_at_put (EBytecode, val);
-    }
-
-    bool is_named (std::string name) { /*return *selector == name;*/}
 };

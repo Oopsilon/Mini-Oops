@@ -23,6 +23,8 @@ namespace AST
 struct Expr
 {
     typedef std::list<Expr *> List;
+
+    virtual void compileInMethodWithEncoder (Method & aMeth);
 };
 
 struct IdentExpr : public Expr

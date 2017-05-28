@@ -91,6 +91,7 @@
       </VirtualDirectory>
       <VirtualDirectory Name="Bytecode">
         <File Name="cmd/VMkernel/Bytecode/Bytecode.h"/>
+        <File Name="cmd/VMkernel/Bytecode/Syscall.h"/>
       </VirtualDirectory>
       <VirtualDirectory Name="ObjectMemory">
         <File Name="cmd/VMkernel/ObjectMemory/ObjectFactory.h"/>

@@ -16,7 +16,24 @@
 #pragma once
 
 #include "Bytecode/Bytecode.h"
+#include "Bytecode/Syscall.h"
+#include "Oops/VecDesc.h"
 
 class Encoder
 {
+    std::vector<char> & code;
+
+  public:
+    Encoder (std::vector<char> & someCode) : code (someCode) {}
+
+    void emitSyscall (std::string opName)
+    {
+        emitSyscall (Syscall::op (opName));
+    }
+
+    void emitSyscall (uint8_t op)
+    {
+        code.push_back (Bytecode::ESysCall0);
+        code.push_back (op);
+    }
 };

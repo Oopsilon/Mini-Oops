@@ -6,6 +6,9 @@
 
 #include "AST.h"
 #include "Defs.h"
+#include "Encoder.h"
+
+#include "Bytecode/Syscall.h"
 
 #include "VM/VM.h"
 
@@ -19,9 +22,23 @@ void AST::Class::compile ()
 
 void AST::Method::compile ()
 {
+    std::vector<char> bytecode;
+    classOop cls;
+
     vm.notice ("Compiling method " BLDTEXT ("%c %s>>%s") "\n",
                (isClass ? '+' : '-'), className.c_str (),
                selector.selName ().c_str ());
+
+    cls = vm.mem.findClass (className);
+    if (!cls)
+        fatalError ("Could not find class " BLDTEXT ("%s") ".\n",
+                    className.c_str ());
+
+    if (isClass)
+        cls = cls->isa ();
+    if (!cls)
+        fatalError ("Could not find class " BLDTEXT ("%s Metaclass") ".\n",
+                    className.c_str ());
 }
 
 std::string AST::SelectorDecl::selName ()

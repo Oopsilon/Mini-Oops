@@ -56,7 +56,10 @@ struct Bytecode
 
         /* Returns. */
         EReturn,
+
+        /* System call (0 arguments.) | SyscallIndex | */
+        ESysCall0,
     };
 
-    uint8_t op;
+    typedef uint8_t type;
 };
