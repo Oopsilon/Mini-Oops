@@ -75,6 +75,9 @@ void ObjectMemory::setup_kernel_classes ()
     /* These are the essential Class objects for higher-level initialisation
      * functions to work. */
     _smiClass     = lowLevelAllocClass<SmiKlass> ();
+    _booleanClass = lowLevelAllocClass<MemKlass> ();
+    _trueClass    = lowLevelAllocClass<MemKlass> ();
+    _falseClass   = lowLevelAllocClass<MemKlass> ();
     _objVecClass  = lowLevelAllocClass<ObjVecKlass<oop> > ();
     _byteVecClass = lowLevelAllocClass<ByteVecKlass> ();
     _symbolClass  = lowLevelAllocClass<SymbolKlass> ();
@@ -102,6 +105,9 @@ void ObjectMemory::setup_kernel_classes ()
      * immediately have their method and nstVar vectors allocated. */
     _objectClass->init ();
     _smiClass->init ();
+    _booleanClass->init ();
+    _trueClass->init ();
+    _falseClass->init ();
     _objVecClass->init ();
     _byteVecClass->init ();
     _symbolClass->init ();
@@ -122,6 +128,9 @@ void ObjectMemory::preboot ()
 
     classes["Object"]       = _objectClass;
     classes["SMI"]          = _smiClass;
+    classes["Boolean"]      = _booleanClass;
+    classes["True"]         = _trueClass;
+    classes["False"]        = _falseClass;
     classes["Method"]       = _methodClass;
     classes["Context"]      = _contextClass;
     classes["ObjectVector"] = _objVecClass;
@@ -156,6 +165,8 @@ ObjectMemory::findOrCreateClass (const std::string name,
 
     if (!candidateMeta)
     {
+        notice ("Metaclass for " BLDTEXT ("%s") " not found, creating...\n",
+                name.c_str ());
         candidateMeta = lowLevelAllocClass<ClassKlass> ();
         candidateMeta->initMethods ();
     }
@@ -165,6 +176,8 @@ ObjectMemory::findOrCreateClass (const std::string name,
         /* Actually, what we really want to do is ask the superclass to
          * create a subclass here. But we will implement this behaviour later.
          */
+        notice ("Class for " KBLD "%s" KNRM " not found, creating...\n",
+                name.c_str ());
         candidate = lowLevelAllocClass<MemKlass> ();
         candidate->initMethods ();
     }
@@ -181,6 +194,8 @@ ObjectMemory::findOrCreateClass (const std::string name,
     candidate->set_superClass (super);
     candidate->nstVar_at_replace (ClassDesc::ENstVars,
                                   factory.newSymVec (nstVars));
+
+    classes[name] = candidate;
 
     return candidate;
 }

@@ -65,7 +65,7 @@ void Oopsc::parse (std::string filename, bool isImported)
         fatalError ("Could not open Package.oop in directory %s\n",
                     rootDir.c_str ());
 
-    oopsMsg ("Compiling %s...\n", filename.c_str ());
+    oopsMsg ("Analysing file %s...\n", filename.c_str ());
 
     std::fseek (f, 0, SEEK_END);
     toParse.resize (std::ftell (f));

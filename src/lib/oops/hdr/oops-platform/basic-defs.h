@@ -15,6 +15,8 @@
 #define KCYN "\x1B[36m"
 #define KWHT "\x1B[37m"
 
+#define BLDTEXT(x) KBLD x KNRM
+
 #define OOPS_BANNER "Copyright (c) 2017 D. Mackay. All rights reserved.\n"
 
 extern "C" void dbg2 (const char * funcName, const char * fmt, ...);

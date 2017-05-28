@@ -95,13 +95,13 @@ struct Class : public Directive
     Symbol name, superName;
     Symbol::List nstVars, clsVars;
 
-    void compile ();
-
     Class (Symbol aName, Symbol aSuper, Symbol::List someNstVars,
            Symbol::List someClsVars)
         : name (aName), superName (aSuper), nstVars (someNstVars),
           clsVars (someClsVars)
     {
     }
+
+    void compile ();
 };
 }

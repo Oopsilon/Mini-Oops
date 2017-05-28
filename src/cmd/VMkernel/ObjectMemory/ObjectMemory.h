@@ -34,6 +34,9 @@ class ObjectMemory
     classOop _objectMetaClass;
     classOop _objectClass;
     classOop _smiClass;
+    classOop _booleanClass;
+    classOop _trueClass;
+    classOop _falseClass;
     classOop _contextClass;
     classOop _methodClass;
     classOop _objVecClass;

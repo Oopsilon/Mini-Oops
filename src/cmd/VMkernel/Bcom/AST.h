@@ -27,6 +27,15 @@ struct AST
 struct Symbol : public AST, public string
 {
     typedef std::list<Symbol> List;
+
+    static std::vector<std::string> listAsStringVec (List aList)
+    {
+        std::vector<std::string> r;
+        for (auto & sym : aList)
+            r.push_back (sym);
+        return r;
+    }
+
     enum
     {
         ESymLiteral,
