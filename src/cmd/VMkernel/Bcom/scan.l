@@ -68,7 +68,7 @@ SYML {ST}({SYM}{ST}|{ST}?)+
 ")"         return TK_BRACKET_CLOSE;
 "+"         return TK_PLUS;
 "-"         return TK_MINUS;
-"<-"        return TK_RETURN;
+"^"         return TK_RETURN;
 "{"         return TK_BR_OPEN;
 "}"         return TK_BR_CLOSE;
 

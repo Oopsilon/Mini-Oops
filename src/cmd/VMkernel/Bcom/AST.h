@@ -22,12 +22,11 @@ struct Literal;
 
 struct AST
 {
-    typedef std::list<AST *> List;
 };
 
 struct Symbol : public AST, public string
 {
-    typedef std::vector<Symbol> Vector;
+    typedef std::list<Symbol> List;
     enum
     {
         ESymLiteral,

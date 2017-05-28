@@ -15,6 +15,7 @@
 #pragma once
 
 #include "AST.h"
+#include "Defs.h"
 
 namespace AST
 {
@@ -24,28 +25,43 @@ struct Expr
     typedef std::list<Expr *> List;
 };
 
-struct IdentExpr : Expr
+struct IdentExpr : public Expr
 {
     Symbol name;
 
     IdentExpr (Symbol aName) : name (aName) {}
+
+  private:
+    enum
+    {
+        ENstVar,
+        ETemp,
+        EClassName,
+    } Type;
 };
 
-struct AssignExpr : Expr
+struct LiteralExpr : public Expr
+{
+    Symbol value;
+
+    LiteralExpr (Symbol aVal) : value (aVal) {}
+};
+
+struct AssignExpr : public Expr
 {
     Expr *lhs, *rhs;
 
     AssignExpr (Expr * anLhs, Expr * anRhs) : lhs (anLhs), rhs (anRhs) {}
 };
 
-struct SyscallStmt : Expr
+struct SyscallStmt : public Expr
 {
     Symbol syscall;
 
     SyscallStmt (Symbol aSyscall) : syscall (aSyscall) {}
 };
 
-struct ReturnStmt : Expr
+struct ReturnStmt : public Expr
 {
     Expr * returnVal;
 
@@ -114,6 +130,18 @@ struct MsgExpr : public Expr
     }
     MsgExpr (Expr * aRcvr, KeywMsg * msg)
         : rcvr (aRcvr), msgType (EKeyw), keyw (msg)
+    {
+    }
+};
+
+struct Block : public Expr
+{
+    Symbol::List formals;
+    Symbol::List temps;
+    Code code;
+
+    Block (Symbol::List someFormals, Symbol::List someTemps, Code aCode)
+        : formals (someFormals), temps (someTemps), code (aCode)
     {
     }
 };

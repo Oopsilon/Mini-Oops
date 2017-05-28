@@ -22,10 +22,13 @@
 
 %type class { AST::Class * }
 
-%type opt_vardefs { AST::Symbol::Vector * }
-%type vardefs  { AST::Symbol::Vector * }
-%type opt_vdecl_list  { AST::Symbol::Vector * }
-%type vdecl_list  { AST::Symbol::Vector * }
+%type block_formal_list { AST::Symbol::List * }
+%type block_vardefs { AST::Symbol::List *}
+
+%type opt_vardefs { AST::Symbol::List * }
+%type vardefs  { AST::Symbol::List * }
+%type opt_vdecl_list  { AST::Symbol::List * }
+%type vdecl_list  { AST::Symbol::List * }
 %type vdecl { AST::Symbol  * }
 
 %type directive { AST::Directive * }
@@ -38,6 +41,8 @@
 %type meth_decl { AST::Method * }
 %type meth_is_class_specifier { bool }
 
+%type code { AST::Code * }
+
 %type opt_statements { AST::Expr::List * }
 %type statements { AST::Expr::List * }
 %type statement { AST::Expr * }
@@ -46,6 +51,7 @@
 %type expression { AST::Expr * }
 %type ident_expr { AST::IdentExpr * } 
 %type literal_expr { AST::Expr * }
+%type block_expr { AST::Block * }
 
 %type binary_msg_operand { AST::Expr * }
 %type keyw_msg_argument { AST::Expr * }
@@ -78,37 +84,46 @@ listings ::= listings directive(D).  { pState->addDirective(D); }
 directive ::= class.
 directive ::= meth_decl.
 
-class(i) ::= CLASS sym_lit(N) COLON sym_lit (S) END. {
-    i = new AST::Class(*N, *S,  {}, {});
-    delete N;
-    delete S;
-}
-class(i) ::= CLASS sym_lit(N) COLON sym_lit (S) vardefs(IV) opt_vdecl_list(CV)
-             BAR END.{
-    i = new AST::Class(*N, *S,  *IV, *CV);
+class(i)
+    ::= CLASS sym_lit(N) COLON sym_lit (S) END.
+    {
+        i = new AST::Class(*N, *S,  {}, {});
         delete N;
-    delete S;
-    delete IV;
-    delete CV;
-}
-class(i) ::= CLASS sym_lit(N) COLON sym_lit (S) vardefs(IV) END. {
-    i = new AST::Class(*N, *S,  *IV, {});
-    delete N;
-    delete S;
-    delete IV;
-} 
+        delete S;
+    }
+class(i)
+    ::= CLASS sym_lit(N) COLON sym_lit (S) vardefs(IV) opt_vdecl_list(CV)
+        BAR END.
+    {
+        i = new AST::Class(*N, *S,  *IV, *CV);
+        delete N;
+        delete S;
+        delete IV;
+        delete CV;
+    }
+class(i)
+    ::= CLASS sym_lit(N) COLON sym_lit (S) vardefs(IV) END.
+    {
+        i = new AST::Class(*N, *S,  *IV, {});
+        delete N;
+        delete S;
+        delete IV;
+    } 
 
-meth_decl(M) ::= meth_is_class_specifier(c) sym_lit(o) sel_decl(s)
-    comp_stmt(code). {
-    M = new AST::Method(c, *o, *s);
-    delete o;
-    delete s;
-}
+meth_decl(M)
+    ::= meth_is_class_specifier(c) sym_lit(o) sel_decl(s)
+        BR_OPEN opt_vardefs(v) code(code) BR_CLOSE.
+    {
+        M = new AST::Method(c, *o, *s, *v, *code);
+        delete o, s, v, code;
+    }
 
 meth_is_class_specifier(C) ::= PLUS. { C = true; }
 meth_is_class_specifier(C) ::= MINUS. { C = false; }
 
-comp_stmt(C) ::= BR_OPEN opt_vardefs(v) opt_statements(e) BR_CLOSE.
+code(C) ::= expression(e). { C = new AST::Code({}, e); }
+code(C) ::= opt_statements(s). { C = new AST::Code(*s); delete s; }
+code(C) ::= statements(s) expression(e). { C = new AST::Code(*s, e); delete s; }
 
 opt_statements(E) ::= statements(e). { E = e; }
 opt_statements(E) ::= . { E = new AST::Expr::List; }
@@ -138,7 +153,7 @@ operand    ::= ident_expr.
 operand    ::= block_expr.
 operand(E) ::= BRACKET_OPEN expression(e) BRACKET_CLOSE. { E = e; }
 
-unary_msg(U) ::= sym_lit(s).
+unary_msg ::= sym_lit.
 
 unary_msg_chain(L) ::= unary_msg(u). { L = new MsgChainEntry::List({ u }); }
 unary_msg_chain(L) ::= unary_msg_chain(l) unary_msg(u). {
@@ -193,37 +208,30 @@ opt_keyw_msg    ::= keyw_msg .
  * (((R U) UC[1]) UC[n]) could be sent stuff from bc, but fuck that for now -
  * this is already a pain to unpack.
  * Finally we get ((((R U) UC[1])UC[n]) kw). */
-msg_chain(M) ::= unary_msg(u) opt_unary_msg_chain(uc) opt_binary_msg_chain(bc)
-              opt_keyw_msg(kw). {
-    M = new MsgChainEntry::List({u});
-    if (uc) M->insert(M->end(), uc->begin(), uc->end());
-    if (bc) M->insert(M->end(), bc->begin(), bc->end());
-    if (kw) M->push_back(kw);
-}
-msg_chain(M) ::= binary_msg(b) opt_binary_msg_chain(bc) opt_keyw_msg(kw). {
-    M = new MsgChainEntry::List({b});
-    if (bc) M->insert(M->end(), bc->begin(), bc->end());
-    if (kw) M->push_back(kw);
-}
+msg_chain(M)
+    ::= unary_msg(u) opt_unary_msg_chain(uc) opt_binary_msg_chain(bc)
+        opt_keyw_msg(kw).
+    {
+        M = new MsgChainEntry::List({u});
+        if (uc) M->insert(M->end(), uc->begin(), uc->end());
+        if (bc) M->insert(M->end(), bc->begin(), bc->end());
+        if (kw) M->push_back(kw);
+    }
+msg_chain(M)
+    ::= binary_msg(b) opt_binary_msg_chain(bc) opt_keyw_msg(kw).
+    {
+        M = new MsgChainEntry::List({b});
+        if (bc) M->insert(M->end(), bc->begin(), bc->end());
+        if (kw) M->push_back(kw);
+    }
 msg_chain(M) ::= keyw_msg(k). { M = new MsgChainEntry::List({k}); }
 
-msg_expr(M) ::= operand(r) msg_chain(k). [MsgPrec] {
-    M = unpackMsgChain(r, k); 
-}
+msg_expr(M)
+    ::= operand(r) msg_chain(k). [MsgPrec] { M = unpackMsgChain(r, k); }
 
-
-sel_decl(S) ::= sym_lit(s). {
-    S = new AST::SelectorDecl(*s);
-    delete s;
-}
-sel_decl(S) ::= binary_decl(b). {
-    S = new AST::SelectorDecl(*b);
-    delete b;
-}
-sel_decl(S) ::= keyw_decl_list(k). {
-    S = new AST::SelectorDecl(*k);
-    delete k;
-}
+sel_decl(S) ::= sym_lit(s). { S = new AST::SelectorDecl(*s); delete s; }
+sel_decl(S) ::= binary_decl(b). { S = new AST::SelectorDecl(*b); delete b; }
+sel_decl(S) ::= keyw_decl_list(k). { S = new AST::SelectorDecl(*k); delete k; }
 
 keyw_decl_list(L) ::= keyw_decl(k). {
     L = new std::vector<AST::SelectorDecl::KeywDecl>({*k});
@@ -247,23 +255,27 @@ binary_decl(B) ::= BINOP(b) sym_lit(s). {
     delete s;
 }
 
-opt_vardefs(L)		::=	vardefs(V).
-opt_vardefs(L)		::= . { L = new AST::Symbol::Vector; }
+opt_vardefs     ::=	vardefs.
+opt_vardefs(L)  ::= . { L = new AST::Symbol::List; }
 
-vardefs(L)			::= BAR opt_vdecl_list(V) BAR. { L = V; }
+vardefs(L) ::= BAR opt_vdecl_list(V) BAR. { L = V; }
 
-opt_vdecl_list		::= vdecl_list.
-opt_vdecl_list(L)	::= . { L = new AST::Symbol::Vector; }
+opt_vdecl_list      ::= vdecl_list.
+opt_vdecl_list(L)   ::= . { L = new AST::Symbol::List; }
 
-vdecl_list(L) ::= vdecl(v) DOT. {
-    L = new AST::Symbol::Vector({*v});
-    delete v; 
-}
-vdecl_list(L) ::= vdecl_list(l) vdecl(v) DOT. {
-    L = l;
-    L->push_back(*v);
-    delete v;
-}
+vdecl_list(L)
+    ::= vdecl(v) DOT.
+    {
+        L = new AST::Symbol::List({*v});
+        delete v; 
+    }
+vdecl_list(L)
+    ::= vdecl_list(l) vdecl(v) DOT.
+    {
+        L = l;
+        L->push_back(*v);
+        delete v;
+    }
 
 /* Variable declaration part (someType someVar) */
 vdecl ::= sym_lit.
@@ -276,24 +288,49 @@ literal_expr(E) ::= str_lit(s). { /*E = new AST::LiteralExpr(*s);*/ }
  * { :hello :world | statements }
  * { | local. vars. | statements }
  * { statements }
- * Note that a <- return symbol in a block represents a non-local return: it
+ * Note that a ^ return symbol in a block represents a non-local return: it
  * returns back to the method context from which was called the method context
  * within which the block was defined. opt_expression represents an expression,
  * the last within the block, which will be returned as the value of the block
  * rather than the block itself (which is a block's default return value) if
  * it is found - i.e. that final expression must NOT be followed with a dot.
  */
-block_expr(B) ::= BR_OPEN block_formal_list(f) block_vardefs statements BR_CLOSE.
-block_expr(B) ::= BR_OPEN block_formal_list(f) statements BR_CLOSE.
-block_expr(B) ::= BR_OPEN vardefs(f) statements BR_CLOSE.
-block_expr(B) ::= BR_OPEN statements BR_CLOSE.
+block_expr(B)
+    ::= BR_OPEN block_formal_list(f) block_vardefs(v) code(c) BR_CLOSE.
+    {
+        B = new AST::Block(*f, *v, *c);
+        delete f, v, c;
+    }
+block_expr(B)
+    ::= BR_OPEN block_formal_list(f) code(c) BR_CLOSE.
+    {
+        B = new AST::Block(*f, {}, *c);
+        delete f, c;
+    }
+block_expr(B) ::= BR_OPEN vardefs(v) code(c) BR_CLOSE.
+    {
+        B = new AST::Block({}, *v, *c);
+        delete v, c;
+    }
+block_expr(B) ::= BR_OPEN code(c) BR_CLOSE.
+    {
+        B = new AST::Block({}, {}, *c);
+        delete c;
+    }
 
 block_vardefs ::= opt_vdecl_list BAR.
 
-block_formal_list(L) ::= block_formal(f).
-block_formal_list(L) ::= block_formal_list(l) block_formal(f).
+block_formal_list(L)
+    ::= block_formal(f). { L = new AST::Symbol::List({*f}); delete f; }
+block_formal_list(L)
+    ::= block_formal_list(l) block_formal(f).
+    {
+        L = l;
+        l->push_back(*f);
+        delete f;
+    }
 
-block_formal(F) ::= COLON sym_lit(s).
+block_formal(F) ::= COLON sym_lit(s). { F = s; }
 
 binary_selector ::= BINARYSEL.
 binary_selector ::= arith_selector.

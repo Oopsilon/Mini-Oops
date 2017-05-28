@@ -12,10 +12,25 @@
  *      End Copyright Notice
  */
 
+#pragma once
+
 #include "AST.h"
 
 namespace AST
 {
+
+struct Expr;
+
+struct Code
+{
+    std::list<Expr *> exprs;
+    Expr * lastExpr;
+
+    Code (std::list<Expr *> someExprs, Expr * theLast = NULL)
+        : exprs (someExprs), lastExpr (theLast)
+    {
+    }
+};
 
 struct SelectorDecl
 {
@@ -57,29 +72,33 @@ struct SelectorDecl
     std::string selName ();
 };
 
-struct Method : Directive
+struct Method : public Directive
 {
     bool isClass;
     Symbol className;
     SelectorDecl selector;
+    Symbol::List temps;
+    Code code;
 
-    Method (bool aBool, Symbol aName, SelectorDecl aSel)
-        : isClass (aBool), className (aName), selector (aSel)
+    Method (bool aBool, Symbol aName, SelectorDecl aSel, Symbol::List someTemps,
+            Code aCode)
+        : isClass (aBool), className (aName), selector (aSel),
+          temps (someTemps), code (aCode)
     {
     }
 
     void compile ();
 };
 
-struct Class : Directive
+struct Class : public Directive
 {
     Symbol name, superName;
-    Symbol::Vector nstVars, clsVars;
+    Symbol::List nstVars, clsVars;
 
     void compile ();
 
-    Class (Symbol aName, Symbol aSuper, Symbol::Vector someNstVars,
-           Symbol::Vector someClsVars)
+    Class (Symbol aName, Symbol aSuper, Symbol::List someNstVars,
+           Symbol::List someClsVars)
         : name (aName), superName (aSuper), nstVars (someNstVars),
           clsVars (someClsVars)
     {
