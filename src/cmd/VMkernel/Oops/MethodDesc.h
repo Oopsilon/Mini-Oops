@@ -22,6 +22,7 @@ class MethodDesc : public MemDesc
     enum
     {
         ESelector = 1,
+        EEnclosingContext,
         ETempCount,
         ELiteralVec,
         EBytecode,
@@ -31,8 +32,11 @@ class MethodDesc : public MemDesc
     static std::vector<std::string> & nstVarNames ()
     {
         const char * varnames[] = {
-            /* <symbolOop>: Selector */
+            /* <symbolOop>: Selector. Nil for blocks. */
             "selector",
+
+            /* <contextOop>: Enclosing context. Nil if this is not a block. */
+            "enclosingContext",
 
             /* <smiOop>: Temporaries count. */
             "tempCount",

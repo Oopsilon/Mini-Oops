@@ -62,6 +62,9 @@ struct Bytecode
         /* Returns self. */
         EReturnSelf,
 
+        /* Non-local returns. */
+        ENonLocalReturn,
+
         /* System call (0 arguments.) | SyscallIndex | */
         ESysCall0,
     };

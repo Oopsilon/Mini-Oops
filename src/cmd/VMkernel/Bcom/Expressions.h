@@ -26,7 +26,8 @@ struct Expr
 {
     typedef std::list<Expr *> List;
 
-    virtual void compileInMethodWithEncoder (Method & aMeth, Encoder & enc);
+    virtual void compileInCodeContextWithEncoder (CodeContext & aCCtx,
+                                                  Encoder & enc);
 };
 
 struct IdentExpr : public Expr
@@ -64,7 +65,7 @@ struct SyscallStmt : public Expr
 
     SyscallStmt (Symbol aSyscall) : name (aSyscall) {}
 
-    void compileInMethodWithEncoder (Method & meth, Encoder & enc);
+    void compileInCodeContextWithEncoder (CodeContext & aCCtx, Encoder & enc);
 };
 
 struct ReturnStmt : public Expr

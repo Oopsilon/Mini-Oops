@@ -17,6 +17,7 @@
 #include "AST.h"
 
 #include "Oops/Hierarchy.h"
+#include "Oops/SymbolDesc.h"
 
 class Encoder;
 
@@ -25,6 +26,7 @@ namespace AST
 
 struct Expr;
 struct Method;
+struct CodeContext;
 
 struct Code
 {
@@ -36,7 +38,7 @@ struct Code
     {
     }
 
-    void compileInMethodWithEncoder (Method & meth, Encoder & enc);
+    void compileInCodeContextWithEncoder (CodeContext & aCCtx, Encoder & enc);
 };
 
 struct SelectorDecl
@@ -79,18 +81,46 @@ struct SelectorDecl
     std::string selName ();
 };
 
+struct CodeContext
+{
+    bool isBlockContext;
+
+    Symbol::List temps;
+    Code code;
+
+    CodeContext * enclosingContext;
+    Method * method;
+
+    struct
+    {
+        std::vector<oop> literals;
+        std::vector<char> bytecode;
+    } comp;
+
+    CodeContext (Symbol::List someTemps, Code someCode, Method * someMeth)
+        : temps (someTemps), code (someCode), isBlockContext (false),
+          enclosingContext (0), method (someMeth)
+    {
+    }
+};
+
 struct Method : public Directive
 {
     bool isClass;
     Symbol className;
     SelectorDecl selector;
-    Symbol::List temps;
-    Code code;
+    CodeContext cCtx;
+
+    /* Stuff associated with compilation. */
+    struct
+    {
+        classOop cls;
+    } comp;
 
     Method (bool aBool, Symbol aName, SelectorDecl aSel, Symbol::List someTemps,
             Code aCode)
         : isClass (aBool), className (aName), selector (aSel),
-          temps (someTemps), code (aCode)
+          cCtx (someTemps, aCode, this)
     {
     }
 

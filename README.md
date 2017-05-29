@@ -32,6 +32,8 @@ Blocks is essentially form of lambda function; blocks are used extensively.)
 Several documents related to the design of Oopsilon are available:
  * [The Oopsilon Object Model](Doc/Objects.md): describes the object model
    used in Oopsilon.
+ * [Oopsilon Implementation Diaries](Doc/Implementation%20Diaries/Diaries.md):
+   some reports on how Oopsilon is being implemented.
 
 #### Philosophy
 

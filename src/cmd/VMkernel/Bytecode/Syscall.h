@@ -22,13 +22,29 @@
 enum SyscallOp
 {
     EIsa,
-    EEmpty,
+
+    /* Puts a character onto the console. */
+    EConsPutChar,
+
+    /* I/O functionality */
+    EIOFileOpen,
+    EIOFileClose,
+
+    EIOFileStatIntoArray,
+    EIOFileReadIntoByteArray,
+    EIOFileWriteFromByteArray,
+    EIOFileSeek,
+
+    /* Locks the Scheduler spinlock. */
+    ELockScheduler,
+    /* Unlocks the Scheduler spinlock. */
+    EUnlockScheduler,
+
     ECount,
 };
 
-static const char * syscallNames[ECount] = {
-    "Isa", NULL,
-};
+static const char * syscallNames[ECount] = {"Isa", "LockScheduler",
+                                            "UnlockScheduler"};
 
 struct Syscall
 {

@@ -24,26 +24,24 @@ void AST::Class::compile ()
 
 void AST::Method::compile ()
 {
-    std::vector<char> bytecode;
-    ::classOop cls;
-    ::Encoder enc (bytecode);
+    Encoder enc (cCtx.comp.bytecode);
 
     bcom.notice ("Compiling method " BLDTEXT ("%c %s>>%s") "\n",
                  (isClass ? '+' : '-'), className.c_str (),
                  selector.selName ().c_str ());
 
-    cls = vm.mem.findClass (className);
-    if (!cls)
+    comp.cls = vm.mem.findClass (className);
+    if (!comp.cls)
         fatalError ("Could not find class " BLDTEXT ("%s") ".\n",
                     className.c_str ());
 
     if (isClass)
-        cls = cls->isa ();
-    if (!cls)
+        comp.cls = comp.cls->isa ();
+    if (!comp.cls)
         fatalError ("Could not find class " BLDTEXT ("%s Metaclass") ".\n",
                     className.c_str ());
 
-    code.compileInMethodWithEncoder (*this, enc);
+    cCtx.code.compileInCodeContextWithEncoder (cCtx, enc);
 }
 
 std::string AST::SelectorDecl::selName ()

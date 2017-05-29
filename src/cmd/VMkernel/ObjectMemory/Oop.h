@@ -38,7 +38,7 @@ template <class T> struct Oop
     T * memOopValue;
 
     Oop () { memOopValue = NULL; }
-    Oop (Smi aNumber) { memOopValue = 1; }
+    Oop (Smi aNumber) { memOopValue = 1 & (aNumber << 1); }
     Oop (T * anObj) { memOopValue = (anObj); }
     Oop (const T * anObj) { memOopValue = ((T *)anObj); }
 
