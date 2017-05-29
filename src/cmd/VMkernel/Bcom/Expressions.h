@@ -14,6 +14,8 @@
 
 #pragma once
 
+#include "oops-platform/cxx.h"
+
 #include "AST.h"
 #include "Defs.h"
 
@@ -24,7 +26,11 @@ struct Expr
 {
     typedef std::list<Expr *> List;
 
-    virtual void compileInMethodWithEncoder (Method & aMeth);
+    virtual void compileInMethodWithEncoder (Method & aMeth, Encoder & enc)
+    {
+        printf ("Request to compile: <" BLDTEXT ("%s") ">\n",
+                DemangledTypeName (*this));
+    }
 };
 
 struct IdentExpr : public Expr
@@ -58,9 +64,11 @@ struct AssignExpr : public Expr
 
 struct SyscallStmt : public Expr
 {
-    Symbol syscall;
+    Symbol name;
 
-    SyscallStmt (Symbol aSyscall) : syscall (aSyscall) {}
+    SyscallStmt (Symbol aSyscall) : name (aSyscall) {}
+
+    void compileInMethodWithEncoder (Method & meth, Encoder & enc);
 };
 
 struct ReturnStmt : public Expr

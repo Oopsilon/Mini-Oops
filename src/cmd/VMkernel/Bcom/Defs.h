@@ -16,10 +16,15 @@
 
 #include "AST.h"
 
+#include "Oops/Hierarchy.h"
+
+class Encoder;
+
 namespace AST
 {
 
 struct Expr;
+struct Method;
 
 struct Code
 {
@@ -30,6 +35,8 @@ struct Code
         : exprs (someExprs), lastExpr (theLast)
     {
     }
+
+    void compileInMethodWithEncoder (Method & meth, Encoder & enc);
 };
 
 struct SelectorDecl

@@ -19,7 +19,7 @@ LemonComp(Bcom/gram.y)
 
 set (oopsc_srcs
     ${PROJECT_BINARY_DIR}/gram.tab.cxx ${PROJECT_BINARY_DIR}/scan.yy.cxx
-    Bcom/State.cxx Bcom/MsgSyntax.cxx
+    Bcom/State.cxx Bcom/MsgSyntax.cxx Bcom/Compiler/Code.cxx
     Bcom/AST.cxx Bcom/Symbol.cxx
     Oops/Klass/ClassKlass.cxx Oops/Klass/SymbolKlass.cxx Oops/Klass/Klass.cxx
     Oops/Klass/ByteVecKlass.cxx Oops/Desc.cxx

@@ -15,28 +15,32 @@
 #pragma once
 
 #include <cstring>
+#include <string>
+
+#include "oops-platform/basic-defs.h"
+
+enum SyscallOp
+{
+    EIsa,
+    EEmpty,
+    ECount,
+};
+
+static const char * syscallNames[ECount] = {
+    "Isa", NULL,
+};
 
 struct Syscall
 {
-    enum Op
-    {
-        EIsa,
-        EEmpty,
-        ECount,
-    };
-
-    static constexpr const char * names[ECount]{
-        "Isa", NULL,
-    };
-
     typedef uint8_t type;
+    typedef SyscallOp Op;
 
     static Op op (std::string aName) { return op (aName.c_str ()); }
 
     static Op op (const char * aName)
     {
         for (int i = 0; i < ECount; i++)
-            if (!strcmp (aName, names[i]))
+            if (!strcmp (aName, syscallNames[i]))
                 return (Op)i;
         fatalError ("Unknown system call name " BLDTEXT ("%s") "\n", aName);
     }

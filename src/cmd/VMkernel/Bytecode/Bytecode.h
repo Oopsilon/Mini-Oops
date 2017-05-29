@@ -14,6 +14,8 @@
 
 #pragma once
 
+#include <cstdint>
+
 struct Bytecode
 {
     enum Op
@@ -26,6 +28,8 @@ struct Bytecode
          * which is used as a parameter, this is noted sequentially within |
          * vertical bars. |
          */
+        /* [ Tos -- ] */
+        EPop,
 
         EPushTrue,
         EPushFalse,
@@ -51,11 +55,11 @@ struct Bytecode
            Argcount | [ Selector Args... -- result ] */
         ESuperSend,
 
-        /* Sets the return value. [ ReturnValue ] */
-        EStoreRetVal,
-
         /* Returns. */
         EReturn,
+
+        /* Returns self. */
+        EReturnSelf,
 
         /* System call (0 arguments.) | SyscallIndex | */
         ESysCall0,

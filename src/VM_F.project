@@ -88,6 +88,9 @@
         <File Name="cmd/VMkernel/Bcom/Symbol.cxx"/>
         <File Name="cmd/VMkernel/Bcom/Encoder.cxx"/>
         <File Name="cmd/VMkernel/Bcom/Encoder.h"/>
+        <VirtualDirectory Name="Compiler">
+          <File Name="cmd/VMkernel/Bcom/Compiler/Code.cxx"/>
+        </VirtualDirectory>
       </VirtualDirectory>
       <VirtualDirectory Name="Bytecode">
         <File Name="cmd/VMkernel/Bytecode/Bytecode.h"/>

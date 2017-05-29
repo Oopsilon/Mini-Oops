@@ -23,7 +23,8 @@ void AST::Class::compile ()
 void AST::Method::compile ()
 {
     std::vector<char> bytecode;
-    classOop cls;
+    ::classOop cls;
+    ::Encoder enc (bytecode);
 
     vm.notice ("Compiling method " BLDTEXT ("%c %s>>%s") "\n",
                (isClass ? '+' : '-'), className.c_str (),
@@ -39,6 +40,8 @@ void AST::Method::compile ()
     if (!cls)
         fatalError ("Could not find class " BLDTEXT ("%s Metaclass") ".\n",
                     className.c_str ());
+
+    code.compileInMethodWithEncoder (*this, enc);
 }
 
 std::string AST::SelectorDecl::selName ()

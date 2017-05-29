@@ -26,6 +26,11 @@ class Encoder
   public:
     Encoder (std::vector<char> & someCode) : code (someCode) {}
 
+    void emitPop () { code.push_back (Bytecode::EPop); }
+
+    void emitReturn () { code.push_back (Bytecode::EReturn); }
+    void emitReturnSelf () { code.push_back (Bytecode::EReturnSelf); }
+
     void emitSyscall (std::string opName)
     {
         emitSyscall (Syscall::op (opName));
