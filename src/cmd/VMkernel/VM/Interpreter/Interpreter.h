@@ -1,5 +1,5 @@
 /* Oopsilon
- * Object-oriented pointers - basic descriptor.
+ * Bytecode interpreter.
  *
  *      Copyright Notice
  *
@@ -12,9 +12,10 @@
  *      End Copyright Notice
  */
 
-#include "Desc.h"
-#include "ClassDesc.h"
+#pragma once
 
-std::string Desc::describe () { return _isa->getKlass ()->describe (this); }
-
-methodOop Desc::lookup (std::string meth) { isa ()->findMethod (meth); }
+class Interpreter
+{
+    /* The interpreter's sole register. */
+    contextOop cp;
+};

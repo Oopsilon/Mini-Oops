@@ -15,6 +15,7 @@
 #pragma once
 
 #include <cstdint>
+#include <vector>
 
 struct Bytecode
 {
@@ -66,4 +67,8 @@ struct Bytecode
     };
 
     typedef uint8_t type;
+
+    static int numOfArgs (type anOp);
+
+    static void disassemble (std::vector<type> code);
 };

@@ -133,6 +133,7 @@ int main (int argc, char * argv[])
 
         oc.parse ("Package.oop");
         oc.compile ();
+        vm.run ();
 
         WAIT;
         return 0;

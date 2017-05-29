@@ -73,6 +73,7 @@
         <File Name="cmd/VMkernel/Oops/Symbol.cxx"/>
         <File Name="cmd/VMkernel/Oops/SymbolDesc.h"/>
         <File Name="cmd/VMkernel/Oops/VecDesc.h"/>
+        <File Name="cmd/VMkernel/Oops/ClassDesc.cxx"/>
       </VirtualDirectory>
       <VirtualDirectory Name="Bcom">
         <File Name="cmd/VMkernel/Bcom/AST.cxx"/>
@@ -106,6 +107,10 @@
       <VirtualDirectory Name="VM">
         <File Name="cmd/VMkernel/VM/VM.cxx"/>
         <File Name="cmd/VMkernel/VM/VM.h"/>
+        <VirtualDirectory Name="Interpreter">
+          <File Name="cmd/VMkernel/VM/Interpreter/Interpreter.cxx"/>
+          <File Name="cmd/VMkernel/VM/Interpreter/Interpreter.h"/>
+        </VirtualDirectory>
       </VirtualDirectory>
       <File Name="cmd/VMkernel/CMakeLists.txt"/>
       <File Name="cmd/VMkernel/VMkernel.cxx"/>

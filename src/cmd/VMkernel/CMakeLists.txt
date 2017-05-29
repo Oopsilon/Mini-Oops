@@ -21,11 +21,12 @@ set (oopsc_srcs
     ${PROJECT_BINARY_DIR}/gram.tab.cxx ${PROJECT_BINARY_DIR}/scan.yy.cxx
     Bcom/State.cxx Bcom/MsgSyntax.cxx Bcom/Compiler/Code.cxx
     Bcom/AST.cxx Bcom/Symbol.cxx
+    Bytecode/Bytecode.cxx
     Oops/Klass/ClassKlass.cxx Oops/Klass/SymbolKlass.cxx Oops/Klass/Klass.cxx
-    Oops/Klass/ByteVecKlass.cxx Oops/Desc.cxx
+    Oops/Klass/ByteVecKlass.cxx Oops/Desc.cxx Oops/ClassDesc.cxx
     Oops/Symbol.cxx
     ObjectMemory/ObjectMemory.cxx
-    VM/VM.cxx
+    VM/VM.cxx VM/Interpreter/Interpreter.cxx
 	VMkernel.cxx)
 
 add_executable (VMkernel "")

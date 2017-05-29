@@ -27,6 +27,7 @@ class VM
     VM ();
 
     void boot ();
+    void run ();
 };
 
 extern VM & vm;

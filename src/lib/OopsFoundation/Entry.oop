@@ -1,7 +1,7 @@
 class Entry : noSuper
 end
 
-+ Entry main
++ Entry KernelMain
 {
     Object isa
 }

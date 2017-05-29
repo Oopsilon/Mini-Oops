@@ -78,6 +78,11 @@ class ClassDesc : public MemDesc
         nstVar_at_put (EMethods, val);
     }
 
+    /* Looks up the named method in our method dictionary; if we don't find it,
+     * search in the superclass' message dictionary, if all else fails, then
+     * look up doesNotUnderstand instead. */
+    methodOop findMethod (std::string name);
+
     /* Proxy functions forwarding to Klass */
     inline void init () { getKlass ()->init (this); }
     inline void initNstVars () { getKlass ()->initNstVars (this); }

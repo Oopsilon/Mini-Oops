@@ -1,5 +1,5 @@
 /* Oopsilon
- * Object-oriented pointers - basic descriptor.
+ * VM class.
  *
  *      Copyright Notice
  *
@@ -12,9 +12,6 @@
  *      End Copyright Notice
  */
 
-#include "Desc.h"
-#include "ClassDesc.h"
+#include "Oops/ContextDesc.h"
 
-std::string Desc::describe () { return _isa->getKlass ()->describe (this); }
-
-methodOop Desc::lookup (std::string meth) { isa ()->findMethod (meth); }
+#include "Interpreter.h"

@@ -35,6 +35,11 @@ void VM::boot ()
     mem.preboot ();
 }
 
+void VM::run ()
+{
+    methodOop toRun = mem.findClass ("Entry")->lookup ("KernelMain");
+}
+
 void VM::notice (const char * format, ...)
 {
     va_list args;
