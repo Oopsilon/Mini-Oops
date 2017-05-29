@@ -1,0 +1,7 @@
+class Entry : noSuper
+end
+
++ Entry main
+{
+    Object isa
+}

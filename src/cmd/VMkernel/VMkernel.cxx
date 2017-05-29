@@ -12,6 +12,7 @@
  *      End Copyright Notice
  */
 
+#include <cstdarg>
 #include <cstdio>
 #include <fstream>
 #include <string>
@@ -39,10 +40,23 @@
 #define WAIT
 #endif
 
+Oopsc & bcom;
+
 void ParseTrace (FILE *, char *);
 void * ParseAlloc (void * (*allocProc) (size_t));
 extern "C" void * Parse (void *, int, AST::AST *, ParserState *);
 extern "C" void * ParseFree (void *, void (*freeProc) (void *));
+
+void Oopsc::notice (const char * format, ...)
+{
+    va_list args;
+    va_start (args, format);
+
+    printf (KRED "Bcom: " KNRM);
+    vprintf (format, args);
+
+    va_end (args);
+}
 
 Oopsc::Oopsc (std::string RootDir)
     : rootDir (RootDir), program (*new AST::Program)
@@ -65,7 +79,7 @@ void Oopsc::parse (std::string filename, bool isImported)
         fatalError ("Could not open Package.oop in directory %s\n",
                     rootDir.c_str ());
 
-    oopsMsg ("Analysing file %s...\n", filename.c_str ());
+    notice ("Analysing file %s...\n", filename.c_str ());
 
     std::fseek (f, 0, SEEK_END);
     toParse.resize (std::ftell (f));
@@ -113,7 +127,9 @@ int main (int argc, char * argv[])
         std::ofstream gvOut;
         Oopsc oc (argv[1]);
 
-        ParseTrace (stdout, KCYN "[Analyser::Lemon] " KNRM);
+        bcom = oc;
+
+        // ParseTrace (stdout, KCYN "[Analyser::Lemon] " KNRM);
 
         oc.parse ("Package.oop");
         oc.compile ();

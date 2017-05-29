@@ -60,8 +60,8 @@ class ObjectMemory
     /* Allocates an object of length bytes, all fields initialised to nil/0. */
     template <typename T> T lowLevelAlloc (size_t bytes)
     {
-        notice ("<T = %s> Allocating %d bytes...\n", DemangledTypeName (T),
-                bytes);
+        // notice ("<T = %s> Allocating %d bytes...\n", DemangledTypeName (T),
+        //        bytes);
         return T ((typename T::dtype *)calloc (1, bytes));
     }
 

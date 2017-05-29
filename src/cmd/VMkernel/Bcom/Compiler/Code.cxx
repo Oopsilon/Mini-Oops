@@ -5,9 +5,17 @@
 #include "../Defs.h"
 #include "../Expressions.h"
 
+#include "../../VMkernel.h"
+
+void AST::Expr::compileInMethodWithEncoder (Method & meth, Encoder & enc)
+{
+    bcom.notice ("Compilation requested on expression <" BLDTEXT ("%s") ">\n",
+                 DemangledTypeName (*this));
+}
+
 void AST::SyscallStmt::compileInMethodWithEncoder (Method & meth, Encoder & enc)
 {
-    dbg ("Syscall emit\n");
+    bcom.notice ("Syscall emit\n");
     enc.emitSyscall (name);
 }
 

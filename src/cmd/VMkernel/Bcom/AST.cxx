@@ -12,9 +12,11 @@
 
 #include "VM/VM.h"
 
+#include "../VMkernel.h"
+
 void AST::Class::compile ()
 {
-    vm.notice ("Compiling class " BLDTEXT ("%s") "...\n", name.c_str ());
+    bcom.notice ("Compiling class " BLDTEXT ("%s") "...\n", name.c_str ());
     vm.mem.findOrCreateClass (name, superName,
                               Symbol::listAsStringVec (clsVars),
                               Symbol::listAsStringVec (nstVars));
@@ -26,9 +28,9 @@ void AST::Method::compile ()
     ::classOop cls;
     ::Encoder enc (bytecode);
 
-    vm.notice ("Compiling method " BLDTEXT ("%c %s>>%s") "\n",
-               (isClass ? '+' : '-'), className.c_str (),
-               selector.selName ().c_str ());
+    bcom.notice ("Compiling method " BLDTEXT ("%c %s>>%s") "\n",
+                 (isClass ? '+' : '-'), className.c_str (),
+                 selector.selName ().c_str ());
 
     cls = vm.mem.findClass (className);
     if (!cls)

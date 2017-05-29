@@ -31,6 +31,11 @@ class Oopsc
 
   public:
     Oopsc (std::string RootDir);
+    Oopsc & operator= (const Oopsc &) {}
     void parse (std::string filename, bool isImported = false);
     void compile ();
+
+    void notice (const char * format, ...);
 };
+
+extern Oopsc & bcom;

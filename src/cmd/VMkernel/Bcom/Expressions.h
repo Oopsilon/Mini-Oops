@@ -26,11 +26,7 @@ struct Expr
 {
     typedef std::list<Expr *> List;
 
-    virtual void compileInMethodWithEncoder (Method & aMeth, Encoder & enc)
-    {
-        printf ("Request to compile: <" BLDTEXT ("%s") ">\n",
-                DemangledTypeName (*this));
-    }
+    virtual void compileInMethodWithEncoder (Method & aMeth, Encoder & enc);
 };
 
 struct IdentExpr : public Expr
