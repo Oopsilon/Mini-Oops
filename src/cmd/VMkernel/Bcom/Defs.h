@@ -168,6 +168,13 @@ struct CodeContext
 
     CodeContext & homeContext ();
 
+    std::vector<char> bytecode () { return comp.bytecode; }
+    std::vector<oop> literals () { return {}; }
+
+    size_t heapvars_count () { return comp.heapVars.size (); }
+    size_t temps_count () { return temps.size () - comp.promotedTemps.size (); }
+    size_t formals_count () { return formals.size (); }
+
     bool isMethodContext () { return method != 0; }
     bool isBlockContext () { return method == NULL; }
 };

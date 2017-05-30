@@ -25,6 +25,7 @@
 
 class ObjectMemory
 {
+    friend class ObjectFactory;
     /* Map of classes in the system. */
     std::map<std::string, classOop> classes;
 

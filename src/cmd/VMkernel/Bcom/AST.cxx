@@ -25,6 +25,7 @@ void AST::Class::compile ()
 void AST::Method::compile ()
 {
     Encoder enc (cCtx.comp.bytecode);
+    methodOop result;
 
     bcom.notice ("Compiling method " BLDTEXT ("%c %s>>%s") "\n",
                  (isClass ? '+' : '-'), className.c_str (),
@@ -44,6 +45,10 @@ void AST::Method::compile ()
     cCtx.synthesiseInCodeContext (NULL);
 
     cCtx.code.compileInCodeContextWithEncoder (cCtx, enc);
+
+    result = vm.mem.factory.new_method (
+        selector.selName (), cCtx.formals_count (), cCtx.temps_count (),
+        cCtx.heapvars_count (), cCtx.literals (), cCtx.bytecode ());
 }
 
 std::string AST::SelectorDecl::selName ()
