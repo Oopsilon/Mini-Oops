@@ -17,30 +17,67 @@
 #include "../Defs.h"
 #include "../Expressions.h"
 
-Variable AST::CodeContext::variableForSymbol (Symbol aName)
+Variable::Ptr AST::CodeContext::variableForSymbol (Symbol aName)
 {
     /* First - are we a block? If so then we immediately make a heapvar in our
      * home context out of the refered variable. */
-    if (isBlockContext ())
+    if (isBlockContext () && aName != "self")
         return this->usingVarInBlock (aName);
+    else if (isBlockContext () && aName == "self")
+        return homeContext ().usingSelfInBlock ();
+    else if (isBlockContext () && aName == "thisBlock")
+        return usingSelfInBlock ();
+    else if (aName == "self")
+        return comp.selfVar;
+    else
+    {
+        /* logic... */
+    }
 }
 
-Variable AST::CodeContext::usingVarInBlock (Symbol aVarName)
+Variable::Ptr AST::CodeContext::usingVarInBlock (Symbol aVarName)
 {
     int index = 0;
+
     for (const auto & formal : formals)
     {
         if (formal == aVarName)
         {
             if (comp.promotedFormals.find (index) !=
                 comp.promotedFormals.end ())
-                return HeapVariable (comp.promotedFormals[index]);
+                return Variable::Ptr (
+                    new HeapVariable (comp.promotedFormals[index]));
             else
-                return HeapVariable (
-                    (comp.promotedFormals[index] = addHeapVar (aVarName)));
+                return Variable::Ptr (new HeapVariable (
+                    (comp.promotedFormals[index] = addHeapVar (aVarName))));
         }
         index++;
     }
+
+    index = 0;
+    for (const auto & temp : temps)
+    {
+        if (temp == aVarName)
+        {
+            if (comp.promotedTemps.find (index) != comp.promotedTemps.end ())
+                return Variable::Ptr (
+                    new HeapVariable (comp.promotedTemps[index]));
+            else
+                return Variable::Ptr (new HeapVariable (
+                    (comp.promotedTemps[index] = addHeapVar (aVarName))));
+        }
+        index++;
+    }
+}
+
+Variable::Ptr AST::CodeContext::usingSelfInBlock ()
+{
+    if (comp.selfVar->type == Variable::EFreeVar)
+    {
+        comp.selfVar =
+            Variable::Ptr (new HeapVariable (addHeapVar (Symbol ("self"))));
+    }
+    return comp.selfVar;
 }
 
 void AST::Code::synthesiseInCodeContext (CodeContext & aCCtx)
@@ -74,6 +111,7 @@ AST::CodeContext & AST::CodeContext::homeContext ()
 void AST::CodeContext::synthesiseInCodeContext (CodeContext * aCCtx)
 {
     enclosingContext = aCCtx;
+    temps.push_front (Symbol ("self"));
     /* Are we a block? (blocks uniquely have enclosing context) */
     if (aCCtx)
     {

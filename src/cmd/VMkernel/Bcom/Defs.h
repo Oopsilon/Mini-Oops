@@ -103,27 +103,27 @@ struct CodeContext
      * heapVars list of the home context. */
     typedef std::map<size_t, size_t> PromotionList;
 
+    Symbol::List formals;
     Symbol::List temps;
     Code code;
 
     CodeContext * enclosingContext;
     Method * method;
 
-    Symbol::List formals;
-
     struct
     {
-        /* Temps that aren't captured by-reference by a closure. Only Method
-         * Contexts have these. */
-        Symbol::List freeVars;
-        /* Temps that should be placed into a heap-allocated Environment. only
-         * method context has this. */
+        /* Heap variable names. */
         Symbol::List heapVars;
+
+        /* Variable for self. */
+        Variable::Ptr selfVar;
 
         /* Mappings from indexes of temporaries and formals to their index in
          * the heapVars environment. On entering the method formals are put into
          * the heapvar slots associated with them. */
         PromotionList promotedFormals;
+        PromotionList promotedTemps;
+
         /* Need to think about how these are promoted. Probably need to keep a
          * list of mappings of indexes into the heapVars to names of literals.
          */
@@ -136,6 +136,8 @@ struct CodeContext
         : formals (someFormals), temps (someTemps), code (someCode),
           enclosingContext (NULL), method (someMeth)
     {
+        temps.push_front (Symbol ("self"));
+        comp.selfVar = Variable::Ptr (new FreeVariable (0));
     }
 
     CodeContext (Symbol::List someFormals, Symbol::List someTemps,
@@ -143,6 +145,8 @@ struct CodeContext
         : formals (someFormals), temps (someTemps), code (someCode),
           enclosingContext (NULL), method (NULL)
     {
+        temps.push_front (Symbol ("self"));
+        comp.selfVar = Variable::Ptr (new FreeVariable (0));
     }
 
     void synthesiseInCodeContext (CodeContext * aCtx);
@@ -157,8 +161,10 @@ struct CodeContext
         else
             return homeContext ().addHeapVar (aVarName);
     }
-    Variable usingVarInBlock (Symbol aVarName);
-    Variable variableForSymbol (Symbol aName);
+
+    Variable::Ptr usingSelfInBlock ();
+    Variable::Ptr usingVarInBlock (Symbol aVarName);
+    Variable::Ptr variableForSymbol (Symbol aName);
 
     CodeContext & homeContext ();
 

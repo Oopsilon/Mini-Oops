@@ -14,8 +14,12 @@
 
 #pragma once
 
+#include <memory>
+
 struct Variable
 {
+    typedef std::shared_ptr<Variable> Ptr;
+
     enum Type
     {
         EGlobal,
@@ -25,6 +29,14 @@ struct Variable
     } type;
 
     Variable (Type aType) : type (aType) {}
+};
+
+struct FreeVariable : public Variable
+{
+    /* Offset into the free variables list. */
+    size_t index;
+
+    FreeVariable (size_t anIndex) : index (anIndex), Variable (EFreeVar) {}
 };
 
 struct HeapVariable : public Variable
