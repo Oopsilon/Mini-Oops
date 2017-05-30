@@ -48,7 +48,7 @@ void AST::Method::compile ()
 
     comp.cls->add_method (vm.mem.factory.new_method (
         selector.selName (), cCtx.formals_count (), cCtx.temps_count (),
-        cCtx.heapvars_count (), cCtx.literals (), cCtx.bytecode ()););
+        cCtx.heapvars_count (), cCtx.literals (), cCtx.bytecode ()));
 }
 
 std::string AST::SelectorDecl::selName ()
