@@ -91,6 +91,8 @@
         <File Name="cmd/VMkernel/Bcom/Encoder.h"/>
         <VirtualDirectory Name="Compiler">
           <File Name="cmd/VMkernel/Bcom/Compiler/Code.cxx"/>
+          <File Name="cmd/VMkernel/Bcom/Compiler/Context.cxx"/>
+          <File Name="cmd/VMkernel/Bcom/Compiler/Variable.h"/>
         </VirtualDirectory>
       </VirtualDirectory>
       <VirtualDirectory Name="Bytecode">

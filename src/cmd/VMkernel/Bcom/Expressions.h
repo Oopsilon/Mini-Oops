@@ -144,11 +144,10 @@ struct MsgExpr : public Expr
 
 struct Block : public Expr
 {
-    Symbol::List formals;
     CodeContext cCtx;
 
     Block (Symbol::List someFormals, Symbol::List someTemps, Code aCode)
-        : formals (someFormals), cCtx (someTemps, aCode)
+        : cCtx (someFormals, someTemps, aCode)
     {
     }
 

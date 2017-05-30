@@ -14,10 +14,14 @@
 
 #pragma once
 
+#include <map>
+
 #include "AST.h"
 
 #include "Oops/Hierarchy.h"
 #include "Oops/SymbolDesc.h"
+
+#include "Compiler/Variable.h"
 
 class Encoder;
 
@@ -80,43 +84,81 @@ struct SelectorDecl
     }
 
     std::string selName ();
+    Symbol::List formalNames ()
+    {
+        Symbol::List result;
+        if (selType == EBinary)
+            result.push_back (binary.argname);
+        if (selType == EKeyw)
+            for (const auto & keyw : keywords)
+                result.push_back (keyw.argname);
+        return result;
+    }
 };
 
 struct CodeContext
 {
+    /* A structure of this type is used to represent a mapping from the index
+     * into a list of formals, temporaries, or literals, to an index into the
+     * heapVars list of the home context. */
+    typedef std::map<size_t, size_t> PromotionList;
+
     Symbol::List temps;
     Code code;
 
     CodeContext * enclosingContext;
     Method * method;
 
+    Symbol::List formals;
+
     struct
     {
         /* Temps that aren't captured by-reference by a closure. Only Method
          * Contexts have these. */
         Symbol::List freeVars;
-        /* Temps that should be placed into a heap-allocated Environment. */
+        /* Temps that should be placed into a heap-allocated Environment. only
+         * method context has this. */
         Symbol::List heapVars;
-        std::vector<oop> literals;
+
+        /* Mappings from indexes of temporaries and formals to their index in
+         * the heapVars environment. On entering the method formals are put into
+         * the heapvar slots associated with them. */
+        PromotionList promotedFormals;
+        /* Need to think about how these are promoted. Probably need to keep a
+         * list of mappings of indexes into the heapVars to names of literals.
+         */
+        std::map<Symbol, oop> literals;
         std::vector<char> bytecode;
     } comp;
 
-    CodeContext (Symbol::List someTemps, Code someCode, Method * someMeth)
-        : temps (someTemps), code (someCode), enclosingContext (NULL),
-          method (someMeth)
+    CodeContext (Symbol::List someFormals, Symbol::List someTemps,
+                 Code someCode, Method * someMeth)
+        : formals (someFormals), temps (someTemps), code (someCode),
+          enclosingContext (NULL), method (someMeth)
     {
     }
 
-    CodeContext (Symbol::List someTemps, Code someCode)
-        : temps (someTemps), code (someCode), enclosingContext (NULL),
-          method (NULL)
+    CodeContext (Symbol::List someFormals, Symbol::List someTemps,
+                 Code someCode)
+        : formals (someFormals), temps (someTemps), code (someCode),
+          enclosingContext (NULL), method (NULL)
     {
     }
 
     void synthesiseInCodeContext (CodeContext * aCtx);
 
-    void addHeapVar (Symbol aVarName) { comp.heapVars.push_back (aVarName); }
-    void usingVarInBlock (Symbol aVarName);
+    size_t addHeapVar (Symbol aVarName)
+    {
+        if (isMethodContext ())
+        {
+            comp.heapVars.push_back (aVarName);
+            return comp.heapVars.size () - 1;
+        }
+        else
+            return homeContext ().addHeapVar (aVarName);
+    }
+    Variable usingVarInBlock (Symbol aVarName);
+    Variable variableForSymbol (Symbol aName);
 
     CodeContext & homeContext ();
 
@@ -140,7 +182,7 @@ struct Method : public Directive
     Method (bool aBool, Symbol aName, SelectorDecl aSel, Symbol::List someTemps,
             Code aCode)
         : isClass (aBool), className (aName), selector (aSel),
-          cCtx (someTemps, aCode, this)
+          cCtx (aSel.formalNames (), someTemps, aCode, this)
     {
     }
 

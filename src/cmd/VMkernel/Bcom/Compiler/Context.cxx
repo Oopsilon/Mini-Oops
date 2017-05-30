@@ -17,6 +17,32 @@
 #include "../Defs.h"
 #include "../Expressions.h"
 
+Variable AST::CodeContext::variableForSymbol (Symbol aName)
+{
+    /* First - are we a block? If so then we immediately make a heapvar in our
+     * home context out of the refered variable. */
+    if (isBlockContext ())
+        return this->usingVarInBlock (aName);
+}
+
+Variable AST::CodeContext::usingVarInBlock (Symbol aVarName)
+{
+    int index = 0;
+    for (const auto & formal : formals)
+    {
+        if (formal == aVarName)
+        {
+            if (comp.promotedFormals.find (index) !=
+                comp.promotedFormals.end ())
+                return HeapVariable (comp.promotedFormals[index]);
+            else
+                return HeapVariable (
+                    (comp.promotedFormals[index] = addHeapVar (aVarName)));
+        }
+        index++;
+    }
+}
+
 void AST::Code::synthesiseInCodeContext (CodeContext & aCCtx)
 {
     for (auto & expr : exprs)
