@@ -35,8 +35,8 @@ class MethodDesc : public MemDesc
             /* <symbolOop>: Selector. Nil for blocks. */
             "selector",
 
-            /* <contextOop>: Enclosing context. Nil if this is not a block. */
-            "enclosingContext",
+            /* <smiOop>: Environment (closure-modifiable) variables count. */
+            "environmentCount",
 
             /* <smiOop>: Temporaries count. */
             "tempCount",

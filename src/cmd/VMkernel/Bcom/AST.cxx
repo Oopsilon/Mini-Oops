@@ -41,6 +41,8 @@ void AST::Method::compile ()
         fatalError ("Could not find class " BLDTEXT ("%s Metaclass") ".\n",
                     className.c_str ());
 
+    cCtx.synthesiseInCodeContext (NULL);
+
     cCtx.code.compileInCodeContextWithEncoder (cCtx, enc);
 }
 

@@ -38,6 +38,9 @@ class ContextDesc : public MemDesc
             /* <methodOop>: Current method being executed. */
             "method",
 
+            /* <objVecOop>: Array of variables accessible within closures. */
+            "environment",
+
             /* <std::vector<oop> *>: Arguments, temporaries, and stack. */
             "args", "temps", "stack",
 

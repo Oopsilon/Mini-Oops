@@ -26,6 +26,7 @@ struct Expr
 {
     typedef std::list<Expr *> List;
 
+    virtual void synthesiseInCodeContext (CodeContext & aCCtx);
     virtual void compileInCodeContextWithEncoder (CodeContext & aCCtx,
                                                   Encoder & enc);
 };
@@ -144,12 +145,13 @@ struct MsgExpr : public Expr
 struct Block : public Expr
 {
     Symbol::List formals;
-    Symbol::List temps;
-    Code code;
+    CodeContext cCtx;
 
     Block (Symbol::List someFormals, Symbol::List someTemps, Code aCode)
-        : formals (someFormals), temps (someTemps), code (aCode)
+        : formals (someFormals), cCtx (someTemps, aCode)
     {
     }
+
+    void synthesiseInCodeContext (CodeContext & aCCtx);
 };
 };

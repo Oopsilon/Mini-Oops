@@ -38,6 +38,7 @@ struct Code
     {
     }
 
+    void synthesiseInCodeContext (CodeContext & aCCtx);
     void compileInCodeContextWithEncoder (CodeContext & aCCtx, Encoder & enc);
 };
 
@@ -83,8 +84,6 @@ struct SelectorDecl
 
 struct CodeContext
 {
-    bool isBlockContext;
-
     Symbol::List temps;
     Code code;
 
@@ -93,15 +92,36 @@ struct CodeContext
 
     struct
     {
+        /* Temps that aren't captured by-reference by a closure. Only Method
+         * Contexts have these. */
+        Symbol::List freeVars;
+        /* Temps that should be placed into a heap-allocated Environment. */
+        Symbol::List heapVars;
         std::vector<oop> literals;
         std::vector<char> bytecode;
     } comp;
 
     CodeContext (Symbol::List someTemps, Code someCode, Method * someMeth)
-        : temps (someTemps), code (someCode), isBlockContext (false),
-          enclosingContext (0), method (someMeth)
+        : temps (someTemps), code (someCode), enclosingContext (NULL),
+          method (someMeth)
     {
     }
+
+    CodeContext (Symbol::List someTemps, Code someCode)
+        : temps (someTemps), code (someCode), enclosingContext (NULL),
+          method (NULL)
+    {
+    }
+
+    void synthesiseInCodeContext (CodeContext * aCtx);
+
+    void addHeapVar (Symbol aVarName) { comp.heapVars.push_back (aVarName); }
+    void usingVarInBlock (Symbol aVarName);
+
+    CodeContext & homeContext ();
+
+    bool isMethodContext () { return method != 0; }
+    bool isBlockContext () { return method == NULL; }
 };
 
 struct Method : public Directive
