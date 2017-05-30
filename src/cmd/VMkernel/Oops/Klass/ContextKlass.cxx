@@ -17,12 +17,12 @@
 #include "../SmiDesc.h"
 
 #include "ObjectMemory/ObjectFactory.inl.h"
-#include "vm/vm.h"
+#include "VM/VM.h"
 
 #include "ContextKlass.h"
 
-contextOop
-ContextKlass::allocate_context (methodOop meth /* std::vector<oop> * args */)
+contextOop ContextKlass::allocate_context (
+    methodOop meth /* std::vector<oop> * args, contextOop pfp */)
 {
     size_t envCount;
     contextOop r = vm.mem.lowLevelAlloc<contextOop> (
@@ -40,12 +40,11 @@ ContextKlass::allocate_context (methodOop meth /* std::vector<oop> * args */)
                  MethodDesc::EEnvironment))
         r->nstVar_at_put (ContextDesc::EEnvironment, env);
 
-    /* <std::vector<oop> *>: Arguments, temporaries, and stack.
-"args", "temps", "stack",
+    r->nstVar_at_put (ContextDesc::EArgs, NULL);
+    r->nstVar_at_put (ContextDesc::ETemps, new std::vector<oop>);
+    r->nstVar_at_put (ContextDesc::EStack, new std::vector<oop>);
 
-<smiOop>: Program counter.
-"pc",
-<contextOop>: Previous frame pointer.
-"pfp" */
+    r->nstVar_at_put (ContextDesc::EPC, Smi (0));
+    r->nstVar_at_put (ContextDesc::EPFP, NULL);
     return r;
 }

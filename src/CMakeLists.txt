@@ -18,7 +18,7 @@ find_package(FLEX)
 
 if (NOT FLEX_FOUND)
 	set(FLEX_FOUND true)
-	set(FLEX_EXECUTABLE ${PROJECT_SOURCE_DIR}/cmd/flex/win_flex.exe)
+	set(FLEX_EXECUTABLE ${PROJECT_SOURCE_DIR}/cmd/Flex/win_flex.exe)
 	message(STATUS "Flex for Windows used: " ${FLEX_EXECUTABLE})
 endif()
 
@@ -48,10 +48,10 @@ add_custom_command(
 OUTPUT ${PROJECT_BINARY_DIR}/${file}.tab.h
     ${PROJECT_BINARY_DIR}/${file}.tab.cxx
 	${PROJECT_BINARY_DIR}/${file}.out
-COMMAND $<TARGET_FILE:LemonGen>
+COMMAND $<TARGET_FILE:LGen>
 ARGS ${CMAKE_CURRENT_SOURCE_DIR}/${path} -n${file}
-	-d./ -p -T${CMAKE_SOURCE_DIR}/cmd/LemonGen/lempar.tpl.cxx
-DEPENDS $<TARGET_FILE:LemonGen>
+	-d./ -p -T${CMAKE_SOURCE_DIR}/cmd/LGen/lempar.tpl.cxx
+DEPENDS $<TARGET_FILE:LGen>
 MAIN_DEPENDENCY ${CMAKE_CURRENT_SOURCE_DIR}/${path}
 WORKING_DIRECTORY ${PROJECT_BINARY_DIR}
 )
@@ -65,5 +65,7 @@ function (Prepend var prefix)
    SET(${var} "${listVar}" PARENT_SCOPE)
 endfunction (Prepend)
 
+add_subdirectory (LibOops)
 add_subdirectory (cmd)
-add_subdirectory (lib)
+
+INSTALL(DIRECTORY OopsFoundation DESTINATION ${CMAKE_INSTALL_LIBDIR})

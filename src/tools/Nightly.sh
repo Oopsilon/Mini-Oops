@@ -34,8 +34,8 @@ then
 fi
 
 platform_name="`uname -s`-`uname -p`"
-output_dir="${root_dir}/objs/${platform_name}"
-inst_dir="${root_dir}/inst/${platform_name}"
+output_dir="${root_dir}/Objs/${platform_name}"
+inst_dir="${root_dir}/Dest/${platform_name}"
 
 while getopts aA:ij:o:rs: opt
 do
