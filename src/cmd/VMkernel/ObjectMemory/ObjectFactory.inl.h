@@ -12,18 +12,15 @@
  *      End Copyright Notice
  */
 
+#pragma once
+
+#include "Oops/Klass/ByteVecKlass.h"
 #include "Oops/Klass/ObjVecKlass.h"
 #include "Oops/Klass/ObjVecKlass.inl.h"
 #include "Oops/Klass/SymbolKlass.h"
 #include "VM/VM.h"
 
 #include "ObjectFactory.h"
-
-symbolOop ObjectFactory::newSymbol (std::string text)
-{
-    return ((SymbolKlass *)vm.mem.symbolClass ()->getKlass ())
-        ->allocateSymbol (text);
-}
 
 template <class T> typename objVecOop<T>::type ObjectFactory::newObjVec ()
 {
@@ -39,16 +36,4 @@ typename objVecOop<T>::type ObjectFactory::newObjVec (std::vector<T> contents)
             ->allocateObjVec ();
     result->set_contents (contents);
     return result;
-}
-
-objVecOop<symbolOop>::type
-ObjectFactory::newSymVec (const std::vector<std::string> contents)
-{
-    std::vector<symbolOop> newVec;
-    objVecOop<symbolOop>::type result;
-
-    for (const auto & str : contents)
-        newVec.push_back (newSymbol (str));
-
-    return newObjVec<symbolOop> (newVec);
 }

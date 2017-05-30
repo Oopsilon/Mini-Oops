@@ -19,6 +19,7 @@
 
 class MethodDesc : public MemDesc
 {
+  public:
     enum
     {
         ESelector = 1,
@@ -29,7 +30,6 @@ class MethodDesc : public MemDesc
         EBytecode,
     } Layout;
 
-  public:
     static std::vector<std::string> & nstVarNames ()
     {
         const char * varnames[] = {

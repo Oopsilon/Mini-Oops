@@ -18,10 +18,19 @@
 
 struct ObjectFactory
 {
+    byteVecOop newByteVec (std::vector<char> bytes);
+
     symbolOop newSymbol (std::string text);
-    template <class T> typename objVecOop<T>::type newObjVec ();
+
+    template <class T> inline typename objVecOop<T>::type newObjVec ();
+
     template <class T>
-    typename objVecOop<T>::type newObjVec (std::vector<T> contents);
+    inline typename objVecOop<T>::type newObjVec (std::vector<T> contents);
+
     objVecOop<symbolOop>::type
     newSymVec (const std::vector<std::string> contents);
+
+    methodOop new_method (std::string sel, size_t args, size_t temps,
+                          size_t heapvars, std::vector<oop> literals,
+                          std::vector<char> code);
 };
