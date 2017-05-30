@@ -2,15 +2,15 @@
 <CodeLite_Workspace Name="Oopsilon" Database="" Version="10.0.0" SWTLW="Yes">
   <WorkspaceParserMacros/>
   <WorkspaceParserPaths/>
-  <Project Name="VM_F" Path="src/VM_F.project" Active="Yes"/>
+  <Project Name="QS_L" Path="src/VM_F.project" Active="Yes"/>
   <BuildMatrix>
     <WorkspaceConfiguration Name="Debug" Selected="yes">
       <Environment/>
-      <Project Name="VM_F" ConfigName="Debug"/>
+      <Project Name="QS_L" ConfigName="Debug"/>
     </WorkspaceConfiguration>
     <WorkspaceConfiguration Name="Release" Selected="no">
       <Environment/>
-      <Project Name="VM_F" ConfigName="Release"/>
+      <Project Name="QS_L" ConfigName="Release"/>
     </WorkspaceConfiguration>
   </BuildMatrix>
 </CodeLite_Workspace>

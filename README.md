@@ -7,9 +7,9 @@
 
 ### Overview
 
-This is the Oopsilon VM/F tree (Virtual Machine/Foundation tree.) This is
-the source code to the Oopsilon Dynamic Compiler and the Foundation library
-(including runtime.) It builds the Oopsilon VM/F Consolidation.
+This is the Oopsilon QS/L tree (QuickSilver!/Foundation Libraries tree.) This
+is the source code to the Oopsilon QuickSilver! VM and the Foundation library
+(including runtime.) It builds the Oopsilon QS/F Distribution.
 
 **Oopsilon** is an experimental programming system.
 
@@ -70,7 +70,7 @@ A few frequently asked questions about **Oopsilon**:
 
  * Oopsilon leverages the CMake build system for building the C/FL 
    consolidation.
- * Building the VM/F consolidation requires a modern C++ compiler.
+ * Building the QS/L Distribution requires a modern C++ compiler.
    * The build is tested with Microsoft C/C++ Optimising Compiler 19.0
      (MS Visual Studio 2017,) with GNU G++ 5.4.0, and with Clang 3.8.0.
    * Other compilers may work but are untested. If you make it work, please
@@ -78,6 +78,6 @@ A few frequently asked questions about **Oopsilon**:
    * Support for Open Watcom is desirable but not yet available. If Open Watcom
      adds C++11 ranged loops and the `auto` deducing type, it should work.
  * The Fast Lexical Analyser FLEX is required for building.
- * The VM/F consolidation is build with Nightly, a build script which prepares
+ * The QS/L Distribution is built with Nightly, a build script which prepares
    the build and then invokes CMake to build the consolidation. It is
    documented in [Nightly](Doc/Nightly.md).
