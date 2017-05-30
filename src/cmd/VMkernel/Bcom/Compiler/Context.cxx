@@ -95,6 +95,13 @@ void AST::Expr::synthesiseInCodeContext (CodeContext & aCCtx)
                  DemangledTypeName (*this));
 }
 
+void AST::IdentExpr::synthesiseInCodeContext (CodeContext & aCCtx)
+{
+    /* Try to get a Variable - we don't use it, it's just to make any necessary
+     * promotion occur. */
+    aCCtx.variableForSymbol (name);
+}
+
 void AST::Block::synthesiseInCodeContext (CodeContext & aCCtx)
 {
     cCtx.synthesiseInCodeContext (&aCCtx);

@@ -24,7 +24,7 @@ set (oopsc_srcs
     Bytecode/Bytecode.cxx
     Oops/Klass/ClassKlass.cxx Oops/Klass/SymbolKlass.cxx Oops/Klass/Klass.cxx
     Oops/Klass/ByteVecKlass.cxx Oops/Desc.cxx Oops/ClassDesc.cxx
-    Oops/Symbol.cxx
+    Oops/Symbol.cxx Oops/Klass/MethodKlass.cxx
     ObjectMemory/ObjectMemory.cxx
     VM/VM.cxx VM/Interpreter/Interpreter.cxx
 	VMkernel.cxx)

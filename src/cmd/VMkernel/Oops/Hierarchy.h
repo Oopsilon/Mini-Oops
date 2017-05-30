@@ -19,12 +19,6 @@ template <class T> class Oop;
 /* C++ STL wrapper objects */
 template <class T> class VecDesc;
 template <class T> class ObjVecDesc;
-
-template <class T> struct objVecOop
-{
-    typedef Oop<ObjVecDesc<T> > type;
-};
-
 typedef VecDesc<char> ByteVecDesc;
 
 /* Preserve the indentation. */
@@ -40,5 +34,10 @@ typedef Oop<class ContextDesc>   contextOop;
 /*                                   objVecOop */
 typedef Oop<      ByteVecDesc>       byteVecOop;
 typedef Oop<class SymbolDesc>          symbolOop;
+
+template <class T = oop> struct objVecOop
+{
+    typedef Oop<ObjVecDesc<T> > type;
+};
 
 /* clang-format on */

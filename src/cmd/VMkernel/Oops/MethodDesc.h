@@ -22,8 +22,9 @@ class MethodDesc : public MemDesc
     enum
     {
         ESelector = 1,
-        EEnclosingContext,
+        EArgCount,
         ETempCount,
+        EEnvironmentCount,
         ELiteralVec,
         EBytecode,
     } Layout;
@@ -35,11 +36,14 @@ class MethodDesc : public MemDesc
             /* <symbolOop>: Selector. Nil for blocks. */
             "selector",
 
-            /* <smiOop>: Environment (closure-modifiable) variables count. */
-            "environmentCount",
+            /* <smiOop>: Arguments count. */
+            "argCount",
 
             /* <smiOop>: Temporaries count. */
             "tempCount",
+
+            /* <smiOop>: Environment (closure-modifiable) variables count. */
+            "environmentCount",
 
             /* <objVecOop>: Literal objects. */
             "literalVec",

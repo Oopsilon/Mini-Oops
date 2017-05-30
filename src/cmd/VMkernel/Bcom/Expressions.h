@@ -35,15 +35,11 @@ struct IdentExpr : public Expr
 {
     Symbol name;
 
-    IdentExpr (Symbol aName) : name (aName) {}
+    IdentExpr (Symbol aName) : name (aName), var (NULL) {}
 
-  private:
-    enum
-    {
-        ENstVar,
-        ETemp,
-        EClassName,
-    } Type;
+    void synthesiseInCodeContext (CodeContext & aCCtx);
+
+    Variable * var;
 };
 
 struct LiteralExpr : public Expr

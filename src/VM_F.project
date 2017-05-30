@@ -60,6 +60,7 @@
           <File Name="cmd/VMkernel/Oops/Klass/SymbolKlass.cxx"/>
           <File Name="cmd/VMkernel/Oops/Klass/SymbolKlass.h"/>
           <File Name="cmd/VMkernel/Oops/Klass/VecKlass.h"/>
+          <File Name="cmd/VMkernel/Oops/Klass/MethodKlass.cxx"/>
         </VirtualDirectory>
         <File Name="cmd/VMkernel/Oops/ClassDesc.h"/>
         <File Name="cmd/VMkernel/Oops/ContextDesc.h"/>

@@ -14,9 +14,16 @@
 
 #pragma once
 
+#include "../Hierarchy.h"
 #include "MemKlass.h"
 
 class MethodKlass : public MemKlass
 {
   public:
+    methodOop allocate_method (symbolOop sel, smiOop args, smiOop temps,
+                               smiOop heapvars, objVecOop<>::type literals,
+                               byteVecOop code);
+    methodOop allocate_method (std::string sel, size_t args, size_t temps,
+                               size_t heapvars, std::vector<oop> literals,
+                               std::vector<char> code);
 };
