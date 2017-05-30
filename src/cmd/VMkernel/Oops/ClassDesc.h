@@ -88,6 +88,11 @@ class ClassDesc : public MemDesc
     inline void initNstVars () { getKlass ()->initNstVars (this); }
     inline void initMethods () { getKlass ()->initMethods (this); }
 
+    inline void add_method (methodOop meth)
+    {
+        getKlass ()->add_method (this, meth);
+    }
+
     inline size_t instanceSize () { return getKlass ()->instanceSize (this); }
     inline size_t indexableNstVarsSize ()
     {

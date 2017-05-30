@@ -40,7 +40,7 @@ template <class T> struct Oop
     Oop () { memOopValue = NULL; }
     Oop (Smi aNumber)
     {
-        memOopValue = reinterpret_cast<T *> (Smi(1) & (aNumber << 1));
+        memOopValue = reinterpret_cast<T *> (Smi (1) & (aNumber << 1));
     }
     Oop (T * anObj) { memOopValue = (anObj); }
     Oop (const T * anObj) { memOopValue = ((T *)anObj); }

@@ -31,6 +31,8 @@ class Klass
     void initNstVars (classOop aClass);
     void initMethods (classOop aClass);
 
+    void add_method (classOop cls, methodOop meth);
+
     /* Enquiry on Klass */
 
     /* Return the size of an instance of this class - forbidden for Smi. */

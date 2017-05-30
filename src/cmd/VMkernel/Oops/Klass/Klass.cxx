@@ -30,6 +30,13 @@ void Klass::initMethods (classOop aClass)
     aClass->set_methods (vm.mem.factory.newObjVec<methodOop> ());
 }
 
+void Klass::add_method (classOop cls, methodOop meth)
+{
+    cls->nstVar_at<objVecOop<methodOop>::type> (ClassDesc::EMethods)
+        ->contents ()
+        .push_back (meth);
+}
+
 size_t Klass::instanceSize (classOop aClass)
 {
     return sizeof (Desc) + indexableNstVarsSize (aClass);

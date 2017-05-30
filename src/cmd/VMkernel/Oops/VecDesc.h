@@ -24,7 +24,7 @@ template <typename T> class VecDesc : public MemDesc
     std::vector<T> _contents;
 
   public:
-    std::vector<T> contents () { return _contents; }
+    std::vector<T> & contents () { return _contents; }
     void set_contents (std::vector<T> newContents) { _contents = newContents; }
 
     inline size_t size () { return _contents.size (); }
