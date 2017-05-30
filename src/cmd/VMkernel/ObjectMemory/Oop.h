@@ -25,7 +25,7 @@ const size_t platformBits = sizeof (void *);
 const size_t smiBits      = platformBits - 1;
 
 /* An Smi is a small integer's underlying representation. */
-typedef uintptr_t Smi;
+typedef intptr_t Smi;
 
 /* An Oop is an Object-Oriented Pointer.
  * It is the handle used to refer to OopDescs. */
@@ -38,15 +38,18 @@ template <class T> struct Oop
     T * memOopValue;
 
     Oop () { memOopValue = NULL; }
-    Oop (Smi aNumber) { memOopValue = 1 & (aNumber << 1); }
+    Oop (Smi aNumber)
+    {
+        memOopValue = reinterpret_cast<T *> (Smi(1) & (aNumber << 1));
+    }
     Oop (T * anObj) { memOopValue = (anObj); }
     Oop (const T * anObj) { memOopValue = ((T *)anObj); }
 
-    Smi smiValue () { return uintptr_t (memOopValue) >> 1; }
-    bool isSmiOop () { return uintptr_t (memOopValue) & 1; }
+    Smi smiValue () { return reinterpret_cast<Smi> (memOopValue) >> 1; }
+    bool isSmiOop () { return reinterpret_cast<Smi> (memOopValue) & 1; }
     bool isSmiZero ()
     {
-        return isSmiOop () && uintptr_t (memOopValue) >> 1 == 0;
+        return isSmiOop () && reinterpret_cast<Smi> (memOopValue) >> 1 == 0;
     }
 
     template <class R> R cast ()

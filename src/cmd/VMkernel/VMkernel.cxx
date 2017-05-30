@@ -40,7 +40,7 @@
 #define WAIT
 #endif
 
-Oopsc & bcom = *(Oopsc*) NULL;
+Oopsc & bcom = *(Oopsc *)NULL;
 
 void ParseTrace (FILE *, char *);
 void * ParseAlloc (void * (*allocProc) (size_t));
