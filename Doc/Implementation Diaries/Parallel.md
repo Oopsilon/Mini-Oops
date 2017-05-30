@@ -1,6 +1,6 @@
 # Parallelism in the Oopsilon QuickSilver VM
 
-<img src="../Logo/Oopsilon.png" alt="Oopsilon logo" width="585" height="129">
+<img src="../Logo/Oopsilon.png" alt="Oopsilon logo" width="520" height="129">
 
 ### The basic model
 

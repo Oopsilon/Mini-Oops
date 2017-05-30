@@ -1,6 +1,6 @@
 # Blocks
 
-<img src="../Logo/Oopsilon.png" alt="Oopsilon logo" width="585" height="129">
+<img src="../Logo/Oopsilon.png" alt="Oopsilon logo" width="520" height="129">
 
 ### Blocks
 A block is a feature in Smalltalk-80, and also in Oopsilon. Other languages

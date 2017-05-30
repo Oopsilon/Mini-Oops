@@ -1,6 +1,6 @@
 # The Oopsilon Object Model
 
-<img src="Logo/Oopsilon.png" alt="Oopsilon logo" width="585" height="129">
+<img src="Logo/Oopsilon.png" alt="Oopsilon logo" width="520" height="129">
 
 ### Overview
 An Object in Oopsilon has a very simple definition. It is something which can

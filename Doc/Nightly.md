@@ -1,9 +1,9 @@
 # Nightly
 
-<img src="Logo/Oopsilon.png" alt="Oopsilon logo" width="585" height="129">
+<img src="Logo/Oopsilon.png" alt="Oopsilon logo" width="520" height="129">
 
 ### Overview
-**Nightly** is the tool used for building the Oopsilon C/FL consolidation.
+**Nightly** is the tool used for building the Oopsilon QS/L distribution.
 
 #### Running a build
 A build may be run by executing `src/tools/Nightly.sh` from within the Oopsilon

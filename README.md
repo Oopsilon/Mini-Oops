@@ -1,4 +1,4 @@
-<img src="Doc/Logo/Oopsilon.png" alt="Oopsilon logo" width="585" height="129">
+<img src="Doc/Logo/Oopsilon.png" alt="Oopsilon logo" width="520" height="129">
 
 [![Travis CI](https://img.shields.io/travis/Oopsilon/Mini-Oops.svg)](https://travis-ci.org/Oopsilon/Mini-Oops)
 ![Oopsilon 05/2017](https://img.shields.io/badge/Oopsilon-05%2F2017-red.svg)
