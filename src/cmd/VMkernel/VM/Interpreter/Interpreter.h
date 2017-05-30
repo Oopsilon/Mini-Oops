@@ -18,4 +18,9 @@ class Interpreter
 {
     /* The interpreter's sole register. */
     contextOop cp;
+
+  public:
+    Interpreter (methodOop aMeth);
+
+    void interpret (contextOop aContext);
 };

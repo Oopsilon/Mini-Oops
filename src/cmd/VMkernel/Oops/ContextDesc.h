@@ -19,9 +19,12 @@
 
 class ContextDesc : public MemDesc
 {
+  public:
     enum
     {
         EMethod = 1,
+
+        EEnvironment,
 
         EArgs,
         ETemps,
@@ -31,7 +34,6 @@ class ContextDesc : public MemDesc
         EPFP,
     } Layout;
 
-  public:
     static std::vector<std::string> & nstVarNames ()
     {
         const char * varnames[] = {

@@ -19,4 +19,5 @@
 class ContextKlass : public MemKlass
 {
   public:
+    contextOop allocate_context (methodOop meth);
 };

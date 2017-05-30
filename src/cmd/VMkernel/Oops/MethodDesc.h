@@ -26,6 +26,7 @@ class MethodDesc : public MemDesc
         EArgCount,
         ETempCount,
         EEnvironmentCount,
+        EEnvironment,
         ELiteralVec,
         EBytecode,
     } Layout;
@@ -44,6 +45,9 @@ class MethodDesc : public MemDesc
 
             /* <smiOop>: Environment (closure-modifiable) variables count. */
             "environmentCount",
+
+            /* <objVecOop>: Environment. Only applicable to blocks. */
+            "environment",
 
             /* <objVecOop>: Literal objects. */
             "literalVec",
