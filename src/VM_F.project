@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CodeLite_Project Name="QS_L" Version="10.0.0" InternalType="">
+  <Plugins>
+    <Plugin Name="qmake">
+      <![CDATA[00010001N0005Debug000000000000]]>
+    </Plugin>
+  </Plugins>
   <VirtualDirectory Name="cmd">
     <VirtualDirectory Name="VMkernel">
       <VirtualDirectory Name="VM">
@@ -89,6 +94,8 @@
       <File Name="cmd/Classgen/CMakeLists.txt"/>
       <File Name="cmd/Classgen/gram.y"/>
       <File Name="cmd/Classgen/scan.l"/>
+      <File Name="cmd/Classgen/AST.cxx"/>
+      <File Name="cmd/Classgen/AST.h"/>
     </VirtualDirectory>
     <VirtualDirectory Name="Flex">
       <File Name="cmd/Flex/win_flex.exe"/>
@@ -134,11 +141,6 @@
     </VirtualDirectory>
     <File Name="LibOops/CMakeLists.txt"/>
   </VirtualDirectory>
-  <Plugins>
-    <Plugin Name="qmake">
-      <![CDATA[00010001N0005Debug000000000000]]>
-    </Plugin>
-  </Plugins>
   <Reconciliation>
     <Regexes/>
     <Excludepaths/>

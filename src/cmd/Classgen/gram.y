@@ -24,7 +24,7 @@ file
     ::= listings EOF.
 
 listings
-    ::= class.
+    ::= class(c). { c.generate(); }
 listings
     ::= listings class.
 

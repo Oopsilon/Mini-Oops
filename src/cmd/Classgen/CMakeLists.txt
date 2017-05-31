@@ -19,7 +19,7 @@ LemonComp(gram.y)
 
 set (Cg_srcs
     ${PROJECT_BINARY_DIR}/gram.tab.cxx ${PROJECT_BINARY_DIR}/scan.yy.cxx
-    Classgen.cxx)
+    AST.cxx Classgen.cxx)
 
 add_executable (Classgen "")
 

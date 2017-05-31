@@ -14,12 +14,15 @@
 
 #pragma once
 
+#include <list>
 #include <string>
 
 struct Field
 {
     std::string * type;
     std::string * name;
+
+    std::string generate () const;
 };
 
 struct Class
@@ -27,4 +30,8 @@ struct Class
     std::string * name;
     std::string * superName;
     std::list<Field> * fields;
+
+    std::string generate_field_info ();
+
+    void generate ();
 };

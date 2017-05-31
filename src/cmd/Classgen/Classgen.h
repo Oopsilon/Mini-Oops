@@ -24,6 +24,8 @@ class Classgen
 
     off_t first_line, first_col, last_line, last_col;
 
+    std::string FDescH, FDescCXX, FKlassH, FKlassCxx;
+
     Classgen () : first_line (0), first_col (0), last_line (0), last_col (0) {}
 
     void parse (std::string filename);
