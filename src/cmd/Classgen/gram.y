@@ -12,9 +12,17 @@
 %token_type { std::string * }
 
 %type class { Class }
+
 %type class_fields { std::list<Field> * }
+%type comma_separated_fields { std::list<Field> * }
 %type fields { std::list<Field> * }
 %type field { Field }
+
+%type class_methods { std::list<Method> * }
+%type methods { std::list<Method> * }
+%type method { Method }
+%type method_type_specifier { Method::MethType }
+%type method_arg_list { std::list<Field> * }
 
 %syntax_error {
   dbg("%d:%d: Syntax error\n", cg.last_line, cg.last_col);
@@ -31,7 +39,7 @@ listings
 class(C)
     ::= CLASS SYM(b) COLON SYM(s) class_fields(f) class_methods(m) END.
     {
-        C = {b, s, f};
+        C = {b, s, f, m};
     }
 
 class_fields
@@ -49,21 +57,33 @@ class_methods
 class_methods
     ::= .
 
-methods
-    ::= method .
-methods
-    ::= methods method.
+methods(ML)
+    ::= method(m). { ML = new std::list<Method>({m}); }
+methods(ML)
+    ::= methods(ml) method(m). { ML = ml; ML->push_back(m); }
 
-method ::= method_type_specifier method_arg_list C_CODE.
+method(M)
+    ::= method_type_specifier(t) SYM(n) method_arg_list(l) C_CODE(c).
+    {
+        M = {t, new std::string, n, l, c};
+    }
 
-method_type_specifier ::= CONSTRUCTOR.
+method_type_specifier(T) ::= CONSTRUCTOR. { T = Method::EConstructor; }
 
-method_arg_list ::= BRACKET_OPEN comma_separated_fields BRACKET_CLOSE.
+method_arg_list(FL)
+    ::= BRACKET_OPEN comma_separated_fields(fl) BRACKET_CLOSE.
+    {
+        FL = fl;
+    }
 
-comma_separated_fields
-    ::= field.
-comma_separated_fields
-    ::= comma_separated_fields COMMA field.
+comma_separated_fields(FL)
+    ::= field(f).  { FL = new std::list<Field>({f}); }
+comma_separated_fields(FL)
+    ::= comma_separated_fields(fl) COMMA field(f).
+    {
+        FL = fl;
+        FL->push_back({f});
+    }
 
 field(F)
     ::= TYPE(t) SYM(s). { F = {t, s}; }

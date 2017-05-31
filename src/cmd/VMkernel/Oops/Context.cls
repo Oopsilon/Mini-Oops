@@ -25,24 +25,26 @@ class Context : Mem
 
 <smiOop> pc;
 
-constructor (<contextOop> prev, <methodOop> meth, <std::vector<oop> *> args)
+constructor allocate_context (<contextOop> prev, <methodOop> meth,
+                              <std::vector<oop> *> args)
 {
+    r->set_pfp(prev);
+    r->set_method(meth);
+
     r->nstVar_at_put (ContextDesc::EMethod, meth);
 
     if ((envCount = meth->nstVar_at<smiOop> (MethodDesc::EEnvironmentCount)
                         .smiValue ()) != 0)
-        r->nstVar_at_put (ContextDesc::EEnvironment,
-                          vm.mem.factory.newObjVec<oop> (/* envCount */));
+        r->set_environment(vm.mem.factory.newObjVec<oop> (/* envCount */));
     else if (objVecOop<oop>::type env = meth->nstVar_at<objVecOop<oop>::type> (
                  MethodDesc::EEnvironment))
-        r->nstVar_at_put (ContextDesc::EEnvironment, env);
+        r->set_environment (env);
 
-    r->nstVar_at_put (ContextDesc::EArgs, NULL);
-    r->nstVar_at_put (ContextDesc::ETemps, new std::vector<oop>);
-    r->nstVar_at_put (ContextDesc::EStack, new std::vector<oop>);
+    r->set_args (args);
+    r->set_temps (new std::vector<oop> (/* size? */));
+    r->set_stack (new std::vector<oop>);
 
-    r->nstVar_at_put (ContextDesc::EPC, Smi (0));
-    r->nstVar_at_put (ContextDesc::EPFP, NULL);
+    r->set_pc (Smi (0));
 }
 
 end
