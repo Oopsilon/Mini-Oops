@@ -27,6 +27,9 @@ class Quickgen
 
     std::list<VM> vms;
 
+    std::string FIntf;
+    std::string FImpl;
+
     off_t first_line, first_col, last_line, last_col;
 
     Quickgen () : first_line (0), first_col (0), last_line (0), last_col (0) {}

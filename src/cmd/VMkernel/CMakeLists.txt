@@ -19,9 +19,12 @@ LemonComp(Bcom/gram.y)
 
 file (MAKE_DIRECTORY ${PROJECT_BINARY_DIR}/Oops)
 file (MAKE_DIRECTORY ${PROJECT_BINARY_DIR}/Oops/Klass)
+file (MAKE_DIRECTORY ${PROJECT_BINARY_DIR}/VM)
 
 GenerateClass(Oops/Context.cls)
 GenerateClass(Oops/Method.cls)
+
+GenerateVM(VM/QuickSilver.qvm)
 
 set (oopsc_srcs
     ${PROJECT_BINARY_DIR}/gram.tab.cxx ${PROJECT_BINARY_DIR}/scan.yy.cxx
@@ -34,6 +37,7 @@ set (oopsc_srcs
     ${PROJECT_BINARY_DIR}/Oops/ContextDesc.cxx ${PROJECT_BINARY_DIR}/Oops/MethodDesc.cxx
     ${PROJECT_BINARY_DIR}/Oops/Klass/ContextKlass.cxx
     ${PROJECT_BINARY_DIR}/Oops/Klass/MethodKlass.cxx
+    ${PROJECT_BINARY_DIR}/VM/QuickSilver.cxx
     ObjectMemory/ObjectMemory.cxx ObjectMemory/ObjectFactory.cxx
     VM/VM.cxx VM/Interpreter/Interpreter.cxx
 	VMkernel.cxx)

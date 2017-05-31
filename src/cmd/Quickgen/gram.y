@@ -28,18 +28,28 @@ file
     ::= listings EOF.
 
 listings
-    ::= vm(c). {  }
+    ::= vm.
 listings
-    ::= listings vm(c). { }
+    ::= listings vm.
 
-vm(C)
-    ::= VM SYM(b)
+vm
+    ::= VM SYM(b) intf_requires(ir) impl_requires(mr)
         OP_TYPE EQ TYPE(ot) SEMICOLON
         instructions(i)
         END.
     {
         qg.add_vm(VM(*b, *ot, *i));
     }
+
+intf_requires(IR)
+    ::= INTF_REQUIRES C_CODE(c). { IR = c; }
+intf_requires(IR)
+    ::= . { IR = new std::string; }
+
+impl_requires(MR)
+    ::= IMPL_REQUIRES C_CODE(c). { MR = c; }
+impl_requires(MR)
+    ::= . { MR = new std::string; }
 
 instructions
     ::= instruction.
@@ -48,7 +58,7 @@ instructions
 
 instruction(I)
     ::= INSTRUCTION SYM(n) method_arg_list(a)
-        SQB_OPEN opt_comma_separated_fields(st) EQEQ
+        SQB_OPEN opt_comma_separated_fields(st) DASHDASH
                  opt_comma_separated_fields(sg) SQB_CLOSE
         C_CODE(c).
 
@@ -58,7 +68,7 @@ fields(FL)
     ::= fields(fl) field(f) SEMICOLON. { FL = fl; FL->push_back({f}); }
 
 method_arg_list(FL)
-    ::= BRACKET_OPEN comma_separated_fields(fl) BRACKET_CLOSE.
+    ::= BRACKET_OPEN opt_comma_separated_fields(fl) BRACKET_CLOSE.
     {
         FL = fl;
     }

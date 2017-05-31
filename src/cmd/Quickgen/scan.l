@@ -86,18 +86,21 @@ SYML {ST}({SYM}{ST}|{ST}?)+
 <CC>\n         { RVAL->append(yytext); }
 <CC>.          { RVAL->append(yytext); }
 
-  /*"("             return TK_BRACKET_OPEN;
+"("             return TK_BRACKET_OPEN;
 ")"             return TK_BRACKET_CLOSE;
-":"             return TK_COLON;
 ";"             return TK_SEMICOLON;
 ","             return TK_COMMA;
-"constructor"   return TK_CONSTRUCTOR;
-"class"         return TK_CLASS;
+"--"            return TK_DASHDASH;
+"="             return TK_EQ;
+"["             return TK_SQB_OPEN;
+"]"             return TK_SQB_CLOSE;
+"vm"            return TK_VM;
+"op_type"       return TK_OP_TYPE;
+"instruction"   return TK_INSTRUCTION;
 "end"           return TK_END;
-"desc_intf_requires"   return TK_DESC_INTF_REQUIRES;
-"desc_impl_requires"   return TK_DESC_IMPL_REQUIRES;
-"klass_intf_requires"   return TK_KLASS_INTF_REQUIRES;
-"klass_impl_requires"   return TK_KLASS_IMPL_REQUIRES;*/
+
+"intf_requires"   return TK_INTF_REQUIRES;
+"impl_requires"   return TK_IMPL_REQUIRES;
 
 {SYML} {
            RVAL = new std::string(yytext);

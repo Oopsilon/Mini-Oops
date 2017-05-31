@@ -38,10 +38,8 @@ target_link_libraries(Quickgen oops)
 function (GenerateVM path)
 GET_FILENAME_COMPONENT (file ${path} NAME_WE)
 add_custom_command(
-OUTPUT ${PROJECT_BINARY_DIR}/Oops/${file}Desc.cxx
-    ${PROJECT_BINARY_DIR}/Oops/${file}Desc.h
-    ${PROJECT_BINARY_DIR}/Oops/Klass/${file}Klass.cxx
-    ${PROJECT_BINARY_DIR}/Oops/Klass/${file}Klass.h
+OUTPUT ${PROJECT_BINARY_DIR}/VM/${file}.cxx
+    ${PROJECT_BINARY_DIR}/VM/${file}.h
 COMMAND $<TARGET_FILE:Quickgen>
 ARGS ${CMAKE_CURRENT_SOURCE_DIR}/${path} ${PROJECT_BINARY_DIR}
 DEPENDS $<TARGET_FILE:Quickgen>
