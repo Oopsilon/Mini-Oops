@@ -51,8 +51,9 @@ methodOop ObjectFactory::new_method (std::string sel, size_t args, size_t temps,
                                      std::vector<char> code)
 {
     vm.mem.notice ("Allocating new method " BLDTEXT ("%s") "\n", sel.c_str ());
-    return ((MethodKlass *)vm.mem.symbolClass ()->getKlass ())
-        ->allocate_method (vm.mem.factory.newSymbol (sel), args, temps,
+    return ((MethodKlass *)vm.mem.methodClass ()->getKlass ())
+        ->allocate_method (vm.mem.methodClass (),
+                           vm.mem.factory.newSymbol (sel), args, temps,
                            heapvars, vm.mem.factory.newObjVec (literals),
                            vm.mem.factory.newByteVec (code));
 }

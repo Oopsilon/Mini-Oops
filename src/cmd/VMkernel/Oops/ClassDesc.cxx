@@ -14,15 +14,16 @@
 
 #include "ClassDesc.h"
 #include "Desc.h"
-#include "MethodDesc.h"
 #include "ObjVecDesc.h"
+#include "Oops/MethodDesc.h"
+#include "SymbolDesc.h"
 
 methodOop ClassDesc::findMethod (std::string name)
 
 {
     classOop ourSuper;
     for (const auto & meth : methods ()->contents ())
-        if (meth->is_named (name))
+        if (**meth->selector () == name)
             return meth;
     if ((ourSuper = superClass ()))
         return ourSuper->findMethod (name);

@@ -41,7 +41,7 @@ struct Method
 
     const Class * cls;
 
-    std::string generate_klass_intf () const;
+    std::string generate_klass_intf (bool classPrefix = false) const;
     std::string generate_klass_impl () const;
 
     std::string return_type () const;
@@ -58,6 +58,7 @@ struct Class
     std::list<Method> * methods;
 
     std::string * klass_intf_requires;
+    std::string * klass_impl_requires;
 
     std::string desc_intf_filename () const;
     std::string desc_impl_filename () const;

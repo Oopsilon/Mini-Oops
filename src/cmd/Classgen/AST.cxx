@@ -74,15 +74,16 @@ std::string Method::return_type () const
         return *_return_type;
 }
 
-std::string Method::generate_klass_intf () const
+std::string Method::generate_klass_intf (bool classPrefix) const
 {
-    return return_type () + " " + *name + "(classOop our_class, " +
+    return return_type () + (classPrefix ? " " + *cls->name + "Klass::" : " ") +
+           *name + "(classOop our_class, " +
            generate_comma_separated_fields (args) + ")";
 }
 
 std::string Method::generate_klass_impl () const
 {
-    std::string r = generate_klass_intf () + "\n{\n";
+    std::string r = generate_klass_intf (true) + "\n{\n";
 
     if (methType == EConstructor)
         r += "    " + return_type () + " r = vm.mem.lowLevelAlloc<" +
@@ -188,12 +189,26 @@ std::string Class::generate_klass_intf () const
     r += hash_include (::klass_intf_filename (*superName));
 
     r += "class " + *name + "Klass" + " : public " + *superName + "Klass\n";
-    r += "{\n";
+    r += "{\npublic:\n";
 
     for (const auto & meth : *methods)
         r += meth.generate_klass_intf () + ";\n";
 
     r += "};\n";
+
+    return r;
+}
+
+std::string Class::generate_klass_impl () const
+{
+    std::string r;
+
+    r += *klass_impl_requires;
+    r += hash_include (desc_intf_filename ());
+    r += hash_include (klass_intf_filename ());
+
+    for (const auto & meth : *methods)
+        r += meth.generate_klass_impl () + ";\n";
 
     return r;
 }
@@ -206,6 +221,8 @@ void Class::generate () const
     for (auto & meth : *methods)
         meth.set_class (this);
 
-    cg.FDescH  = generate_desc_header ();
-    cg.FKlassH = generate_klass_intf ();
+    cg.FDescH    = generate_desc_header ();
+    cg.FKlassH   = generate_klass_intf ();
+    cg.FKlassCXX = generate_klass_impl ();
+    printf ("Klass CXX:\n<\n%s\n>", cg.FKlassCXX.c_str ());
 }

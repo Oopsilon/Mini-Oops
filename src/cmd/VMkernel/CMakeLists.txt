@@ -21,6 +21,7 @@ file (MAKE_DIRECTORY ${PROJECT_BINARY_DIR}/Oops)
 file (MAKE_DIRECTORY ${PROJECT_BINARY_DIR}/Oops/Klass)
 
 GenerateClass(Oops/Context.cls)
+GenerateClass(Oops/Method.cls)
 
 set (oopsc_srcs
     ${PROJECT_BINARY_DIR}/gram.tab.cxx ${PROJECT_BINARY_DIR}/scan.yy.cxx
@@ -30,7 +31,9 @@ set (oopsc_srcs
     Oops/Klass/ClassKlass.cxx Oops/Klass/SymbolKlass.cxx Oops/Klass/Klass.cxx
     Oops/Klass/ByteVecKlass.cxx Oops/Desc.cxx Oops/ClassDesc.cxx
     Oops/Symbol.cxx Oops/Klass/MethodKlass.cxx Oops/Klass/ContextKlass.cxx
-    ${PROJECT_BINARY_DIR}/Oops/ContextDesc.cxx
+    ${PROJECT_BINARY_DIR}/Oops/ContextDesc.cxx ${PROJECT_BINARY_DIR}/Oops/MethodDesc.cxx
+    ${PROJECT_BINARY_DIR}/Oops/Klass/ContextKlass.cxx
+    ${PROJECT_BINARY_DIR}/Oops/Klass/MethodKlass.cxx
     ObjectMemory/ObjectMemory.cxx ObjectMemory/ObjectFactory.cxx
     VM/VM.cxx VM/Interpreter/Interpreter.cxx
 	VMkernel.cxx)

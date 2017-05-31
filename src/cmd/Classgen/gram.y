@@ -37,16 +37,20 @@ listings
     ::= listings class(c). { cg.add_class(c); }
 
 class(C)
-    ::= CLASS SYM(b) COLON SYM(s) klass_intf_requires(kir) class_fields(f) class_methods(m) END.
+    ::= CLASS SYM(b) COLON SYM(s) klass_intf_requires(kir) klass_impl_requires(kmr) class_fields(f) class_methods(m) END.
     {
-        C = {b, s, f, m, kir};
+        C = {b, s, f, m, kir, kmr};
     }
 
 klass_intf_requires(KIR)
     ::= KLASS_INTF_REQUIRES C_CODE(c). { KIR = c; }
+klass_intf_requires(KIR)
+    ::= . { KIR = new std::string; }
 
 klass_impl_requires(KMR)
     ::= KLASS_IMPL_REQUIRES C_CODE(c). { KMR = c; }
+klass_impl_requires(KMR)
+    ::= . { KMR = new std::string; }
 
 desc_intf_requires(DIR)
     ::= DESC_INTF_REQUIRES C_CODE(c). { DIR = c; }
