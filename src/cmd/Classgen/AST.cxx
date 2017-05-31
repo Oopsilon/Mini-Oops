@@ -27,6 +27,30 @@ std::string lower_first (std::string nam)
 std::string oopName (std::string cls) { return lower_first (cls) + "Oop"; }
 std::string className (std::string cls) { return cls + "Class"; }
 
+std::string desc_intf_filename (std::string cls)
+{
+    return "Oops/" + cls + "Desc.h";
+}
+std::string desc_impl_filename (std::string cls)
+{
+    return "Oops/" + cls + "Desc.cxx";
+}
+std::string klass_intf_filename (std::string cls)
+{
+    return "Oops/Klass/" + cls + "Klass.h";
+}
+std::string klass_impl_filename (std::string cls)
+{
+    return "Oops/Klass/" + cls + "Klass.cxx";
+}
+
+std::string hash_include (std::string file)
+{
+    return "#include \"" + file + "\"\n";
+}
+
+std::string pragma_once = "#pragma once\n";
+
 std::string generate_comma_separated_fields (std::list<Field> * fields)
 {
     std::string r;
@@ -86,6 +110,23 @@ std::string generate_ivar_accessor (Field field)
     return r;
 }
 
+std::string Class::desc_intf_filename () const
+{
+    return ::desc_intf_filename (*name);
+}
+std::string Class::desc_impl_filename () const
+{
+    return ::desc_impl_filename (*name);
+}
+std::string Class::klass_intf_filename () const
+{
+    return ::klass_intf_filename (*name);
+}
+std::string Class::klass_impl_filename () const
+{
+    return ::klass_impl_filename (*name);
+}
+
 std::string Class::generate_field_info () const
 {
     bool onFirst = true;
@@ -119,7 +160,42 @@ std::string Class::generate_field_info () const
     return r + "\n";
 }
 
-void Class::generate ()
+std::string Class::generate_desc_header () const
+{
+    std::string r;
+
+    r += pragma_once;
+    r += hash_include ("Hierarchy.h");
+    r += hash_include (::desc_intf_filename (*superName));
+
+    r += "class " + *name + "Desc" + " : " + *superName + "Desc\n";
+    r += "{\n";
+    r += generate_field_info ();
+    r += "};\n";
+
+    return r;
+}
+
+std::string Class::generate_klass_intf () const
+{
+    std::string r;
+
+    r += pragma_once;
+    r += hash_include ("Hierarchy.h");
+    r += hash_include (::klass_intf_filename (*superName));
+
+    r += "class " + *name + "Klass" + " : " + *superName + "Klass\n";
+    r += "{\n";
+
+    for (const auto & meth : *methods)
+        r += meth.generate_klass_intf () + ";\n";
+
+    r += "};\n";
+
+    return r;
+}
+
+void Class::generate () const
 {
     cg.notice ("Compiling class definition for " BLDTEXT ("%s") "\n",
                name->c_str ());
@@ -127,14 +203,6 @@ void Class::generate ()
     for (auto & meth : *methods)
         meth.set_class (this);
 
-    cg.FDescH += "class " + *name + "Desc" + " : " + *superName + "Desc\n";
-    cg.FDescH += "{\n";
-    cg.FDescH += generate_field_info ();
-    cg.FDescH += "};\n";
-
-    printf ("<DESC HEADER>\n%s</DESC HEADER>\n", cg.FDescH.c_str ());
-
-    printf ("<KLASS STUFF>\n");
-    for (const auto & meth : *methods)
-        printf ("%s\n", meth.generate_klass_impl ().c_str ());
+    cg.FDescH  = generate_desc_header ();
+    cg.FKlassH = generate_klass_intf ();
 }

@@ -38,9 +38,12 @@ target_link_libraries(Classgen oops)
 function (GenerateClass path)
 GET_FILENAME_COMPONENT (file ${path} NAME_WE)
 add_custom_command(
-OUTPUT ${PROJECT_BINARY_DIR}/${file}_desc.cxx
+OUTPUT ${PROJECT_BINARY_DIR}/Oops/${file}Desc.cxx
+    ${PROJECT_BINARY_DIR}/Oops/${file}Desc.h
+    ${PROJECT_BINARY_DIR}/Oops/Klass/${file}Klass.cxx
+    ${PROJECT_BINARY_DIR}/Oops/Klass/${file}Klass.h
 COMMAND $<TARGET_FILE:Classgen>
-ARGS ${CMAKE_CURRENT_SOURCE_DIR}/${path} fake.out
+ARGS ${CMAKE_CURRENT_SOURCE_DIR}/${path} ${PROJECT_BINARY_DIR}
 DEPENDS $<TARGET_FILE:Classgen>
 MAIN_DEPENDENCY ${CMAKE_CURRENT_SOURCE_DIR}/${path}
 WORKING_DIRECTORY ${PROJECT_BINARY_DIR}

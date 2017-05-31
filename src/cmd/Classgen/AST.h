@@ -39,14 +39,14 @@ struct Method
     std::list<Field> * args;
     std::string * code;
 
-    Class * cls;
+    const Class * cls;
 
     std::string generate_klass_intf () const;
     std::string generate_klass_impl () const;
 
     std::string return_type () const;
 
-    void set_class (Class * aCls) { cls = aCls; }
+    void set_class (const Class * aCls) { cls = aCls; }
     bool is_for_klass () const { return methType == EConstructor; }
 };
 
@@ -57,7 +57,17 @@ struct Class
     std::list<Field> * fields;
     std::list<Method> * methods;
 
+    std::string desc_intf_filename () const;
+    std::string desc_impl_filename () const;
+    std::string klass_intf_filename () const;
+    std::string klass_impl_filename () const;
+
     std::string generate_field_info () const;
 
-    void generate ();
+    std::string generate_desc_header () const;
+    std::string generate_desc_impl () const;
+    std::string generate_klass_intf () const;
+    std::string generate_klass_impl () const;
+
+    void generate () const;
 };

@@ -14,7 +14,10 @@
 
 #pragma once
 
+#include <list>
 #include <string>
+
+#include "AST.h"
 
 class Classgen
 {
@@ -24,11 +27,18 @@ class Classgen
 
     off_t first_line, first_col, last_line, last_col;
 
-    std::string FDescH, FDescCXX, FKlassH, FKlassCxx;
+    std::list<Class> classes;
+    std::string FDescH, FDescCXX, FKlassH, FKlassCXX;
 
     Classgen () : first_line (0), first_col (0), last_line (0), last_col (0) {}
 
+    /* Parser interface */
+    void add_class (Class cls) { classes.push_back (cls); }
+
+    /* Program interface */
+
     void parse (std::string filename);
+    void emit (std::string output_folder);
     void compile ();
 
     void notice (const char * format, ...);

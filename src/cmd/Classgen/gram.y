@@ -32,9 +32,9 @@ file
     ::= listings EOF.
 
 listings
-    ::= class(c). { c.generate(); }
+    ::= class(c). { cg.add_class(c); }
 listings
-    ::= listings class.
+    ::= listings class(c). { cg.add_class(c); }
 
 class(C)
     ::= CLASS SYM(b) COLON SYM(s) class_fields(f) class_methods(m) END.

@@ -16,16 +16,21 @@ project(VMkernel)
 
 FlexComp(Bcom/scan.l)
 LemonComp(Bcom/gram.y)
+
+file (MAKE_DIRECTORY ${PROJECT_BINARY_DIR}/Oops)
+file (MAKE_DIRECTORY ${PROJECT_BINARY_DIR}/Oops/Klass)
+
 GenerateClass(Oops/Context.cls)
 
 set (oopsc_srcs
     ${PROJECT_BINARY_DIR}/gram.tab.cxx ${PROJECT_BINARY_DIR}/scan.yy.cxx
     Bcom/State.cxx Bcom/MsgSyntax.cxx Bcom/Compiler/Code.cxx
     Bcom/AST.cxx Bcom/Symbol.cxx Bcom/Compiler/Context.cxx
-    Bytecode/Bytecode.cxx ${PROJECT_BINARY_DIR}/Context_desc.cxx
+    Bytecode/Bytecode.cxx
     Oops/Klass/ClassKlass.cxx Oops/Klass/SymbolKlass.cxx Oops/Klass/Klass.cxx
     Oops/Klass/ByteVecKlass.cxx Oops/Desc.cxx Oops/ClassDesc.cxx
     Oops/Symbol.cxx Oops/Klass/MethodKlass.cxx Oops/Klass/ContextKlass.cxx
+    ${PROJECT_BINARY_DIR}/Oops/ContextDesc.cxx
     ObjectMemory/ObjectMemory.cxx ObjectMemory/ObjectFactory.cxx
     VM/VM.cxx VM/Interpreter/Interpreter.cxx
 	VMkernel.cxx)
