@@ -54,7 +54,7 @@ class Desc
     bool is_smi () const { return (oop (this)).isSmiOop (); }
 
     /* VM use */
-    /* Looks up the selector for the named method. */
+    /* Looks up the selector for the named method on this object. */
     methodOop lookup (std::string meth);
 
     /* Enquiry - despatched to Klass */
