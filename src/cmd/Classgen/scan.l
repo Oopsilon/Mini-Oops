@@ -2,7 +2,7 @@
 #include "Classgen.h"
 #include "gram.tab.h"
 
-int angle_depth = 0;
+int depth = 0;
 %}
 
 %option reentrant
@@ -49,6 +49,8 @@ SYML {ST}({SYM}{ST}|{ST}?)+
 %x T
 /* Multi-line comment. */
 %x MLC
+/* C code. */
+%x CC
 
 %%
 
@@ -59,23 +61,39 @@ SYML {ST}({SYM}{ST}|{ST}?)+
 <MLC>\n
 <MLC>.
 
-"<"             { BEGIN(T); RVAL = new std::string; angle_depth = 1; }
-<T>"<"          { angle_depth++; RVAL->append(yytext); }
+"<"             { BEGIN(T); RVAL = new std::string; depth = 1; }
+<T>"<"          { depth++; RVAL->append(yytext); }
 <T>">"          {
-    if (--angle_depth == 0)
+    if (--depth == 0)
     {
         BEGIN(INITIAL);
         return TK_TYPE;
     }
     else RVAL->append(yytext);
-} 
+}
 <T>.            { RVAL->append(yytext); }
 
+"{"             { BEGIN(CC); RVAL = new std::string; depth = 1; }
+<CC>"{"         { depth++; RVAL->append(yytext); }
+<CC>"}"         {
+    if (--depth == 0)
+    {
+        BEGIN(INITIAL);
+        return TK_C_CODE;
+    }
+    else RVAL->append(yytext);
+}
+<CC>\n         { RVAL->append(yytext); }
+<CC>.          { RVAL->append(yytext); }
 
-":"         return TK_COLON;
-";"         return TK_SEMICOLON;
-"class"     return TK_CLASS;
-"end"       return TK_END;
+"("             return TK_BRACKET_OPEN;
+")"             return TK_BRACKET_CLOSE;
+":"             return TK_COLON;
+";"             return TK_SEMICOLON;
+","             return TK_COMMA;
+"constructor"   return TK_CONSTRUCTOR;
+"class"         return TK_CLASS;
+"end"           return TK_END;
 
 {SYML} {
            RVAL = new std::string(yytext);

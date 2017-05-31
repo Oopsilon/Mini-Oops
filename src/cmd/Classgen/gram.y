@@ -29,7 +29,7 @@ listings
     ::= listings class.
 
 class(C)
-    ::= CLASS SYM(b) COLON SYM(s) class_fields(f) END.
+    ::= CLASS SYM(b) COLON SYM(s) class_fields(f) class_methods(m) END.
     {
         C = {b, s, f};
     }
@@ -40,9 +40,30 @@ class_fields
     ::= .
 
 fields(FL)
-    ::= field(f). { FL = new std::list<Field>({f}); }
+    ::= field(f) SEMICOLON. { FL = new std::list<Field>({f}); }
 fields(FL)
-    ::= fields(fl) field(f). { FL = fl; FL->push_back({f}); }
+    ::= fields(fl) field(f) SEMICOLON. { FL = fl; FL->push_back({f}); }
+
+class_methods
+    ::= methods.
+class_methods
+    ::= .
+
+methods
+    ::= method .
+methods
+    ::= methods method.
+
+method ::= method_type_specifier method_arg_list C_CODE.
+
+method_type_specifier ::= CONSTRUCTOR.
+
+method_arg_list ::= BRACKET_OPEN comma_separated_fields BRACKET_CLOSE.
+
+comma_separated_fields
+    ::= field.
+comma_separated_fields
+    ::= comma_separated_fields COMMA field.
 
 field(F)
-    ::= TYPE(t) SYM(s) SEMICOLON. { F = {t, s}; }
+    ::= TYPE(t) SYM(s). { F = {t, s}; }
