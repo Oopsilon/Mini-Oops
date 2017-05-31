@@ -17,7 +17,32 @@
 #include <list>
 #include <string>
 
+struct Field
+{
+    std::string * type;
+    std::string * name;
+};
+
+struct Instruction
+{
+    std::string * name;
+    std::list<Field> * params;
+    std::list<Field> * stackTook;
+    std::list<Field> * stackGave;
+    std::string * impl;
+};
+
 struct VM
 {
+    std::string name;
+    std::string type;
+    std::list<Instruction> instrs;
+
+    VM (std::string aName, std::string anOpType,
+        std::list<Instruction> someInstrs)
+        : name (aName), type (anOpType), instrs (someInstrs)
+    {
+    }
+
     void generate () const;
 };

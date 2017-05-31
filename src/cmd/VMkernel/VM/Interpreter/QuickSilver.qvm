@@ -14,9 +14,9 @@
 
 vm QuickSilver
 
-type = <uint8_t>;
+op_type = <uint8_t>;
 
-instruction Pop() [ <oop> -- ]
+instruction Pop() [ <oop> popped -- ]
 {
 }
 
@@ -35,13 +35,13 @@ instruction PushArgument(<uint8_t> index) [ -- <oop> arg ]
     arg = argument_at(index);
 }
 
-instruction StoreTemp(uint8_t index) [ <oop> var -- ]
+instruction StoreTemp(<uint8_t> index) [ <oop> var -- ]
 {
     temp_at_put(index, var);
 }
 
-instruction Send(uint8_t num_args)
-[ <oop> receiver <symbolOop> selector <@variadic> args... -- ]
+instruction Send(<uint8_t> num_args)
+[ <@variadic> args..., <symbolOop> selector, <oop> receiver -- ]
 {
 }
 
