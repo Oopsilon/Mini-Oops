@@ -90,13 +90,15 @@ void Classgen::parse (std::string filename)
 
 int main (int argc, char * argv[])
 {
+    ParseTrace (stdout, KCYN "[Analyser] " KNRM);
+
     if (argc < 3)
-        fatalError ("Usage: %s path/to/Oopsilon/Package.oop\n", argv[0]);
+        fatalError ("Usage: %s path/to/class.cls output/folder\n", argv[0]);
 
     {
         std::ofstream out;
 
-        // ParseTrace (stdout, KCYN "[Analyser::Lemon] " KNRM);
+        cg.parse (argv[1]);
 
         return 0;
     }

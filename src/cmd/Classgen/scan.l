@@ -1,6 +1,8 @@
 %{
 #include "Classgen.h"
 #include "gram.tab.h"
+
+int angle_depth = 0;
 %}
 
 %option reentrant
@@ -43,15 +45,37 @@ NL \n
 KEYW {ST}({SYM}{ST}|{ST}?)+":"
 SYML {ST}({SYM}{ST}|{ST}?)+
 
-%x STRING
-%x CQUOTE
-%x CTYPE
-%x INCLUDE
-%x SC
+/* Type. */
+%x T
+/* Multi-line comment. */
+%x MLC
 
 %%
 
 [ \t\r\n]+
+
+"/*"            { BEGIN(MLC); }
+<MLC>"*/"       { BEGIN(INITIAL); }
+<MLC>\n
+<MLC>.
+
+"<"             { BEGIN(T); RVAL = new std::string; angle_depth = 1; }
+<T>"<"          { angle_depth++; RVAL->append(yytext); }
+<T>">"          {
+    if (--angle_depth == 0)
+    {
+        BEGIN(INITIAL);
+        return TK_TYPE;
+    }
+    else RVAL->append(yytext);
+} 
+<T>.            { RVAL->append(yytext); }
+
+
+":"         return TK_COLON;
+";"         return TK_SEMICOLON;
+"class"     return TK_CLASS;
+"end"       return TK_END;
 
 {SYML} {
            RVAL = new std::string(yytext);
