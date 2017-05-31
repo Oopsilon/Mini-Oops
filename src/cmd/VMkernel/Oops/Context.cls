@@ -31,8 +31,6 @@ constructor allocate_context (<contextOop> prev, <methodOop> meth,
     r->set_pfp(prev);
     r->set_method(meth);
 
-    r->nstVar_at_put (ContextDesc::EMethod, meth);
-
     if ((envCount = meth->nstVar_at<smiOop> (MethodDesc::EEnvironmentCount)
                         .smiValue ()) != 0)
         r->set_environment(vm.mem.factory.newObjVec<oop> (/* envCount */));

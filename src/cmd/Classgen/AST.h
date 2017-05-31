@@ -41,7 +41,8 @@ struct Method
 
     Class * cls;
 
-    std::string generate_klass_interface () const;
+    std::string generate_klass_intf () const;
+    std::string generate_klass_impl () const;
 
     std::string return_type () const;
 

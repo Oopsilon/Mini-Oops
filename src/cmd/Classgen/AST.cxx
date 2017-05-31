@@ -17,7 +17,16 @@
 
 #include "AST.h"
 
-std::string oopName (std::string cls) { return cls + "Oop"; }
+std::string lower_first (std::string nam)
+{
+    std::string r = nam;
+    r[0]          = std::tolower (r[0]);
+    return r;
+}
+
+std::string oopName (std::string cls) { return lower_first (cls) + "Oop"; }
+std::string className (std::string cls) { return cls + "Class"; }
+
 std::string generate_comma_separated_fields (std::list<Field> * fields)
 {
     std::string r;
@@ -39,14 +48,29 @@ std::string Method::return_type () const
         return *_return_type;
 }
 
-std::string Method::generate_klass_interface () const
+std::string Method::generate_klass_intf () const
 {
-    std::string r;
+    return return_type () + " " + *name + "(classOop our_class, " +
+           generate_comma_separated_fields (args) + ")";
+}
 
-    r += return_type () + " " + *name + "(" +
-         generate_comma_separated_fields (args) + ");\n";
+std::string Method::generate_klass_impl () const
+{
+    std::string r = generate_klass_intf () + "\n{\n";
 
-    return r;
+    if (methType == EConstructor)
+        r += "    " + return_type () + " r = vm.mem.lowLevelAlloc<" +
+             return_type () +
+             ">(our_class->instanceSize());\n"
+             "    r->basic_init();\n"
+             "    r->set_isa(our_class);\n";
+
+    r += *code;
+
+    if (methType == EConstructor)
+        r += "    return r;\n";
+
+    return r + "}\n";
 }
 
 std::string generate_ivar_accessor (Field field)
@@ -112,5 +136,5 @@ void Class::generate ()
 
     printf ("<KLASS STUFF>\n");
     for (const auto & meth : *methods)
-        printf ("%s\n", meth.generate_klass_interface ().c_str ());
+        printf ("%s\n", meth.generate_klass_impl ().c_str ());
 }
