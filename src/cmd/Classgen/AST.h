@@ -57,6 +57,8 @@ struct Class
     std::list<Field> * fields;
     std::list<Method> * methods;
 
+    std::string * klass_intf_requires;
+
     std::string desc_intf_filename () const;
     std::string desc_impl_filename () const;
     std::string klass_intf_filename () const;

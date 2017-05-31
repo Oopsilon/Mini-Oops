@@ -49,6 +49,8 @@ std::string hash_include (std::string file)
     return "#include \"" + file + "\"\n";
 }
 
+std::string hash_include_hier () { return hash_include ("Oops/Hierarchy.h"); }
+
 std::string pragma_once = "#pragma once\n";
 
 std::string generate_comma_separated_fields (std::list<Field> * fields)
@@ -105,7 +107,7 @@ std::string generate_ivar_accessor (Field field)
          *field.type + "> (E" + *field.name + "); }\n";
 
     r += "void set_" + *field.name + "(" + *field.type +
-         "val) { return nstVar_at_put (E" + *field.name + ", val); }\n";
+         " val) { return nstVar_at_put (E" + *field.name + ", val); }\n";
 
     return r;
 }
@@ -165,11 +167,11 @@ std::string Class::generate_desc_header () const
     std::string r;
 
     r += pragma_once;
-    r += hash_include ("Hierarchy.h");
+    r += hash_include_hier ();
     r += hash_include (::desc_intf_filename (*superName));
 
-    r += "class " + *name + "Desc" + " : " + *superName + "Desc\n";
-    r += "{\n";
+    r += "class " + *name + "Desc" + " : public " + *superName + "Desc\n";
+    r += "{\npublic:\n";
     r += generate_field_info ();
     r += "};\n";
 
@@ -181,10 +183,11 @@ std::string Class::generate_klass_intf () const
     std::string r;
 
     r += pragma_once;
-    r += hash_include ("Hierarchy.h");
+    r += *klass_intf_requires;
+    r += hash_include_hier ();
     r += hash_include (::klass_intf_filename (*superName));
 
-    r += "class " + *name + "Klass" + " : " + *superName + "Klass\n";
+    r += "class " + *name + "Klass" + " : public " + *superName + "Klass\n";
     r += "{\n";
 
     for (const auto & meth : *methods)

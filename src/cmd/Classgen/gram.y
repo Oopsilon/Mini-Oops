@@ -37,10 +37,22 @@ listings
     ::= listings class(c). { cg.add_class(c); }
 
 class(C)
-    ::= CLASS SYM(b) COLON SYM(s) class_fields(f) class_methods(m) END.
+    ::= CLASS SYM(b) COLON SYM(s) klass_intf_requires(kir) class_fields(f) class_methods(m) END.
     {
-        C = {b, s, f, m};
+        C = {b, s, f, m, kir};
     }
+
+klass_intf_requires(KIR)
+    ::= KLASS_INTF_REQUIRES C_CODE(c). { KIR = c; }
+
+klass_impl_requires(KMR)
+    ::= KLASS_IMPL_REQUIRES C_CODE(c). { KMR = c; }
+
+desc_intf_requires(DIR)
+    ::= DESC_INTF_REQUIRES C_CODE(c). { DIR = c; }
+
+desc_impl_requires(DMR)
+    ::= DESC_IMPL_REQUIRES C_CODE(c). { DMR = c; }
 
 class_fields
     ::= fields.

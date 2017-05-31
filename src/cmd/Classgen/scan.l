@@ -94,6 +94,10 @@ SYML {ST}({SYM}{ST}|{ST}?)+
 "constructor"   return TK_CONSTRUCTOR;
 "class"         return TK_CLASS;
 "end"           return TK_END;
+"desc_intf_requires"   return TK_DESC_INTF_REQUIRES;
+"desc_impl_requires"   return TK_DESC_IMPL_REQUIRES;
+"klass_intf_requires"   return TK_KLASS_INTF_REQUIRES;
+"klass_impl_requires"   return TK_KLASS_IMPL_REQUIRES;
 
 {SYML} {
            RVAL = new std::string(yytext);

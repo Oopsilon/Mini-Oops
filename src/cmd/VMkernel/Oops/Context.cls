@@ -13,6 +13,12 @@
  */
 
 class Context : Mem
+
+klass_intf_requires
+{
+    #include <vector>
+}
+
 <contextOop> pfp;
 
 <methodOop> method;
