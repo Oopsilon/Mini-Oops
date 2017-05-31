@@ -1,0 +1,48 @@
+/* Oopsilon
+ * QuickSilver! VM definition for Quickgen.
+ *
+ *      Copyright Notice
+ *
+ * Copyright (c) 2017 D. Mackay. All rights reserved.
+ *
+ * This file and its contents are supplied under the terms of the Peer
+ * Production Licence as found in the Oopsilon project's source repository,
+ * and David Mackay is the sole copyright holder.
+ *
+ *      End Copyright Notice
+ */
+
+vm QuickSilver
+
+type = <uint8_t>;
+
+instruction Pop() [ <oop> -- ]
+{
+}
+
+instruction PushTrue() [ -- <oop> trueObject ]
+{
+    trueObject = vm.mem.trueObject();
+}
+
+instruction PushFalse() [ -- <oop> falseObject ]
+{
+    falseObject = vm.mem.falseObject();
+}
+
+instruction PushArgument(<uint8_t> index) [ -- <oop> arg ]
+{
+    arg = argument_at(index);
+}
+
+instruction StoreTemp(uint8_t index) [ <oop> var -- ]
+{
+    temp_at_put(index, var);
+}
+
+instruction Send(uint8_t num_args)
+[ <oop> receiver <symbolOop> selector <@variadic> args... -- ]
+{
+}
+
+end

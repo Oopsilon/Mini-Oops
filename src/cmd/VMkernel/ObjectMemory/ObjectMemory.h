@@ -67,6 +67,9 @@ class ObjectMemory
     }
 
     /* Basic enquiry on the object memory state. */
+    memOop trueObject () { return _true; }
+    memOop falseObject () { return _false; }
+
     classOop smiClass () { return _smiClass; }
     classOop contextClass () { return _contextClass; }
     classOop methodClass () { return _methodClass; }
