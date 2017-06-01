@@ -19,11 +19,28 @@
 
 std::string sc (std::string line) { return line + ";"; }
 std::string nl (std::string line) { return line + "\n"; }
+std::string nlseq (std::list<std::string> lines)
+{
+    std::string r;
+    for (const auto & str : lines)
+        r += nl (str);
+    return r;
+}
+
+std::string includesys (std::string file)
+{
+    return nl ("#include <" + file + ">");
+}
+std::string includeuser (std::string file)
+{
+    return nl ("#include \"" + file + "\"");
+}
+
 std::string scnl (std::string line) { return nl (sc (line)); }
 
 std::string quote (std::string aStr) { return "\"" + aStr + "\""; }
 
-std::string return_x (std::string ret) { return "return " + ret; }
+std::string return_x (std::string ret) { return scnl ("return " + ret); }
 
 std::string assign (std::string lval, std::string rval)
 {
@@ -49,9 +66,9 @@ std::string ptr (std::string type) { return type + " *"; }
 
 std::string ref (std::string type) { return type + " &"; }
 
-std::string ptrref (std::string type, std::string name)
+std::string reftoptr (std::string type, std::string name)
 {
-    return "const " + ptr (ref (type)) + name;
+    return ref (ptr (type)) + name;
 }
 
 std::string comma_seq (std::list<std::string> things)
@@ -66,6 +83,11 @@ std::string comma_seq (std::list<std::string> things)
 }
 
 std::string bracket (std::string txt) { return "(" + txt + ")"; }
+
+std::string cast (std::string type, std::string expr)
+{
+    return bracket (bracket (type) + bracket (expr));
+}
 
 std::string call (std::string func, std::string args)
 {
@@ -117,7 +139,7 @@ struct CXXFunction
 std::string Instruction::describe_fn_impl () const
 {
     std::string r = "inline std::string " + describe_fn_name () + "(" +
-                    ptrref (vm->type, "array") + ")\n{\n";
+                    reftoptr (vm->type, "array") + ")\n{\n";
 
     for (const auto & param : *params)
         r += "\t" +
@@ -125,7 +147,7 @@ std::string Instruction::describe_fn_impl () const
                      read_type_from_array (vm->type, *param.type)) +
              ";\n";
 
-    r += "\treturn \"" + *name + " (\"";
+    r += "\treturn std::string(\"" + *name + " (\")";
 
     for (const auto & param : *params)
         r += " + std::to_string(" + *param.name + ")";
@@ -162,21 +184,28 @@ std::string VM::disasm_func_body () const
     std::string r, do_bod;
     r += scnl (declare ("std::string", "dis"));
 
+    do_bod += scnl (assign (declare (opcode_enum_type (), "op"),
+                            cast (opcode_enum_type (), "*(code++)")));
+    do_bod += nl ("switch (op)\n{");
     for (const auto instr : instrs)
         do_bod += case_x_break (
             instr.enum_entry (),
             sc ("dis +=" +
-                call ("_nl", call (instr.describe_fn_name (), "code"))));
+                call ("__nl", call (instr.describe_fn_name (), "code"))));
+    do_bod += nl ("}");
 
     r += do_while (do_bod, "code != limit");
-    r += scnl (return_x ("dis"));
+    r += return_x ("dis");
 
     return r;
 }
 
-std::string VM::disassembler_intf () const
+std::string VM::dis_intf () const
 {
-    std::string c;
+    std::string c, r;
+
+    r += includesys ("string");
+    r += includeuser ("QuickgenSupport.h");
 
     c += scnl (declare (ptr (type), "code"));
     c += scnl (declare (ptr (type), "limit"));
@@ -185,10 +214,37 @@ std::string VM::disassembler_intf () const
                      declare (ref (vec_type ()), "_code")) +
          nl (" : code(_code.data()), limit (&_code.back()) {}");
 
-    return declare_class (disassembler_class_name (), c);
+    r += declare_class (disassembler_class_name (), c);
+
+    return r;
 }
 
-std::string VM::disassembler_impl () const { std::string c; }
+std::string VM::dis_impl () const
+{
+    std::string r;
+
+    r += includeuser ("QuickgenSupport.h");
+    r += includeuser (opcode_intf_filename ());
+    r += includeuser (dis_intf_filename ());
+
+    for (const auto instr : instrs)
+        r += instr.describe_fn_impl ();
+
+    r += disasm_func->gen_def ();
+
+    return r;
+}
+
+std::string VM::opcode_intf () const
+{
+    std::string r;
+
+    /* for std::to_string */
+    r += includesys ("string");
+    r += opcode_enum ();
+
+    return r;
+}
 
 void VM::generate ()
 {
@@ -196,8 +252,6 @@ void VM::generate ()
         ((Instruction &)instr).set_vm ((VM *)this);
     disasm_func = new CXXFunction (disassembler_class_name (), "std::string",
                                    "disassemble", {}, disasm_func_body ());
-    dbg (disasm_func->gen_def ().c_str ());
     qg.notice ("\n%s\n%s\n", opcode_enum ().c_str (),
                opcode_str_table ().c_str ());
-    qg.notice ("\n\n%s\n\n", disassembler_intf ().c_str ());
 }

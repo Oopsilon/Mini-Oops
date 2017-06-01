@@ -42,6 +42,7 @@ struct Instruction
 
     std::string enum_entry () const { return "E" + *name; }
     std::string describe_fn_name () const { return "Describe" + *name; }
+    std::string describe_fn_intf () const;
     std::string describe_fn_impl () const;
 };
 
@@ -75,8 +76,14 @@ struct VM
     {
         return name + "Disassembler";
     }
-    std::string disassembler_intf () const;
-    std::string disassembler_impl () const;
+    std::string dis_intf () const;
+    std::string dis_impl () const;
+
+    std::string opcode_intf () const;
+
+    std::string dis_intf_filename () const { return name + "Disasm.h"; }
+    std::string dis_impl_filename () const { return name + "Disasm.cxx"; }
+    std::string opcode_intf_filename () const { return name + "Opcode.h"; }
 
     /* Shut C++ up. */
     VM () {}

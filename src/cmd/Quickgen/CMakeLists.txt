@@ -35,13 +35,13 @@ target_link_libraries(Quickgen oops)
 
 # Define a command for using it.
 
-function (GenerateVM path)
+function (GenerateVM path outdir)
 GET_FILENAME_COMPONENT (file ${path} NAME_WE)
 add_custom_command(
-OUTPUT ${PROJECT_BINARY_DIR}/VM/${file}.cxx
-    ${PROJECT_BINARY_DIR}/VM/${file}.h
+OUTPUT ${outdir}/${file}Disasm.cxx
+    ${outdir}/${file}Disasm.h
 COMMAND $<TARGET_FILE:Quickgen>
-ARGS ${CMAKE_CURRENT_SOURCE_DIR}/${path} ${PROJECT_BINARY_DIR}
+ARGS ${CMAKE_CURRENT_SOURCE_DIR}/${path} ${outdir}
 DEPENDS $<TARGET_FILE:Quickgen>
 MAIN_DEPENDENCY ${CMAKE_CURRENT_SOURCE_DIR}/${path}
 WORKING_DIRECTORY ${PROJECT_BINARY_DIR}

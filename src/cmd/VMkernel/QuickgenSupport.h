@@ -12,8 +12,12 @@
  *      End Copyright Notice
  */
 
+#pragma once
+
 #include <cstdint>
 #include <cstdlib>
+#include <cstring>
+#include <string>
 #include <vector>
 
 std::string __nl (std::string txt) { return txt + "\n"; }

@@ -88,10 +88,25 @@ void Quickgen::parse (std::string filename)
     yylex_destroy (scanner);
 }
 
+#define OUTFILE(x) (output_folder + "/" + x)
+
 void Quickgen::emit (std::string output_folder)
 {
+    std::ofstream disintf (output_folder + "/" + vm.dis_intf_filename ());
+    std::ofstream disimpl (OUTFILE (vm.dis_impl_filename ()));
+    std::ofstream opcodeintf (OUTFILE (vm.opcode_intf_filename ()));
     printf ("Output dir: %s\n", output_folder.c_str ());
     vm.generate ();
+
+    disintf << vm.dis_intf ();
+    disintf.close ();
+
+    disimpl << vm.dis_impl ();
+    disimpl.close ();
+
+    opcodeintf << vm.opcode_intf ();
+    opcodeintf.close ();
+
     /*std::ofstream desch (output_folder + "/" + cls.desc_intf_filename ());
     std::ofstream desc (output_folder + "/" + cls.desc_impl_filename ());
     std::ofstream klassh (output_folder + "/" + cls.klass_intf_filename ());
