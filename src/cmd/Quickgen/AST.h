@@ -62,6 +62,14 @@ struct VM
     std::string opcode_str_table () const;
     std::string opcode_str_table_name () const { return name + "OpcodeNames"; }
 
+    std::string vec_type () const { return "std::vector<" + type + ">"; }
+
+    std::string disassembler_class_name () const
+    {
+        return name + "Disassembler";
+    }
+    std::string disassembler_intf () const;
+
     /* Shut C++ up. */
     VM () {}
 

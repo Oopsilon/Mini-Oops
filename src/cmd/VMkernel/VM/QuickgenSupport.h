@@ -16,6 +16,8 @@
 #include <cstdlib>
 #include <vector>
 
+std::string __nl (std::string txt) { return txt + "\n"; }
+
 /* These methods are for writing and reading arbitrary types from vectors of
  * some smaller type.
  * Obviously the vector's type must be smaller than the type we are trying to
