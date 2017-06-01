@@ -17,10 +17,14 @@
 #include <list>
 #include <string>
 
+struct VM;
+
 struct Field
 {
     std::string * type;
     std::string * name;
+
+    std::string decl () const { return *type + " " + *name; }
 };
 
 struct Instruction
@@ -31,7 +35,13 @@ struct Instruction
     std::list<Field> * stackGave;
     std::string * impl;
 
+    VM * vm;
+
+    void set_vm (VM * aVM) { vm = aVM; }
+
     std::string enum_entry () const { return "E" + *name; }
+    std::string describe_fn_name () const { return "Describe" + *name; }
+    std::string describe_fn_impl () const;
 };
 
 struct VM
