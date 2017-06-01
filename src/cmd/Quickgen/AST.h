@@ -17,6 +17,7 @@
 #include <list>
 #include <string>
 
+struct CXXFunction;
 struct VM;
 
 struct Field
@@ -46,6 +47,16 @@ struct Instruction
 
 struct VM
 {
+  private:
+    std::string opcode_enum () const;
+    std::string opcode_enum_type () const { return "T" + name + "Opcodes"; }
+    std::string opcode_enum_name () const { return name + "Opcodes"; }
+    std::string opcode_str_table () const;
+    std::string opcode_str_table_name () const { return name + "OpcodeNames"; }
+
+    std::string disasm_func_body () const;
+
+  public:
     std::string name;
     std::string type;
     std::list<Instruction> instrs;
@@ -56,11 +67,7 @@ struct VM
     {
     }
 
-    std::string opcode_enum () const;
-    std::string opcode_enum_type () const { return "T" + name + "Opcodes"; }
-    std::string opcode_enum_name () const { return name + "Opcodes"; }
-    std::string opcode_str_table () const;
-    std::string opcode_str_table_name () const { return name + "OpcodeNames"; }
+    CXXFunction * disasm_func;
 
     std::string vec_type () const { return "std::vector<" + type + ">"; }
 
@@ -69,9 +76,10 @@ struct VM
         return name + "Disassembler";
     }
     std::string disassembler_intf () const;
+    std::string disassembler_impl () const;
 
     /* Shut C++ up. */
     VM () {}
 
-    void generate () const;
+    void generate ();
 };

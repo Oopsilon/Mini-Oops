@@ -23,6 +23,8 @@ std::string scnl (std::string line) { return nl (sc (line)); }
 
 std::string quote (std::string aStr) { return "\"" + aStr + "\""; }
 
+std::string return_x (std::string ret) { return "return " + ret; }
+
 std::string assign (std::string lval, std::string rval)
 {
     return lval + " = " + rval;
@@ -65,10 +67,20 @@ std::string comma_seq (std::list<std::string> things)
 
 std::string bracket (std::string txt) { return "(" + txt + ")"; }
 
+std::string call (std::string func, std::string args)
+{
+    return func + bracket (args);
+}
+
 std::string do_while (std::string todo, std::string condition)
 {
 
     return "do\n{\n" + todo + "}\nwhile(" + condition + ");\n";
+}
+
+std::string case_x_break (std::string cond, std::string todo)
+{
+    return nl (nl ("case " + cond + ":") + "\t" + nl (todo) + nl ("\tbreak;"));
 }
 
 std::string read_type_from_array (std::string artype, std::string type,
@@ -76,6 +88,31 @@ std::string read_type_from_array (std::string artype, std::string type,
 {
     return "read_type_from_array<" + artype + ", " + type + ">(" + arname + ")";
 }
+
+struct CXXFunction
+{
+    std::string cls;
+    std::string rtype;
+    std::string name;
+    std::list<std::string> params;
+    std::string body;
+
+    CXXFunction (std::string aCls, std::string aRtype, std::string aName,
+                 std::list<std::string> aParams, std::string aBody)
+        : cls (aCls), rtype (aRtype), name (aName), params (aParams),
+          body (aBody){};
+
+    std::string gen_inclass_decl ()
+    {
+        return scnl (declare_fn (rtype, name, comma_seq (params)));
+    }
+    std::string gen_def ()
+    {
+        return nl (
+            nl (declare_fn (rtype, cls + "::" + name, comma_seq (params))) +
+            nl ("{") + nl (body) + nl ("}"));
+    }
+};
 
 std::string Instruction::describe_fn_impl () const
 {
@@ -120,6 +157,23 @@ std::string VM::opcode_str_table () const
     return r;
 }
 
+std::string VM::disasm_func_body () const
+{
+    std::string r, do_bod;
+    r += scnl (declare ("std::string", "dis"));
+
+    for (const auto instr : instrs)
+        do_bod += case_x_break (
+            instr.enum_entry (),
+            sc ("dis +=" +
+                call ("_nl", call (instr.describe_fn_name (), "code"))));
+
+    r += do_while (do_bod, "code != limit");
+    r += scnl (return_x ("dis"));
+
+    return r;
+}
+
 std::string VM::disassembler_intf () const
 {
     std::string c;
@@ -134,10 +188,15 @@ std::string VM::disassembler_intf () const
     return declare_class (disassembler_class_name (), c);
 }
 
-void VM::generate () const
+std::string VM::disassembler_impl () const { std::string c; }
+
+void VM::generate ()
 {
     for (auto & instr : instrs)
         ((Instruction &)instr).set_vm ((VM *)this);
+    disasm_func = new CXXFunction (disassembler_class_name (), "std::string",
+                                   "disassemble", {}, disasm_func_body ());
+    dbg (disasm_func->gen_def ().c_str ());
     qg.notice ("\n%s\n%s\n", opcode_enum ().c_str (),
                opcode_str_table ().c_str ());
     qg.notice ("\n\n%s\n\n", disassembler_intf ().c_str ());
