@@ -25,7 +25,7 @@ class Quickgen
     int token;
     std::string * lexResult;
 
-    std::list<VM> vms;
+    VM vm;
 
     std::string FIntf;
     std::string FImpl;
@@ -33,8 +33,6 @@ class Quickgen
     off_t first_line, first_col, last_line, last_col;
 
     Quickgen () : first_line (0), first_col (0), last_line (0), last_col (0) {}
-
-    void add_vm (VM aVm) { vms.push_back (aVm); }
 
     /* Program interface */
 

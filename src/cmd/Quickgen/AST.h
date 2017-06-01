@@ -30,6 +30,8 @@ struct Instruction
     std::list<Field> * stackTook;
     std::list<Field> * stackGave;
     std::string * impl;
+
+    std::string enum_entry () const { return "E" + *name; }
 };
 
 struct VM
@@ -43,6 +45,15 @@ struct VM
         : name (aName), type (anOpType), instrs (someInstrs)
     {
     }
+
+    std::string opcode_enum () const;
+    std::string opcode_enum_type () const { return "T" + name + "Opcodes"; }
+    std::string opcode_enum_name () const { return name + "Opcodes"; }
+    std::string opcode_str_table () const;
+    std::string opcode_str_table_name () const { return name + "OpcodeNames"; }
+
+    /* Shut C++ up. */
+    VM () {}
 
     void generate () const;
 };

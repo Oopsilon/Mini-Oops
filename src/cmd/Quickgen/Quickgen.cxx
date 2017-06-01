@@ -91,23 +91,22 @@ void Quickgen::parse (std::string filename)
 void Quickgen::emit (std::string output_folder)
 {
     printf ("Output dir: %s\n", output_folder.c_str ());
-    /*for (const auto & cls : classes)
-    {
-        std::ofstream desch (output_folder + "/" + cls.desc_intf_filename ());
-        std::ofstream desc (output_folder + "/" + cls.desc_impl_filename ());
-        std::ofstream klassh (output_folder + "/" + cls.klass_intf_filename ());
-        std::ofstream klass (output_folder + "/" + cls.klass_impl_filename ());
+    vm.generate ();
+    /*std::ofstream desch (output_folder + "/" + cls.desc_intf_filename ());
+    std::ofstream desc (output_folder + "/" + cls.desc_impl_filename ());
+    std::ofstream klassh (output_folder + "/" + cls.klass_intf_filename ());
+    std::ofstream klass (output_folder + "/" + cls.klass_impl_filename ());
 
-        cls.generate ();
-        desch << FDescH;
-        desc << FDescCXX;
-        klassh << FKlassH;
-        klass << FKlassCXX;
-        desch.close ();
-        desc.close ();
-        klassh.close ();
-        klass.close ();
-    }*/
+    cls.generate ();
+    desch << FDescH;
+    desc << FDescCXX;
+    klassh << FKlassH;
+    klass << FKlassCXX;
+    desch.close ();
+    desc.close ();
+    klassh.close ();
+    klass.close ();
+}*/
 }
 
 int main (int argc, char * argv[])

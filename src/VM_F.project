@@ -14,6 +14,7 @@
         </VirtualDirectory>
         <File Name="cmd/VMkernel/VM/VM.cxx"/>
         <File Name="cmd/VMkernel/VM/VM.h"/>
+        <File Name="cmd/VMkernel/VM/QuickSilver.qvm"/>
       </VirtualDirectory>
       <VirtualDirectory Name="Oops">
         <VirtualDirectory Name="Klass">
@@ -48,6 +49,8 @@
         <File Name="cmd/VMkernel/Oops/Symbol.cxx"/>
         <File Name="cmd/VMkernel/Oops/SymbolDesc.h"/>
         <File Name="cmd/VMkernel/Oops/VecDesc.h"/>
+        <File Name="cmd/VMkernel/Oops/Context.cls"/>
+        <File Name="cmd/VMkernel/Oops/Method.cls"/>
       </VirtualDirectory>
       <VirtualDirectory Name="Bcom">
         <VirtualDirectory Name="Compiler">
@@ -106,6 +109,15 @@
       <File Name="cmd/LGen/lempar.tpl.cxx"/>
     </VirtualDirectory>
     <File Name="cmd/CMakeLists.txt"/>
+    <VirtualDirectory Name="Quickgen">
+      <File Name="cmd/Quickgen/AST.cxx"/>
+      <File Name="cmd/Quickgen/AST.h"/>
+      <File Name="cmd/Quickgen/CMakeLists.txt"/>
+      <File Name="cmd/Quickgen/gram.y"/>
+      <File Name="cmd/Quickgen/Quickgen.cxx"/>
+      <File Name="cmd/Quickgen/Quickgen.h"/>
+      <File Name="cmd/Quickgen/scan.l"/>
+    </VirtualDirectory>
   </VirtualDirectory>
   <VirtualDirectory Name="OopsFoundation">
     <VirtualDirectory Name="Runtime">

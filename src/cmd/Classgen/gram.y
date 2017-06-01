@@ -98,7 +98,7 @@ comma_separated_fields(FL)
     ::= comma_separated_fields(fl) COMMA field(f).
     {
         FL = fl;
-        FL->push_back({f});
+        FL->push_back(f);
     }
 
 field(F)
