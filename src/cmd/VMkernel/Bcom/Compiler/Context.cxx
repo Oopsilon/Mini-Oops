@@ -102,6 +102,11 @@ void AST::IdentExpr::synthesiseInCodeContext (CodeContext & aCCtx)
     aCCtx.variableForSymbol (name);
 }
 
+void AST::MsgExpr::synthesiseInCodeContext (CodeContext & aCCtx)
+{
+    rcvr->synthesiseInCodeContext(aCCtx);
+}
+
 void AST::Block::synthesiseInCodeContext (CodeContext & aCCtx)
 {
     cCtx.synthesiseInCodeContext (&aCCtx);

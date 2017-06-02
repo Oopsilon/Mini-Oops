@@ -125,6 +125,8 @@ struct MsgExpr : public Expr
         KeywMsg * keyw;
     };
 
+    void synthesiseInCodeContext (CodeContext & aCCtx);
+
     MsgExpr (Expr * aRcvr, UnaryMsg * msg)
         : rcvr (aRcvr), msgType (EUnary), unary (msg)
     {
