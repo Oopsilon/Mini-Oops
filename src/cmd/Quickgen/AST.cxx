@@ -92,7 +92,7 @@ std::string VM::disasm_func_body () const
                 call ("__nl", call (instr.describe_fn_name (), "code"))));
     do_bod += nl ("}");
 
-    r += do_while (do_bod, "code != limit");
+    r += while_do ("code != limit", do_bod);
     r += return_x ("dis");
 
     return r;
@@ -142,9 +142,10 @@ void VM::generate_disasm_cls ()
 {
     CXXFunction dis (disasm_cls_name (), "std::string", "disassemble", {},
                      disasm_func_body ());
-    std::string cons = declare_fn ("", disasm_cls_name (),
-                                   declare (ref (vec_type ()), "_code")) +
-                       nl (" : code(_code.data()), limit (&_code.back()) {}");
+    std::string cons =
+        declare_fn ("", disasm_cls_name (),
+                    declare (ref (vec_type ()), "_code")) +
+        nl (" : code(_code.data()), limit (_code.data() + _code.size()) {}");
     std::list<std::string> vars = {declare (ptr (type), "code"),
                                    declare (ptr (type), "limit")};
 
@@ -170,6 +171,7 @@ std::string VM::asm_intf () const
     std::string r;
 
     r += pragmaonce;
+    r += includesys ("cstdint");
     r += includesys ("vector");
     r += asm_cls->gen_decl ();
 

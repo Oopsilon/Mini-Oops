@@ -28,7 +28,7 @@ struct Expr
 
     virtual void synthesiseInCodeContext (CodeContext & aCCtx);
     virtual void compileInCodeContextWithEncoder (CodeContext & aCCtx,
-                                                  Encoder & enc);
+                                                  QuickSilverAssembler & enc);
 };
 
 struct IdentExpr : public Expr
@@ -62,7 +62,8 @@ struct SyscallStmt : public Expr
 
     SyscallStmt (Symbol aSyscall) : name (aSyscall) {}
 
-    void compileInCodeContextWithEncoder (CodeContext & aCCtx, Encoder & enc);
+    void compileInCodeContextWithEncoder (CodeContext & aCCtx,
+                                          QuickSilverAssembler & enc);
 };
 
 struct ReturnStmt : public Expr

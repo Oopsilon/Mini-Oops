@@ -6,9 +6,10 @@
 
 #include "AST.h"
 #include "Defs.h"
-#include "Encoder.h"
 
-#include "Bytecode/Syscall.h"
+#include "VM/QuickSilverAsm.h"
+#include "VM/QuickSilverDisasm.h"
+#include "VM/Syscall.h"
 
 #include "VM/VM.h"
 
@@ -24,7 +25,7 @@ void AST::Class::compile ()
 
 void AST::Method::compile ()
 {
-    Encoder enc (cCtx.comp.bytecode);
+    QuickSilverAssembler enc (cCtx.comp.bytecode);
     methodOop result;
 
     bcom.notice ("Compiling method " BLDTEXT ("%c %s>>%s") "\n",
@@ -45,6 +46,10 @@ void AST::Method::compile ()
     cCtx.synthesiseInCodeContext (NULL);
 
     cCtx.code.compileInCodeContextWithEncoder (cCtx, enc);
+
+    QuickSilverDisassembler dis (cCtx.comp.bytecode);
+
+    bcom.notice ("\n\n%s\n\n", dis.disassemble ().c_str ());
 
     comp.cls->add_method (vm.mem.factory.new_method (
         selector.selName (), cCtx.formals_count (), cCtx.temps_count (),

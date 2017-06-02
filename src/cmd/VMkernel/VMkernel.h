@@ -31,7 +31,7 @@ class Oopsc
 
   public:
     Oopsc (std::string RootDir);
-    Oopsc & operator= (const Oopsc &) {}
+    Oopsc & operator= (Oopsc & neu) { return neu; }
     void parse (std::string filename, bool isImported = false);
     void compile ();
 

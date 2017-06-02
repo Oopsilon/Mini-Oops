@@ -98,8 +98,12 @@ std::string call (std::string func, std::string args)
 
 std::string do_while (std::string todo, std::string condition)
 {
-
     return "do\n{\n" + todo + "}\nwhile(" + condition + ");\n";
+}
+
+std::string while_do (std::string condition, std::string bod)
+{
+    return "while (" + condition + ")\n{\n" + bod + "\n}\n";
 }
 
 std::string case_x_break (std::string cond, std::string todo)
@@ -195,78 +199,3 @@ struct CXXClass
         return r;
     }
 };
-
-/*
- * New, better CXXGen.
- */
-
-namespace CXXGen
-{
-std::string sc (std::string line) { return line + ";"; }
-std::string nl (std::string line) { return line + "\n"; }
-std::string nlseq (std::list<std::string> lines)
-{
-    std::string r;
-    for (const auto & str : lines)
-        r += nl (str);
-    return r;
-}
-
-std::string includesys (std::string file)
-{
-    return nl ("#include <" + file + ">");
-}
-std::string includeuser (std::string file)
-{
-    return nl ("#include \"" + file + "\"");
-}
-
-std::string scnl (std::string line) { return nl (sc (line)); }
-
-std::string quote (std::string aStr) { return "\"" + aStr + "\""; }
-
-std::string return_x (std::string ret) { return scnl ("return " + ret); }
-
-std::string assign (std::string lval, std::string rval)
-{
-    return lval + " = " + rval;
-}
-
-struct Field
-{
-    std::string type;
-    std::string name;
-
-    Field (std::string aType, std::string aName) : type (aType), name (aName) {}
-
-    std::string decl () const { return type + " " + name; }
-    std::string scnldecl () const { return scnl (decl ()); }
-};
-
-struct FieldList : public std::list<Field>
-{
-    std::string seq_with_sep (std::string sep) const
-    {
-        std::string r;
-        bool onFirst = true;
-
-        for (const auto & str : *this)
-            r += (onFirst ? (onFirst = false, "") : sep + " ") + str.decl ();
-
-        return r;
-    }
-};
-
-struct Function
-{
-    std::string rtype;
-    std::string name;
-    FieldList params;
-    std::string body;
-
-    std::string decl () const
-    {
-        return rtype + " " + name + bracket (params.seq_with_sep (","));
-    }
-};
-}

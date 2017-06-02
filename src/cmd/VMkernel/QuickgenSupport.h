@@ -46,8 +46,11 @@ template <class CT, class T>
 void write_type_to_vector (std::vector<CT> & vec, T someThing)
 {
     const size_t siz    = sizeof (T) / sizeof (CT);
-    const CT * accessor = &someThing;
+    const CT * accessor = (CT *)(&someThing);
 
     for (size_t idx = 0; idx != siz; idx++)
+    {
+        printf ("puh back\n");
         vec.push_back (*accessor++);
+    }
 }

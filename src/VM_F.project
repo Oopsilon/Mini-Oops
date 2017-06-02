@@ -63,8 +63,6 @@
         <File Name="cmd/VMkernel/Bcom/Bcom.cxx"/>
         <File Name="cmd/VMkernel/Bcom/Bcom.h"/>
         <File Name="cmd/VMkernel/Bcom/Defs.h"/>
-        <File Name="cmd/VMkernel/Bcom/Encoder.cxx"/>
-        <File Name="cmd/VMkernel/Bcom/Encoder.h"/>
         <File Name="cmd/VMkernel/Bcom/Expressions.h"/>
         <File Name="cmd/VMkernel/Bcom/gram.y"/>
         <File Name="cmd/VMkernel/Bcom/MsgSyntax.cxx"/>

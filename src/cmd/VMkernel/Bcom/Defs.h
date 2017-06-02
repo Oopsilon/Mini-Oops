@@ -23,7 +23,7 @@
 
 #include "Compiler/Variable.h"
 
-class Encoder;
+#include "VM/QuickSilverAsm.h"
 
 namespace AST
 {
@@ -43,7 +43,8 @@ struct Code
     }
 
     void synthesiseInCodeContext (CodeContext & aCCtx);
-    void compileInCodeContextWithEncoder (CodeContext & aCCtx, Encoder & enc);
+    void compileInCodeContextWithEncoder (CodeContext & aCCtx,
+                                          QuickSilverAssembler & enc);
 };
 
 struct SelectorDecl

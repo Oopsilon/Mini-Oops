@@ -14,16 +14,22 @@
 
 vm QuickSilver
 
-op_type = <uint8_t>;
+op_type = <char>;
 
 instruction Pop() [ <oop> popped -- ];
 
 instruction PushTrue() [ -- <oop> trueObject ];
 instruction PushFalse() [ -- <oop> falseObject ];
-instruction PushArgument(<uint8_t> index) [ -- <oop> arg ];
-instruction StoreTemp(<uint8_t> index) [ <oop> var -- ];
+instruction PushArgument(<char> index) [ -- <oop> arg ];
 
-instruction Send(<uint8_t> num_args)
+instruction StoreTemp(<char> index) [ <oop> var -- ];
+
+instruction Return() [ <oop> retVal -- ];
+instruction ReturnSelf() [ -- ];
+
+instruction Send(<char> num_args)
 [ <@variadic> args..., <symbolOop> selector, <oop> receiver -- ];
+
+instruction Syscall(<uint8_t> syscall) [ -- ];
 
 end

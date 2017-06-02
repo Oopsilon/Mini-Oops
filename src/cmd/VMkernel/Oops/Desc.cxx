@@ -17,4 +17,4 @@
 
 std::string Desc::describe () { return _isa->getKlass ()->describe (this); }
 
-methodOop Desc::lookup (std::string meth) { isa ()->findMethod (meth); }
+methodOop Desc::lookup (std::string meth) { return isa ()->findMethod (meth); }

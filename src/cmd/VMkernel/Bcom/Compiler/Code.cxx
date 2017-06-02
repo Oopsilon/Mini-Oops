@@ -1,40 +1,57 @@
+/* Oopsilon
+ * Code generation.
+ *
+ *      Copyright Notice
+ *
+ * Copyright (c) 2017 D. Mackay. All rights reserved.
+ *
+ * This file and its contents are supplied under the terms of the Peer
+ * Production Licence as found in the Oopsilon project's source repository,
+ * and David Mackay is the sole copyright holder.
+ *
+ *      End Copyright Notice
+ */
 
-#include "../Encoder.h"
+#include "../../VMkernel.h"
 #include "Oops/ClassDesc.h"
+#include "VM/QuickSilverAsm.h"
+#include "VM/Syscall.h"
 
 #include "../Defs.h"
 #include "../Expressions.h"
 
-#include "../../VMkernel.h"
-
 void AST::Expr::compileInCodeContextWithEncoder (CodeContext & meth,
-                                                 Encoder & enc)
+                                                 QuickSilverAssembler & enc)
 {
     bcom.notice ("Compilation requested on expression <" BLDTEXT ("%s") ">\n",
                  DemangledTypeName (*this));
 }
 
-void AST::SyscallStmt::compileInCodeContextWithEncoder (CodeContext & meth,
-                                                        Encoder & enc)
+void AST::SyscallStmt::compileInCodeContextWithEncoder (
+    CodeContext & meth, QuickSilverAssembler & enc)
 {
-    bcom.notice ("Syscall emit\n");
-    enc.emitSyscall (name);
+    enc.EmitPushFalse ();
+    enc.EmitSend (44);
+    if (name == "Isa")
+        enc.EmitSyscall (42);
+    else
+        fatalError ("Unknown syscall: %s\n", name.c_str ());
 }
 
 void AST::Code::compileInCodeContextWithEncoder (CodeContext & meth,
-                                                 Encoder & enc)
+                                                 QuickSilverAssembler & enc)
 {
     for (auto & expr : exprs)
     {
         expr->compileInCodeContextWithEncoder (meth, enc);
-        enc.emitPop ();
+        enc.EmitPop ();
     }
 
     if (lastExpr)
     {
         lastExpr->compileInCodeContextWithEncoder (meth, enc);
-        enc.emitReturn ();
+        enc.EmitReturn ();
     }
     else
-        enc.emitReturnSelf ();
+        enc.EmitReturnSelf ();
 }

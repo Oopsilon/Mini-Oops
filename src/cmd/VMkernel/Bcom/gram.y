@@ -135,10 +135,6 @@ statements(E) ::= statements(l) statement(s). {
 }
 
 statement(S) ::= expression(e) DOT. { S = e; }
-statement(S) ::= SYSCALL sym_lit(s) END_SYSCALL DOT. {
-    S = new AST::SyscallStmt(*s);
-    delete s;
-}
 statement(S) ::= RETURN expression(e) DOT. {
     S = new AST::ReturnStmt(e);
 }
@@ -147,6 +143,13 @@ expression(E) ::= operand(l) ASSIGN expression(r). {
     E = new AST::AssignExpr(l, r);
 }
 expression ::= msg_expr.
+
+expression(S)
+    ::= SYSCALL sym_lit(s) END_SYSCALL.
+    {
+    S = new AST::SyscallStmt(*s);
+    delete s;
+    }
 
 operand    ::= literal_expr.
 operand    ::= ident_expr.

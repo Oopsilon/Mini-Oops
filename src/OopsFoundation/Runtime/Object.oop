@@ -1,4 +1,4 @@
 - Object isa
 {
-    @<syscall Isa>.
+    @<syscall Isa>
 }
