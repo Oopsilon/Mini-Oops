@@ -29,6 +29,7 @@ klass_impl_requires
 
 <contextOop> pfp;
 
+<oop> rcvr;
 <methodOop> method;
 
 <objVecOop<oop>::type> environment;
@@ -39,7 +40,7 @@ klass_impl_requires
 
 <smiOop> pc;
 
-constructor allocate_context (<contextOop> prev, <methodOop> meth,
+constructor allocate_context (<contextOop> prev, <oop> rcvr, <methodOop> meth,
                               <std::vector<oop> *> args)
 {
     size_t envCount;
@@ -47,12 +48,13 @@ constructor allocate_context (<contextOop> prev, <methodOop> meth,
     r->set_method(meth);
 
     if ((envCount = meth->environmentCount().smiValue ()) != 0)
-        r->set_environment(vm.mem.factory.newObjVec<oop> (/* envCount */));
+        r->set_environment(vm.mem.factory.newObjVec<oop> (envCount));
     else if (objVecOop<oop>::type env = meth->environment())
         r->set_environment (env);
 
+    r->set_rcvr (rcvr);
     r->set_args (args);
-    r->set_temps (new std::vector<oop> (/* size? */));
+    r->set_temps (new std::vector<oop> (meth->tempCount()));
     r->set_stack (new std::vector<oop>);
 
     r->set_pc (Smi (0));

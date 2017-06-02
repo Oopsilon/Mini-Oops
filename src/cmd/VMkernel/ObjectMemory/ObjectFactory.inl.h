@@ -37,3 +37,13 @@ typename objVecOop<T>::type ObjectFactory::newObjVec (std::vector<T> contents)
     result->set_contents (contents);
     return result;
 }
+
+template <class T>
+typename objVecOop<T>::type ObjectFactory::newObjVec (size_t size)
+{
+    typename objVecOop<T>::type result =
+        ((ObjVecKlass<T> *)vm.mem.objVecClass ()->getKlass ())
+            ->allocateObjVec ();
+    result->set_contents (std::vector<T> (size));
+    return result;
+}

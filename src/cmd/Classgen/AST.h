@@ -32,6 +32,7 @@ struct Method
     enum MethType
     {
         EConstructor,
+        EDescInline,
     } methType;
 
     std::string * _return_type;
@@ -43,6 +44,9 @@ struct Method
 
     std::string generate_klass_intf (bool classPrefix = false) const;
     std::string generate_klass_impl () const;
+
+    std::string generate_desc_intf () const;
+    std::string generate_desc_impl () const;
 
     std::string return_type () const;
 

@@ -13,6 +13,7 @@
  */
 
 #include "Classgen.h"
+#include "oops-cxx/cxxgen.h"
 #include "oops-platform/misc.h"
 
 #include "AST.h"
@@ -44,14 +45,7 @@ std::string klass_impl_filename (std::string cls)
     return "Oops/Klass/" + cls + "Klass.cxx";
 }
 
-std::string hash_include (std::string file)
-{
-    return "#include \"" + file + "\"\n";
-}
-
-std::string hash_include_hier () { return hash_include ("Oops/Hierarchy.h"); }
-
-std::string pragma_once = "#pragma once\n";
+std::string includehier () { return includeuser ("Oops/Hierarchy.h"); }
 
 std::string generate_comma_separated_fields (std::list<Field> * fields)
 {
@@ -167,9 +161,9 @@ std::string Class::generate_desc_header () const
 {
     std::string r;
 
-    r += pragma_once;
-    r += hash_include_hier ();
-    r += hash_include (::desc_intf_filename (*superName));
+    r += pragmaonce;
+    r += includehier ();
+    r += includeuser (::desc_intf_filename (*superName));
 
     r += "class " + *name + "Desc" + " : public " + *superName + "Desc\n";
     r += "{\npublic:\n";
@@ -183,10 +177,10 @@ std::string Class::generate_klass_intf () const
 {
     std::string r;
 
-    r += pragma_once;
+    r += pragmaonce;
     r += *klass_intf_requires;
-    r += hash_include_hier ();
-    r += hash_include (::klass_intf_filename (*superName));
+    r += includehier ();
+    r += includeuser (::klass_intf_filename (*superName));
 
     r += "class " + *name + "Klass" + " : public " + *superName + "Klass\n";
     r += "{\npublic:\n";
@@ -204,8 +198,8 @@ std::string Class::generate_klass_impl () const
     std::string r;
 
     r += *klass_impl_requires;
-    r += hash_include (desc_intf_filename ());
-    r += hash_include (klass_intf_filename ());
+    r += includeuser (desc_intf_filename ());
+    r += includeuser (klass_intf_filename ());
 
     for (const auto & meth : *methods)
         r += meth.generate_klass_impl () + ";\n";

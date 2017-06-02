@@ -26,6 +26,8 @@ struct ObjectFactory
 
     template <class T>
     inline typename objVecOop<T>::type newObjVec (std::vector<T> contents);
+    template <class T>
+    inline typename objVecOop<T>::type newObjVec (size_t size);
 
     objVecOop<symbolOop>::type
     newSymVec (const std::vector<std::string> contents);

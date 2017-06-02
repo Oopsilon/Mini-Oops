@@ -22,6 +22,7 @@ instruction PushTrue() [ -- <oop> trueObject ];
 instruction PushFalse() [ -- <oop> falseObject ];
 instruction PushArgument(<uint8_t> index) [ -- <oop> arg ];
 instruction StoreTemp(<uint8_t> index) [ <oop> var -- ];
+
 instruction Send(<uint8_t> num_args)
 [ <@variadic> args..., <symbolOop> selector, <oop> receiver -- ];
 
