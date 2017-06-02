@@ -18,6 +18,7 @@
 struct Context;
 struct ProgramContext;
 struct ClassContext;
+struct MethodContext;
 
 namespace AST
 {
@@ -93,6 +94,8 @@ struct Code
     std::list<Expr *> exprs;
     Expr * lastExpr;
 
+    void compile (Context * ctx);
+
     Code (std::list<Expr *> someExprs, Expr * theLast = NULL)
         : exprs (someExprs), lastExpr (theLast)
     {
@@ -155,6 +158,8 @@ struct Method : public Directive
     SelectorDecl selector;
     Symbol::List temps;
     Code code;
+
+    MethodContext * ctx;
 
     void compile (Context * parent);
 

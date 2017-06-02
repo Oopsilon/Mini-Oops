@@ -19,17 +19,29 @@
 #include "AST.h"
 #include "Defs.h"
 
+struct Variable;
+struct BlockContext;
+
 namespace AST
 {
 
 struct Expr
 {
     typedef std::list<Expr *> List;
+
+    virtual void compile (Context * parent)
+    {
+        dbg ("Compile request on Expr %s\n", DemangledTypeName (*this));
+    }
 };
 
 struct IdentExpr : public Expr
 {
     Symbol name;
+
+    Variable ** var;
+
+    void compile (Context * ctx);
 
     IdentExpr (Symbol aName) : name (aName) {}
 };
@@ -44,6 +56,8 @@ struct LiteralExpr : public Expr
 struct AssignExpr : public Expr
 {
     Expr *lhs, *rhs;
+
+    void compile (Context * parent);
 
     AssignExpr (Expr * anLhs, Expr * anRhs) : lhs (anLhs), rhs (anRhs) {}
 };
@@ -114,6 +128,8 @@ struct MsgExpr : public Expr
         KeywMsg * keyw;
     };
 
+    void compile (Context * ctx);
+
     MsgExpr (Expr * aRcvr, UnaryMsg * msg)
         : rcvr (aRcvr), msgType (EUnary), unary (msg)
     {
@@ -133,6 +149,10 @@ struct Block : public Expr
     Symbol::List formals;
     Symbol::List temps;
     Code code;
+
+    BlockContext * ctx;
+
+    void compile (Context * parent);
 
     Block (Symbol::List someFormals, Symbol::List someTemps, Code aCode)
         : formals (someFormals), temps (someTemps), code (aCode)

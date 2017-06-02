@@ -9,6 +9,7 @@
 #include <vector>
 
 #include "AST.h"
+#include "Expressions.h"
 #include "Variable.h"
 
 struct Context
@@ -16,7 +17,7 @@ struct Context
     Context * enclosing;
     Variable::SymTab vars;
 
-    Variable * lookup (AST::Symbol aSym);
+    Variable *& lookup (AST::Symbol aSym);
 
     void register_var (AST::Symbol name, Variable * var) { vars[name] = var; }
 
@@ -39,15 +40,25 @@ struct ClassContext : public Context
     }
 };
 
-struct AbstractCodeContext : Context
+struct AbstractCodeContext : public Context
 {
     AbstractCodeContext (Context * anEnclosing) : Context (anEnclosing) {}
 };
 
-struct MethodContext : AbstractCodeContext
+struct MethodContext : public AbstractCodeContext
 {
     AST::Method * ast;
     MethodContext (Context * anEnclosing, AST::Method * anAst)
+        : ast (anAst), AbstractCodeContext (anEnclosing)
+    {
+    }
+};
+
+struct BlockContext : public AbstractCodeContext
+{
+    AST::Block * ast;
+
+    BlockContext (Context * anEnclosing, AST::Block * anAst)
         : ast (anAst), AbstractCodeContext (anEnclosing)
     {
     }

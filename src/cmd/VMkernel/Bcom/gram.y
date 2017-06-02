@@ -22,6 +22,7 @@
 
 %type class { AST::Class * }
 
+%type block_formals { AST::Symbol::List * }
 %type block_formal_list { AST::Symbol::List * }
 %type block_vardefs { AST::Symbol::List *}
 
@@ -155,6 +156,7 @@ expression(E) ::= operand(l) ASSIGN expression(r). {
     E = new AST::AssignExpr(l, r);
 }
 expression ::= msg_expr.
+expression ::= operand.
 
 expression(S)
     ::= SYSCALL sym_lit(s) END_SYSCALL.
@@ -299,7 +301,7 @@ ident_expr(E) ::= sym_lit(s). { E = new AST::IdentExpr(*s); }
 literal_expr(E) ::= str_lit(s). { /*E = new AST::LiteralExpr(*s);*/ }
 
 /* Block syntax:
- * { :hello :world | local. vars. | statements }
+ * { :hello :world || local. vars. | statements }
  * { :hello :world | statements }
  * { | local. vars. | statements }
  * { statements }
@@ -311,13 +313,13 @@ literal_expr(E) ::= str_lit(s). { /*E = new AST::LiteralExpr(*s);*/ }
  * it is found - i.e. that final expression must NOT be followed with a dot.
  */
 block_expr(B)
-    ::= BR_OPEN block_formal_list(f) block_vardefs(v) code(c) BR_CLOSE.
+    ::= BR_OPEN block_formals(f) vardefs(v) code(c) BR_CLOSE.
     {
         B = new AST::Block(*f, *v, *c);
         delete f, v, c;
     }
 block_expr(B)
-    ::= BR_OPEN block_formal_list(f) code(c) BR_CLOSE.
+    ::= BR_OPEN block_formals(f)  code(c) BR_CLOSE.
     {
         B = new AST::Block(*f, {}, *c);
         delete f, c;
@@ -334,6 +336,8 @@ block_expr(B) ::= BR_OPEN code(c) BR_CLOSE.
     }
 
 block_vardefs ::= opt_vdecl_list BAR.
+
+block_formals(B) ::= block_formal_list(l) BAR. { B = l; }
 
 block_formal_list(L)
     ::= block_formal(f). { L = new AST::Symbol::List({*f}); delete f; }

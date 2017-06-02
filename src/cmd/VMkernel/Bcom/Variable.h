@@ -28,6 +28,7 @@ struct Variable : public Object
         EClassVar,
         EClsVar,
         ENstVar,
+        EFormalVar,
         EFreeVar,
         EHeapVar,
     } type;
@@ -52,12 +53,17 @@ struct NstVar : public Variable
     NstVar () : Variable (ENstVar) {}
 };
 
+struct FormalVar : public Variable
+{
+    FormalVar () : Variable (EFormalVar) {}
+};
+
 struct FreeVar : public Variable
 {
-    FreeVar (size_t anIndex) : Variable (EFreeVar) {}
+    FreeVar () : Variable (EFreeVar) {}
 };
 
 struct HeapVar : public Variable
 {
-    HeapVar (size_t anIndex) : Variable (EHeapVar) {}
+    HeapVar () : Variable (EHeapVar) {}
 };

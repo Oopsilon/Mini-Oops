@@ -4,7 +4,7 @@
 
 #include "Context.h"
 
-Variable * Context::lookup (AST::Symbol aSym)
+Variable *& Context::lookup (AST::Symbol aSym)
 {
     if (vars.find (aSym) != vars.end ())
         return vars[aSym];

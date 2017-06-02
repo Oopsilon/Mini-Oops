@@ -121,7 +121,7 @@ int main (int argc, char * argv[])
 
         bcom = oc;
 
-        // ParseTrace (stdout, KCYN "[Analyser::Lemon] " KNRM);
+        ParseTrace (stdout, KCYN "[Analyser::Lemon] " KNRM);
 
         oc.parse ("Package.oop");
         oc.compile ();
