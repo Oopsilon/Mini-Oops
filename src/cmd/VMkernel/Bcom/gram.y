@@ -125,7 +125,7 @@ meth_decl_list(L)
 
 meth_decl(M)
     ::= meth_is_class_specifier(c) sel_decl(s)
-        BR_OPEN opt_vardefs(v) code(code) BR_CLOSE.
+        SQB_OPEN opt_vardefs(v) code(code) SQB_CLOSE.
     {
         M = new AST::Method(c, *s, *v, *code);
         delete s, v, code;
@@ -310,23 +310,23 @@ literal_expr(E) ::= str_lit(s). { /*E = new AST::LiteralExpr(*s);*/ }
  * it is found - i.e. that final expression must NOT be followed with a dot.
  */
 block_expr(B)
-    ::= BR_OPEN block_formals(f) vardefs(v) code(c) BR_CLOSE.
+    ::= SQB_OPEN block_formals(f) vardefs(v) code(c) SQB_CLOSE.
     {
         B = new AST::Block(*f, *v, *c);
         delete f, v, c;
     }
 block_expr(B)
-    ::= BR_OPEN block_formals(f) code(c) BR_CLOSE.
+    ::= SQB_OPEN block_formals(f) code(c) SQB_CLOSE.
     {
         B = new AST::Block(*f, {}, *c);
         delete f, c;
     }
-block_expr(B) ::= BR_OPEN vardefs(v) code(c) BR_CLOSE.
+block_expr(B) ::= SQB_OPEN vardefs(v) code(c) SQB_CLOSE.
     {
         B = new AST::Block({}, *v, *c);
         delete v, c;
     }
-block_expr(B) ::= BR_OPEN code(c) BR_CLOSE.
+block_expr(B) ::= SQB_OPEN code(c) SQB_CLOSE.
     {
         B = new AST::Block({}, {}, *c);
         delete c;
@@ -360,3 +360,4 @@ minus ::= MINUS.
 sym_lit(S) ::= SYMLITERAL(L). { S = dynamic_cast<AST::Symbol *>(L); }
 keyw_lit(S) ::= KEYW(L). { S = dynamic_cast<AST::Symbol *>(L); }
 str_lit(S) ::= SLITERAL(L). { S = dynamic_cast<AST::Symbol *>(L); }
+cquote_lit(S) ::= CQUOTE(L). { S = dynamic_cast<AST::Symbol *>(L); }

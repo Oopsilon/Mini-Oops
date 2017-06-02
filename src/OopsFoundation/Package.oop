@@ -13,10 +13,10 @@ end
 class Boolean : Object
 
 + test: aParam
-{
+[
     | faux. fox. |
     faux := aParam testMsg.
-    { :ushanka | | phoney. | faux test: fouse } value
-}
+    [ :ushanka | | phoney. | faux test: fox ] value
+]
 
 end

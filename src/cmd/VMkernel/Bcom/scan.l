@@ -66,11 +66,30 @@ SYML {ST}({SYM}{ST}|{ST}?)+
 ":"			return TK_COLON;
 "("         return TK_BRACKET_OPEN;
 ")"         return TK_BRACKET_CLOSE;
+"["         return TK_SQB_OPEN;
+"]"         return TK_SQB_CLOSE;
 "+"         return TK_PLUS;
 "-"         return TK_MINUS;
 "^"         return TK_RETURN;
-"{"         return TK_BR_OPEN;
-"}"         return TK_BR_CLOSE;
+
+ /* Brace-enclosed C code. */
+"{"	{
+		BEGIN(CQUOTE);
+		yyextra->brace_depth = 0;
+		yyextra->setResult(new AST::Symbol(yyextra));
+        AsLit(RVAL).setCQuoteLiteral();
+	}
+<CQUOTE>"{" yyextra->brace_depth++; AsLit(RVAL) += yytext;
+<CQUOTE>"}" {
+		if (yyextra->brace_depth-- == 0)
+		{
+			BEGIN(INITIAL);
+			return TK_CQUOTE;
+		}
+		else
+			AsLit(RVAL) += yytext;
+	}
+<CQUOTE>.|\n AsLit(RVAL) += yytext;
 
 "@<syscall" {
     BEGIN(SC);

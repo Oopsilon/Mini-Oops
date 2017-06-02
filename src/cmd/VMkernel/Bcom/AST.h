@@ -68,6 +68,7 @@ struct Symbol : public AST, public string
 
     void setSymLiteral () { symType = ESymLiteral; }
     void setStringLiteral () { symType = EStringLiteral; }
+    void setCQuoteLiteral () { symType = EStringLiteral; }
 };
 
 struct Directive
