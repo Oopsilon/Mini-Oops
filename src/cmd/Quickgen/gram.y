@@ -57,10 +57,9 @@ instructions(IL)
 instruction(I)
     ::= INSTRUCTION SYM(n) method_arg_list(a)
         SQB_OPEN opt_comma_separated_fields(st) DASHDASH
-                 opt_comma_separated_fields(sg) SQB_CLOSE
-        C_CODE(c).
+                 opt_comma_separated_fields(sg) SQB_CLOSE SEMICOLON.
     {
-        I = {n, a, st, sg, c};
+        I = {n, a, st, sg};
     }
 
 fields(FL)

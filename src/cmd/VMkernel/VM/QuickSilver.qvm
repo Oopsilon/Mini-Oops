@@ -16,33 +16,13 @@ vm QuickSilver
 
 op_type = <uint8_t>;
 
-instruction Pop() [ <oop> popped -- ]
-{
-}
+instruction Pop() [ <oop> popped -- ];
 
-instruction PushTrue() [ -- <oop> trueObject ]
-{
-    trueObject = vm.mem.trueObject();
-}
-
-instruction PushFalse() [ -- <oop> falseObject ]
-{
-    falseObject = vm.mem.falseObject();
-}
-
-instruction PushArgument(<uint8_t> index) [ -- <oop> arg ]
-{
-    arg = argument_at(index);
-}
-
-instruction StoreTemp(<uint8_t> index) [ <oop> var -- ]
-{
-    temp_at_put(index, var);
-}
-
+instruction PushTrue() [ -- <oop> trueObject ];
+instruction PushFalse() [ -- <oop> falseObject ];
+instruction PushArgument(<uint8_t> index) [ -- <oop> arg ];
+instruction StoreTemp(<uint8_t> index) [ <oop> var -- ];
 instruction Send(<uint8_t> num_args)
-[ <@variadic> args..., <symbolOop> selector, <oop> receiver -- ]
-{
-}
+[ <@variadic> args..., <symbolOop> selector, <oop> receiver -- ];
 
 end

@@ -40,6 +40,8 @@ GET_FILENAME_COMPONENT (file ${path} NAME_WE)
 add_custom_command(
 OUTPUT ${outdir}/${file}Disasm.cxx
     ${outdir}/${file}Disasm.h
+    ${outdir}/${file}Asm.cxx
+    ${outdir}/${file}Asm.h
 COMMAND $<TARGET_FILE:Quickgen>
 ARGS ${CMAKE_CURRENT_SOURCE_DIR}/${path} ${outdir}
 DEPENDS $<TARGET_FILE:Quickgen>

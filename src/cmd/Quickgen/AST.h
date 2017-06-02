@@ -35,7 +35,6 @@ struct Instruction
     std::list<Field> * params;
     std::list<Field> * stackTook;
     std::list<Field> * stackGave;
-    std::string * impl;
 
     VM * vm;
 
@@ -53,6 +52,8 @@ struct Instruction
 struct VM
 {
   private:
+    std::string vm_supercls_name;
+
     std::string opcode_enum () const;
     std::string opcode_enum_type () const { return "T" + name + "Opcodes"; }
     std::string opcode_enum_name () const { return name + "Opcodes"; }
@@ -61,7 +62,9 @@ struct VM
 
     std::string disasm_func_body () const;
 
+    void generate_disasm_cls ();
     void generate_asm_cls ();
+    CXXClass * disasm_cls;
     CXXClass * asm_cls;
 
   public:
@@ -79,17 +82,15 @@ struct VM
 
     std::string vec_type () const { return "std::vector<" + type + ">"; }
 
-    std::string disassembler_class_name () const
-    {
-        return name + "Disassembler";
-    }
     std::string dis_intf () const;
     std::string dis_impl () const;
     std::string asm_intf () const;
     std::string asm_impl () const;
     std::string opcode_intf () const;
 
+    std::string disasm_cls_name () const { return name + "Disassembler"; }
     std::string asm_cls_name () const { return name + "Assembler"; }
+    std::string vm_cls_name () const { return name + "Interpreter"; }
 
     std::string dis_intf_filename () const { return name + "Disasm.h"; }
     std::string dis_impl_filename () const { return name + "Disasm.cxx"; }

@@ -276,14 +276,7 @@ std::string VM::dis_intf () const
     r += includesys ("string");
     r += includeuser ("QuickgenSupport.h");
 
-    c += scnl (declare (ptr (type), "code"));
-    c += scnl (declare (ptr (type), "limit"));
-    c += scnl (declare_fn ("std::string", "disassemble", ""));
-    c += declare_fn ("", disassembler_class_name (),
-                     declare (ref (vec_type ()), "_code")) +
-         nl (" : code(_code.data()), limit (&_code.back()) {}");
-
-    r += declare_class (disassembler_class_name (), c);
+    r += disasm_cls->gen_decl ();
 
     return r;
 }
@@ -299,8 +292,7 @@ std::string VM::dis_impl () const
     for (const auto instr : instrs)
         r += instr.describe_fn_impl ();
 
-    r += disasm_func->gen_def ();
-
+    r += disasm_cls->gen_def ();
     return r;
 }
 
@@ -314,6 +306,19 @@ std::string VM::opcode_intf () const
     r += opcode_enum ();
 
     return r;
+}
+
+void VM::generate_disasm_cls ()
+{
+    CXXFunction dis (disasm_cls_name (), "std::string", "disassemble", {},
+                     disasm_func_body ());
+    std::string cons = declare_fn ("", disasm_cls_name (),
+                                   declare (ref (vec_type ()), "_code")) +
+                       nl (" : code(_code.data()), limit (&_code.back()) {}");
+    std::list<std::string> vars = {declare (ptr (type), "code"),
+                                   declare (ptr (type), "limit")};
+
+    disasm_cls = new CXXClass (disasm_cls_name (), "", vars, {dis}, cons);
 }
 
 void VM::generate_asm_cls ()
@@ -357,9 +362,6 @@ void VM::generate ()
 {
     for (auto & instr : instrs)
         ((Instruction &)instr).set_vm ((VM *)this);
-    disasm_func = new CXXFunction (disassembler_class_name (), "std::string",
-                                   "disassemble", {}, disasm_func_body ());
+    generate_disasm_cls ();
     generate_asm_cls ();
-    qg.notice ("\n%s\n%s\n", opcode_enum ().c_str (),
-               opcode_str_table ().c_str ());
 }

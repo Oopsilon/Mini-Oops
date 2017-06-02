@@ -57,8 +57,6 @@ void Quickgen::parse (std::string filename)
     if (!f)
         fatalError ("Could not open %s\n", filename.c_str ());
 
-    notice ("Analysing file %s...\n", filename.c_str ());
-
     std::fseek (f, 0, SEEK_END);
     toParse.resize (std::ftell (f));
     std::rewind (f);
@@ -97,7 +95,9 @@ void Quickgen::emit (std::string output_folder)
     std::ofstream asmintf (OUTFILE (vm.asm_intf_filename ()));
     std::ofstream asmimpl (OUTFILE (vm.asm_impl_filename ()));
     std::ofstream opcodeintf (OUTFILE (vm.opcode_intf_filename ()));
-    printf ("Output dir: %s\n", output_folder.c_str ());
+
+    notice ("Generating assembler and disassembler for VM %s...\n",
+            vm.name.c_str ());
     vm.generate ();
 
     disintf << vm.dis_intf ();
@@ -134,7 +134,7 @@ void Quickgen::emit (std::string output_folder)
 
 int main (int argc, char * argv[])
 {
-    ParseTrace (stdout, KCYN "[Analyser] " KNRM);
+    // ParseTrace (stdout, KCYN "[Analyser] " KNRM);
 
     if (argc < 3)
         fatalError ("Usage: %s path/to/vm.qvm output/folder\n", argv[0]);
