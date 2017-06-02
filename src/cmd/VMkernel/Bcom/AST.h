@@ -19,6 +19,7 @@ namespace AST
 {
 
 struct Literal;
+struct Expr;
 
 struct AST
 {
@@ -79,4 +80,66 @@ struct Program : public AST
             directive->compile ();
     }
 };
+
+struct Code
+{
+    std::list<Expr *> exprs;
+    Expr * lastExpr;
+
+    Code (std::list<Expr *> someExprs, Expr * theLast = NULL)
+        : exprs (someExprs), lastExpr (theLast)
+    {
+    }
+};
+
+struct SelectorDecl
+{
+
+    struct KeywDecl
+    {
+        Symbol keyw;
+        Symbol argname;
+    };
+
+    enum
+    {
+        EUnary,
+        EBinary,
+        EKeyw,
+    } selType;
+
+    Symbol unary;
+    struct
+    {
+        Symbol sel;
+        Symbol argname;
+    } binary;
+    std::vector<KeywDecl> keywords;
+
+  public:
+    SelectorDecl () : selType (EUnary), unary ("Invalid Selector") {}
+
+    SelectorDecl (Symbol anUnary) : selType (EUnary), unary (anUnary) {}
+    SelectorDecl (std::pair<Symbol, Symbol> aBinary)
+        : selType (EBinary), binary ({aBinary.first, aBinary.second})
+    {
+    }
+    SelectorDecl (std::vector<KeywDecl> someKeyws)
+        : selType (EKeyw), keywords (someKeyws)
+    {
+    }
+
+    std::string selName ();
+    Symbol::List formalNames ()
+    {
+        Symbol::List result;
+        if (selType == EBinary)
+            result.push_back (binary.argname);
+        if (selType == EKeyw)
+            for (const auto & keyw : keywords)
+                result.push_back (keyw.argname);
+        return result;
+    }
+};
+
 }

@@ -23,12 +23,6 @@
 #include "gram.tab.h"
 #include "scan.yy.h"
 
-#include "Oops/ClassDesc.h"
-#include "Oops/MemDesc.h"
-#include "Oops/SmiDesc.h"
-#include "Oops/SymbolDesc.h"
-#include "VM/VM.h"
-
 #include "Bcom/AST.h"
 
 #if defined(_MSC_VER)
@@ -118,8 +112,6 @@ void Oopsc::compile () { program.compile (); }
 
 int main (int argc, char * argv[])
 {
-    vm.boot ();
-
     if (argc < 2)
         fatalError ("Usage: %s path/to/Oopsilon/Package.oop\n", argv[0]);
 
@@ -133,7 +125,6 @@ int main (int argc, char * argv[])
 
         oc.parse ("Package.oop");
         oc.compile ();
-        vm.run ();
 
         WAIT;
         return 0;

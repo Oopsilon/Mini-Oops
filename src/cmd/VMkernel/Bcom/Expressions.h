@@ -25,10 +25,6 @@ namespace AST
 struct Expr
 {
     typedef std::list<Expr *> List;
-
-    virtual void synthesiseInCodeContext (CodeContext & aCCtx);
-    virtual void compileInCodeContextWithEncoder (CodeContext & aCCtx,
-                                                  QuickSilverAssembler & enc);
 };
 
 struct IdentExpr : public Expr
@@ -37,7 +33,6 @@ struct IdentExpr : public Expr
 
     IdentExpr (Symbol aName) : name (aName), var (NULL) {}
 
-    void synthesiseInCodeContext (CodeContext & aCCtx);
 
     Variable * var;
 };
@@ -62,8 +57,6 @@ struct SyscallStmt : public Expr
 
     SyscallStmt (Symbol aSyscall) : name (aSyscall) {}
 
-    void compileInCodeContextWithEncoder (CodeContext & aCCtx,
-                                          QuickSilverAssembler & enc);
 };
 
 struct ReturnStmt : public Expr
@@ -150,6 +143,5 @@ struct Block : public Expr
     {
     }
 
-    void synthesiseInCodeContext (CodeContext & aCCtx);
 };
 };
