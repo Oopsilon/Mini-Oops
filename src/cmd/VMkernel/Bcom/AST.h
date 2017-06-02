@@ -15,13 +15,19 @@
 
 #include "State.h"
 
+struct Context;
+struct ProgramContext;
+struct ClassContext;
+
 namespace AST
 {
 
 struct Literal;
 struct Expr;
 
-struct AST
+typedef struct std::list<class Method> MethodList;
+
+struct AST : public Object
 {
 };
 
@@ -66,19 +72,20 @@ struct Symbol : public AST, public string
 struct Directive
 {
     typedef std::list<Directive *> List;
-    virtual void compile () { dbg ("Unknown compile request\n"); }
+    virtual void compile (Context * parent)
+    {
+        dbg ("Unknown compile request\n");
+    }
 };
 
 struct Program : public AST
 {
     Directive::List directives;
 
+    ProgramContext * ctx;
+
     void addDirective (Directive * aDir) { directives.push_back (aDir); }
-    void compile ()
-    {
-        for (auto & directive : directives)
-            directive->compile ();
-    }
+    void compile ();
 };
 
 struct Code
@@ -142,4 +149,43 @@ struct SelectorDecl
     }
 };
 
+struct Method : public Directive
+{
+    bool isClass;
+    SelectorDecl selector;
+    Symbol::List temps;
+    Code code;
+
+    void compile (Context * parent);
+
+    Method (bool aBool, SelectorDecl aSel, Symbol::List someTemps, Code aCode)
+        : isClass (aBool), selector (aSel), temps (someTemps), code (aCode)
+    {
+    }
+};
+
+struct Class : public Directive
+{
+  protected:
+    void register_vars (Context * ctx);
+
+  public:
+    Symbol name, superName;
+    Symbol::List nstVars, clsVars;
+    MethodList nstMeths, clsMeths;
+
+    ClassContext * ctx;
+    Class * super_ast;
+
+    void compile (Context * parent);
+
+    Class (Symbol aName, Symbol aSuper, Symbol::List someNstVars,
+           Symbol::List someClsVars, MethodList methods)
+        : name (aName), superName (aSuper), nstVars (someNstVars),
+          clsVars (someClsVars)
+    {
+        for (auto & meth : methods)
+            (meth.isClass ? clsMeths : nstMeths).push_back (meth);
+    }
+};
 }

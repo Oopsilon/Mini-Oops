@@ -1,3 +1,21 @@
-@include(Runtime/Hierarchy.oop)
-@include(Runtime/Object.oop)
-@include(Entry.oop)
+class Object : noSuper
+|
+    isa.
+|
+    _klass_CXX.
+    name.
+    superClass.
+    nstVarVec.
+    methods.
+|
+end
+
+class Boolean : Object
+
++ test: aParam
+{
+    | faux. |
+    faux := aParam testMsg.
+}
+
+end

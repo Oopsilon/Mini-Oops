@@ -20,8 +20,8 @@ LemonComp(Bcom/gram.y)
 
 set (oopsc_srcs
     ${PROJECT_BINARY_DIR}/gram.tab.cxx ${PROJECT_BINARY_DIR}/scan.yy.cxx
-    Bcom/State.cxx Bcom/MsgSyntax.cxx Bcom/Compiler/Code.cxx
-    Bcom/AST.cxx Bcom/Symbol.cxx Bcom/Compiler/Context.cxx
+    Bcom/State.cxx Bcom/MsgSyntax.cxx
+    Bcom/AST.cxx Bcom/Symbol.cxx Bcom/Context.cxx
 	VMkernel.cxx)
 
 add_executable (VMkernel "")

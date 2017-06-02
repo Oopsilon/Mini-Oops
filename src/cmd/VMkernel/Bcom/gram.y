@@ -38,6 +38,8 @@
 %type keyw_decl { AST::SelectorDecl::KeywDecl * }
 %type sel_decl { AST::SelectorDecl * }
 
+%type opt_meth_decl_list { AST::MethodList * }
+%type meth_decl_list { AST::MethodList * }
 %type meth_decl { AST::Method * }
 %type meth_is_class_specifier { bool }
 
@@ -82,40 +84,50 @@ listings ::= directive(D). { pState->addDirective(D); }
 listings ::= listings directive(D).  { pState->addDirective(D); }
 
 directive ::= class.
-directive ::= meth_decl.
 
 class(i)
-    ::= CLASS sym_lit(N) COLON sym_lit (S) END.
+    ::= CLASS sym_lit(N) COLON sym_lit (S) opt_meth_decl_list (m) END.
     {
-        i = new AST::Class(*N, *S,  {}, {});
+        i = new AST::Class(*N, *S,  {}, {}, *m);
         delete N;
         delete S;
     }
 class(i)
     ::= CLASS sym_lit(N) COLON sym_lit (S) vardefs(IV) opt_vdecl_list(CV)
-        BAR END.
+        BAR opt_meth_decl_list (m) END.
     {
-        i = new AST::Class(*N, *S,  *IV, *CV);
+        i = new AST::Class(*N, *S,  *IV, *CV, *m);
         delete N;
         delete S;
         delete IV;
         delete CV;
     }
 class(i)
-    ::= CLASS sym_lit(N) COLON sym_lit (S) vardefs(IV) END.
+    ::= CLASS sym_lit(N) COLON sym_lit (S) vardefs(IV) opt_meth_decl_list (m) END.
     {
-        i = new AST::Class(*N, *S,  *IV, {});
+        i = new AST::Class(*N, *S,  *IV, {}, *m);
+        delete m;
         delete N;
         delete S;
         delete IV;
-    } 
+    }
+
+opt_meth_decl_list(L)
+    ::= meth_decl_list.
+opt_meth_decl_list(L)
+    ::= . { L = new AST::MethodList; }
+
+meth_decl_list(L)
+    ::= meth_decl(m). { L = new AST::MethodList( {*m} ); }
+meth_decl_list(L)
+    ::= meth_decl_list(l) meth_decl(m). { L = l; L->push_back(*m); }
 
 meth_decl(M)
-    ::= meth_is_class_specifier(c) sym_lit(o) sel_decl(s)
+    ::= meth_is_class_specifier(c) sel_decl(s)
         BR_OPEN opt_vardefs(v) code(code) BR_CLOSE.
     {
-        M = new AST::Method(c, *o, *s, *v, *code);
-        delete o, s, v, code;
+        M = new AST::Method(c, *s, *v, *code);
+        delete s, v, code;
     }
 
 meth_is_class_specifier(C) ::= PLUS. { C = true; }

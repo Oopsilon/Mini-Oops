@@ -7,57 +7,7 @@
   </Plugins>
   <VirtualDirectory Name="cmd">
     <VirtualDirectory Name="VMkernel">
-      <VirtualDirectory Name="VM">
-        <VirtualDirectory Name="Interpreter">
-          <File Name="cmd/VMkernel/VM/Interpreter/Interpreter.cxx"/>
-          <File Name="cmd/VMkernel/VM/Interpreter/Interpreter.h"/>
-        </VirtualDirectory>
-        <File Name="cmd/VMkernel/VM/VM.cxx"/>
-        <File Name="cmd/VMkernel/VM/VM.h"/>
-        <File Name="cmd/VMkernel/VM/QuickSilver.qvm"/>
-      </VirtualDirectory>
-      <VirtualDirectory Name="Oops">
-        <VirtualDirectory Name="Klass">
-          <File Name="cmd/VMkernel/Oops/Klass/ByteVecKlass.cxx"/>
-          <File Name="cmd/VMkernel/Oops/Klass/ByteVecKlass.h"/>
-          <File Name="cmd/VMkernel/Oops/Klass/ClassKlass.cxx"/>
-          <File Name="cmd/VMkernel/Oops/Klass/ClassKlass.h"/>
-          <File Name="cmd/VMkernel/Oops/Klass/ContextKlass.cxx"/>
-          <File Name="cmd/VMkernel/Oops/Klass/ContextKlass.h"/>
-          <File Name="cmd/VMkernel/Oops/Klass/Klass.cxx"/>
-          <File Name="cmd/VMkernel/Oops/Klass/Klass.h"/>
-          <File Name="cmd/VMkernel/Oops/Klass/MemKlass.h"/>
-          <File Name="cmd/VMkernel/Oops/Klass/MethodKlass.cxx"/>
-          <File Name="cmd/VMkernel/Oops/Klass/MethodKlass.h"/>
-          <File Name="cmd/VMkernel/Oops/Klass/ObjVecKlass.h"/>
-          <File Name="cmd/VMkernel/Oops/Klass/ObjVecKlass.inl.h"/>
-          <File Name="cmd/VMkernel/Oops/Klass/SmiKlass.h"/>
-          <File Name="cmd/VMkernel/Oops/Klass/SymbolKlass.cxx"/>
-          <File Name="cmd/VMkernel/Oops/Klass/SymbolKlass.h"/>
-          <File Name="cmd/VMkernel/Oops/Klass/VecKlass.h"/>
-        </VirtualDirectory>
-        <File Name="cmd/VMkernel/Oops/ClassDesc.cxx"/>
-        <File Name="cmd/VMkernel/Oops/ClassDesc.h"/>
-        <File Name="cmd/VMkernel/Oops/ContextDesc.h"/>
-        <File Name="cmd/VMkernel/Oops/Desc.cxx"/>
-        <File Name="cmd/VMkernel/Oops/Desc.h"/>
-        <File Name="cmd/VMkernel/Oops/Hierarchy.h"/>
-        <File Name="cmd/VMkernel/Oops/MemDesc.h"/>
-        <File Name="cmd/VMkernel/Oops/MethodDesc.h"/>
-        <File Name="cmd/VMkernel/Oops/ObjVecDesc.h"/>
-        <File Name="cmd/VMkernel/Oops/SmiDesc.h"/>
-        <File Name="cmd/VMkernel/Oops/Symbol.cxx"/>
-        <File Name="cmd/VMkernel/Oops/SymbolDesc.h"/>
-        <File Name="cmd/VMkernel/Oops/VecDesc.h"/>
-        <File Name="cmd/VMkernel/Oops/Context.cls"/>
-        <File Name="cmd/VMkernel/Oops/Method.cls"/>
-      </VirtualDirectory>
       <VirtualDirectory Name="Bcom">
-        <VirtualDirectory Name="Compiler">
-          <File Name="cmd/VMkernel/Bcom/Compiler/Code.cxx"/>
-          <File Name="cmd/VMkernel/Bcom/Compiler/Context.cxx"/>
-          <File Name="cmd/VMkernel/Bcom/Compiler/Variable.h"/>
-        </VirtualDirectory>
         <File Name="cmd/VMkernel/Bcom/AST.cxx"/>
         <File Name="cmd/VMkernel/Bcom/AST.h"/>
         <File Name="cmd/VMkernel/Bcom/Bcom.cxx"/>
@@ -71,19 +21,10 @@
         <File Name="cmd/VMkernel/Bcom/State.cxx"/>
         <File Name="cmd/VMkernel/Bcom/State.h"/>
         <File Name="cmd/VMkernel/Bcom/Symbol.cxx"/>
-      </VirtualDirectory>
-      <VirtualDirectory Name="Bytecode">
-        <File Name="cmd/VMkernel/Bytecode/Bytecode.cxx"/>
-        <File Name="cmd/VMkernel/Bytecode/Bytecode.h"/>
-        <File Name="cmd/VMkernel/Bytecode/Syscall.h"/>
-      </VirtualDirectory>
-      <VirtualDirectory Name="ObjectMemory">
-        <File Name="cmd/VMkernel/ObjectMemory/ObjectFactory.cxx"/>
-        <File Name="cmd/VMkernel/ObjectMemory/ObjectFactory.h"/>
-        <File Name="cmd/VMkernel/ObjectMemory/ObjectFactory.inl.h"/>
-        <File Name="cmd/VMkernel/ObjectMemory/ObjectMemory.cxx"/>
-        <File Name="cmd/VMkernel/ObjectMemory/ObjectMemory.h"/>
-        <File Name="cmd/VMkernel/ObjectMemory/Oop.h"/>
+        <File Name="cmd/VMkernel/Bcom/Class.cxx"/>
+        <File Name="cmd/VMkernel/Bcom/Context.cxx"/>
+        <File Name="cmd/VMkernel/Bcom/Context.h"/>
+        <File Name="cmd/VMkernel/Bcom/Variable.h"/>
       </VirtualDirectory>
       <File Name="cmd/VMkernel/CMakeLists.txt"/>
       <File Name="cmd/VMkernel/VMkernel.cxx"/>

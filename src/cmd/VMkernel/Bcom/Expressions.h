@@ -31,10 +31,7 @@ struct IdentExpr : public Expr
 {
     Symbol name;
 
-    IdentExpr (Symbol aName) : name (aName), var (NULL) {}
-
-
-    Variable * var;
+    IdentExpr (Symbol aName) : name (aName) {}
 };
 
 struct LiteralExpr : public Expr
@@ -56,7 +53,6 @@ struct SyscallStmt : public Expr
     Symbol name;
 
     SyscallStmt (Symbol aSyscall) : name (aSyscall) {}
-
 };
 
 struct ReturnStmt : public Expr
@@ -118,8 +114,6 @@ struct MsgExpr : public Expr
         KeywMsg * keyw;
     };
 
-    void synthesiseInCodeContext (CodeContext & aCCtx);
-
     MsgExpr (Expr * aRcvr, UnaryMsg * msg)
         : rcvr (aRcvr), msgType (EUnary), unary (msg)
     {
@@ -136,12 +130,13 @@ struct MsgExpr : public Expr
 
 struct Block : public Expr
 {
-    CodeContext cCtx;
+    Symbol::List formals;
+    Symbol::List temps;
+    Code code;
 
     Block (Symbol::List someFormals, Symbol::List someTemps, Code aCode)
-        : cCtx (someFormals, someTemps, aCode)
+        : formals (someFormals), temps (someTemps), code (aCode)
     {
     }
-
 };
 };

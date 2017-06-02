@@ -25,7 +25,7 @@ struct Object
     template <typename T> inline T * asAPtr ()
     {
         T * result = dynamic_cast<T *> (this);
-        // assert (result);
+        assert (result);
         return result;
     }
 
