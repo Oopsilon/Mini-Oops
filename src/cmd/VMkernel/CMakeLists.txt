@@ -38,6 +38,7 @@ set (oopsc_srcs
     ${PROJECT_BINARY_DIR}/Oops/Klass/ContextKlass.cxx
     ${PROJECT_BINARY_DIR}/Oops/Klass/MethodKlass.cxx
     ${PROJECT_BINARY_DIR}/VM/QuickSilverDisasm.cxx
+    ${PROJECT_BINARY_DIR}/VM/QuickSilverAsm.cxx
     ObjectMemory/ObjectMemory.cxx ObjectMemory/ObjectFactory.cxx
     VM/VM.cxx VM/Interpreter/Interpreter.cxx
 	VMkernel.cxx)

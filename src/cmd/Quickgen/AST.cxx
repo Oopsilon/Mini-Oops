@@ -17,6 +17,8 @@
 
 #include "AST.h"
 
+std::string pragmaonce ("#pragma once\n");
+
 std::string sc (std::string line) { return line + ";"; }
 std::string nl (std::string line) { return line + "\n"; }
 std::string nlseq (std::list<std::string> lines)
@@ -77,7 +79,7 @@ std::string comma_seq (std::list<std::string> things)
     bool onFirst = true;
 
     for (const auto & str : things)
-        r += (onFirst ? "" : (onFirst = false, ", ")) + str;
+        r += (onFirst ? (onFirst = false, "") : ", ") + str;
 
     return r;
 }
@@ -111,6 +113,13 @@ std::string read_type_from_array (std::string artype, std::string type,
     return "read_type_from_array<" + artype + ", " + type + ">(" + arname + ")";
 }
 
+std::string write_type_to_vector (std::string artype, std::string type,
+                                  std::string arg, std::string arname = "code")
+{
+    return "write_type_to_vector<" + artype + ", " + type + ">(" +
+           comma_seq ({arname, arg}) + ")";
+}
+
 struct CXXFunction
 {
     std::string cls;
@@ -124,15 +133,55 @@ struct CXXFunction
         : cls (aCls), rtype (aRtype), name (aName), params (aParams),
           body (aBody){};
 
-    std::string gen_inclass_decl ()
+    std::string gen_inclass_decl () const
     {
         return scnl (declare_fn (rtype, name, comma_seq (params)));
     }
-    std::string gen_def ()
+    std::string gen_def () const
     {
         return nl (
             nl (declare_fn (rtype, cls + "::" + name, comma_seq (params))) +
             nl ("{") + nl (body) + nl ("}"));
+    }
+};
+
+struct CXXClass
+{
+    std::string name;
+    std::string superName;
+    std::list<std::string> members;
+    std::list<CXXFunction> funcs;
+
+    CXXClass (std::string aName, std::string aSuperName,
+              std::list<std::string> aMembers, std::list<CXXFunction> aFuncs)
+        : name (aName), superName (aSuperName), members (aMembers),
+          funcs (aFuncs)
+    {
+    }
+
+    std::string gen_decl () const
+    {
+        std::string r;
+
+        r += nl ("struct " + name + (superName != "" ? " : " + superName : ""));
+        r += nl ("{");
+        for (const auto & memb : members)
+            r += scnl (memb);
+        for (const auto & func : funcs)
+            r += func.gen_inclass_decl ();
+        r += nl (scnl ("}"));
+
+        return r;
+    }
+
+    std::string gen_def () const
+    {
+        std::string r;
+
+        for (const auto & func : funcs)
+            r += nl (func.gen_def ());
+
+        return r;
     }
 };
 
@@ -156,6 +205,22 @@ std::string Instruction::describe_fn_impl () const
     r += "}\n\n";
 
     return r;
+}
+
+CXXFunction Instruction::asm_fn () const
+{
+    std::list<std::string> args;
+    std::string b;
+
+    b += scnl (call ("code.push_back", enum_entry ()));
+
+    for (const auto & param : *params)
+    {
+        args.push_back (declare (*param.type, *param.name));
+        b += scnl (write_type_to_vector (vm->type, *param.type, *param.name));
+    }
+
+    return CXXFunction (vm->asm_cls_name (), "void", asm_fn_name (), args, b);
 }
 
 std::string VM::opcode_enum () const
@@ -204,6 +269,7 @@ std::string VM::dis_intf () const
 {
     std::string c, r;
 
+    r += pragmaonce;
     r += includesys ("string");
     r += includeuser ("QuickgenSupport.h");
 
@@ -240,8 +306,43 @@ std::string VM::opcode_intf () const
     std::string r;
 
     /* for std::to_string */
+    r += pragmaonce;
     r += includesys ("string");
     r += opcode_enum ();
+
+    return r;
+}
+
+void VM::generate_asm_cls ()
+{
+    std::list<CXXFunction> funs;
+
+    for (const auto & instr : instrs)
+        funs.push_back (instr.asm_fn ());
+
+    asm_cls = new CXXClass (asm_cls_name (), "",
+                            {declare (ref (vec_type ()), "code")}, funs);
+}
+
+std::string VM::asm_intf () const
+{
+    std::string r;
+
+    r += pragmaonce;
+    r += includesys ("vector");
+    r += asm_cls->gen_decl ();
+
+    return r;
+}
+
+std::string VM::asm_impl () const
+{
+    std::string r;
+
+    r += includeuser ("QuickgenSupport.h");
+    r += includeuser (opcode_intf_filename ());
+    r += includeuser (asm_intf_filename ());
+    r += asm_cls->gen_def ();
 
     return r;
 }
@@ -252,6 +353,7 @@ void VM::generate ()
         ((Instruction &)instr).set_vm ((VM *)this);
     disasm_func = new CXXFunction (disassembler_class_name (), "std::string",
                                    "disassemble", {}, disasm_func_body ());
+    generate_asm_cls ();
     qg.notice ("\n%s\n%s\n", opcode_enum ().c_str (),
                opcode_str_table ().c_str ());
 }

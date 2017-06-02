@@ -20,7 +20,7 @@
 #include <string>
 #include <vector>
 
-std::string __nl (std::string txt) { return txt + "\n"; }
+static std::string __nl (std::string txt) { return txt + "\n"; }
 
 /* These methods are for writing and reading arbitrary types from vectors of
  * some smaller type.
@@ -43,7 +43,7 @@ template <class CT, class T> T read_type_from_array (CT *& array)
 
 /* Writes `someThing` of type T to the vector of CTs pointed to by `vec.` */
 template <class CT, class T>
-void write_type_to_vector (std::vector<CT> vec, T someThing)
+void write_type_to_vector (std::vector<CT> & vec, T someThing)
 {
     const size_t siz    = sizeof (T) / sizeof (CT);
     const CT * accessor = &someThing;

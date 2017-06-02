@@ -18,6 +18,7 @@
 #include <string>
 
 struct CXXFunction;
+struct CXXClass;
 struct VM;
 
 struct Field
@@ -44,6 +45,9 @@ struct Instruction
     std::string describe_fn_name () const { return "Describe" + *name; }
     std::string describe_fn_intf () const;
     std::string describe_fn_impl () const;
+
+    std::string asm_fn_name () const { return "Emit" + *name; }
+    CXXFunction asm_fn () const;
 };
 
 struct VM
@@ -56,6 +60,9 @@ struct VM
     std::string opcode_str_table_name () const { return name + "OpcodeNames"; }
 
     std::string disasm_func_body () const;
+
+    void generate_asm_cls ();
+    CXXClass * asm_cls;
 
   public:
     std::string name;
@@ -78,11 +85,16 @@ struct VM
     }
     std::string dis_intf () const;
     std::string dis_impl () const;
-
+    std::string asm_intf () const;
+    std::string asm_impl () const;
     std::string opcode_intf () const;
+
+    std::string asm_cls_name () const { return name + "Assembler"; }
 
     std::string dis_intf_filename () const { return name + "Disasm.h"; }
     std::string dis_impl_filename () const { return name + "Disasm.cxx"; }
+    std::string asm_intf_filename () const { return name + "Asm.h"; }
+    std::string asm_impl_filename () const { return name + "Asm.cxx"; }
     std::string opcode_intf_filename () const { return name + "Opcode.h"; }
 
     /* Shut C++ up. */

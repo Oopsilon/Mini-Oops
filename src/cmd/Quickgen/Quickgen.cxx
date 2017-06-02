@@ -94,6 +94,8 @@ void Quickgen::emit (std::string output_folder)
 {
     std::ofstream disintf (output_folder + "/" + vm.dis_intf_filename ());
     std::ofstream disimpl (OUTFILE (vm.dis_impl_filename ()));
+    std::ofstream asmintf (OUTFILE (vm.asm_intf_filename ()));
+    std::ofstream asmimpl (OUTFILE (vm.asm_impl_filename ()));
     std::ofstream opcodeintf (OUTFILE (vm.opcode_intf_filename ()));
     printf ("Output dir: %s\n", output_folder.c_str ());
     vm.generate ();
@@ -103,6 +105,12 @@ void Quickgen::emit (std::string output_folder)
 
     disimpl << vm.dis_impl ();
     disimpl.close ();
+
+    asmintf << vm.asm_intf ();
+    asmintf.close ();
+
+    asmimpl << vm.asm_impl ();
+    asmimpl.close ();
 
     opcodeintf << vm.opcode_intf ();
     opcodeintf.close ();
