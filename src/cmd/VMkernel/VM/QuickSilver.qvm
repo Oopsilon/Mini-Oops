@@ -30,6 +30,6 @@ instruction ReturnSelf() [ -- ];
 instruction Send(<char> num_args)
 [ <@variadic> args..., <symbolOop> selector, <oop> receiver -- ];
 
-instruction Syscall(<uint8_t> syscall) [ -- ];
+instruction Syscall(<char> syscall) [ -- ];
 
 end

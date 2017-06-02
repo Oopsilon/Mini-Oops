@@ -30,10 +30,8 @@ void AST::Expr::compileInCodeContextWithEncoder (CodeContext & meth,
 void AST::SyscallStmt::compileInCodeContextWithEncoder (
     CodeContext & meth, QuickSilverAssembler & enc)
 {
-    enc.EmitPushFalse ();
-    enc.EmitSend (44);
     if (name == "Isa")
-        enc.EmitSyscall (42);
+        enc.EmitSyscall (EIsa);
     else
         fatalError ("Unknown syscall: %s\n", name.c_str ());
 }

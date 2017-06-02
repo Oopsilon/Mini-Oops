@@ -34,10 +34,7 @@ static std::string __nl (std::string txt) { return txt + "\n"; }
 template <class CT, class T> T read_type_from_array (CT *& array)
 {
     T result;
-
-    memcpy (&result, &array, sizeof (T));
-    array += (sizeof (T) / sizeof (CT));
-
+    result = *array++;
     return result;
 }
 
@@ -45,12 +42,5 @@ template <class CT, class T> T read_type_from_array (CT *& array)
 template <class CT, class T>
 void write_type_to_vector (std::vector<CT> & vec, T someThing)
 {
-    const size_t siz    = sizeof (T) / sizeof (CT);
-    const CT * accessor = (CT *)(&someThing);
-
-    for (size_t idx = 0; idx != siz; idx++)
-    {
-        printf ("puh back\n");
-        vec.push_back (*accessor++);
-    }
+    vec.push_back (someThing);
 }
