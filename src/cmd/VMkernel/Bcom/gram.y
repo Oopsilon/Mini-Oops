@@ -134,12 +134,9 @@ meth_decl(M)
 meth_is_class_specifier(C) ::= PLUS. { C = true; }
 meth_is_class_specifier(C) ::= MINUS. { C = false; }
 
+code(C) ::= . { C = new AST::Code({}); }
 code(C) ::= expression(e). { C = new AST::Code({}, e); }
-code(C) ::= opt_statements(s). { C = new AST::Code(*s); delete s; }
 code(C) ::= statements(s) expression(e). { C = new AST::Code(*s, e); delete s; }
-
-opt_statements(E) ::= statements(e). { E = e; }
-opt_statements(E) ::= . { E = new AST::Expr::List; }
 
 statements(E) ::= statement(s). { E = new AST::Expr::List( { s } ); }
 statements(E) ::= statements(l) statement(s). {
@@ -319,7 +316,7 @@ block_expr(B)
         delete f, v, c;
     }
 block_expr(B)
-    ::= BR_OPEN block_formals(f)  code(c) BR_CLOSE.
+    ::= BR_OPEN block_formals(f) code(c) BR_CLOSE.
     {
         B = new AST::Block(*f, {}, *c);
         delete f, c;
