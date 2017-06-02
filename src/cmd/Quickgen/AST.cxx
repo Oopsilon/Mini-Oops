@@ -151,11 +151,13 @@ struct CXXClass
     std::string superName;
     std::list<std::string> members;
     std::list<CXXFunction> funcs;
+    std::string intf_extra;
 
     CXXClass (std::string aName, std::string aSuperName,
-              std::list<std::string> aMembers, std::list<CXXFunction> aFuncs)
+              std::list<std::string> aMembers, std::list<CXXFunction> aFuncs,
+              std::string anIntf_extra = "")
         : name (aName), superName (aSuperName), members (aMembers),
-          funcs (aFuncs)
+          funcs (aFuncs), intf_extra (anIntf_extra)
     {
     }
 
@@ -169,6 +171,7 @@ struct CXXClass
             r += scnl (memb);
         for (const auto & func : funcs)
             r += func.gen_inclass_decl ();
+        r += nl (intf_extra);
         r += nl (scnl ("}"));
 
         return r;
@@ -316,12 +319,15 @@ std::string VM::opcode_intf () const
 void VM::generate_asm_cls ()
 {
     std::list<CXXFunction> funs;
+    std::string cons = asm_cls_name () +
+                       bracket (declare (ref (vec_type ()), "aCode")) +
+                       ": code(aCode) {}";
 
     for (const auto & instr : instrs)
         funs.push_back (instr.asm_fn ());
 
     asm_cls = new CXXClass (asm_cls_name (), "",
-                            {declare (ref (vec_type ()), "code")}, funs);
+                            {declare (ref (vec_type ()), "code")}, funs, cons);
 }
 
 std::string VM::asm_intf () const
