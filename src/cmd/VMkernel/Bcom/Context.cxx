@@ -31,7 +31,9 @@ void AbstractCodeContext::using_name_in_block (AST::Symbol aSym)
         vars[aSym] = new HeapVar (vars[aSym]);
     else if (!isOurs)
         /* Variable isn't one of our formals or temporaries.
-         * We must therefore create a new heapvar locally. */
+         * We must therefore create a new heapvar locally. (TO-DO: Check if it's
+         * an instance variable. If so - we need to do some special handling. Or
+         * maybe that can be done in a later stage?) */
         vars[aSym] = new HeapVar (lookup (aSym));
     /* If neither of these cases holds true then the variable is already a
      * heapvar. */

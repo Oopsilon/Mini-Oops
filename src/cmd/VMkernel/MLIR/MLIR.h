@@ -1,5 +1,13 @@
 /* Oopsilon
- * MLIR
+ * MLIR: Mid-level intermediate representation.
+ * This is an intermediate representation which is constructed from the AST and
+ * in which variable access semantics have been made concrete rather than
+ * abstract as in the AST.
+ *
+ * This means that, for example, access to a variable in `self` is explicitly
+ * done through a SelfVarAccess operation. More importantly, heapvars (the
+ * environment vectors used to implement block closure) are now made extant and
+ * can therefore be reasoned about.
  *
  *      Copyright Notice
  *

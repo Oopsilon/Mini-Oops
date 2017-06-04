@@ -20,6 +20,12 @@ struct ProgramContext;
 struct ClassContext;
 struct MethodContext;
 
+namespace MLIR
+{
+struct Program;
+struct Method;
+}
+
 namespace AST
 {
 
@@ -86,6 +92,7 @@ struct Program : public AST
     Directive::List directives;
 
     ProgramContext * ctx;
+    MLIR::Program * mlir;
 
     void addDirective (Directive * aDir) { directives.push_back (aDir); }
     void compile ();
