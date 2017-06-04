@@ -10,12 +10,16 @@
 #include "../VMkernel.h"
 #include "Context.h"
 #include "Expressions.h"
+#include "MLIR/MLIR.h"
 
 void AST::Program::compile ()
 {
     ctx = new ProgramContext (this);
     for (auto & dir : directives)
         dir->compile (ctx);
+    mlir = new MLIR::Program;
+    for (auto & dir : directives)
+        dir->toMLIR (mlir);
 }
 
 void AST::IdentExpr::compile (Context * ctx) { var = &ctx->lookup (name); }
@@ -57,6 +61,34 @@ void AST::Block::compile (Context * parent)
     code.compile (ctx);
 }
 
+MLIR::Method * AST::Method::toMLIR (MLIR::Class * parent)
+{
+    bool promotedSelf     = false;
+    bool promotedHeapvars = false;
+    Variable::SymTab heapVars;
+    std::string clsName =
+        (isClass ? ctx->cls ()->name + "Meta" : ctx->cls ()->name);
+    MLIR::Method * mlir =
+        new MLIR::Method (clsName + "_" + selector.selName ());
+    MLIR::Type * selfType = new MLIR::SelfType (clsName);
+
+    mlir->formals.push_back (MLIR::Field (selfType, "self"));
+    mlir->formals.push_back (MLIR::Field (new MLIR::CType ("SEL"), "sel"));
+
+    for (const auto & var : ctx->vars)
+    {
+        if (var.second->type == Variable::EHeapVar)
+            heapVars.insert (var);
+    }
+
+    if (heapVars.size ())
+    {
+        /* create heapvar statement */
+        /* put into heapvar statement */
+        dbg ("We have %d heapvars\n", heapVars.size ());
+    }
+}
+
 void AST::Method::compile (Context * parent)
 {
     ctx = new MethodContext (parent, this);
@@ -91,6 +123,16 @@ void AST::Class::register_vars (Context * ctx)
 
     for (auto & m : clsMeths)
         m.compile (ctx);
+}
+
+void AST::Class::toMLIR (MLIR::Program * parent)
+{
+    mlir = new MLIR::Class;
+
+    for (auto & m : clsMeths)
+        mlir->clsMeths.push_back (m.toMLIR (mlir));
+    for (auto & m : nstMeths)
+        mlir->nstMeths.push_back (m.toMLIR (mlir));
 }
 
 void AST::Class::compile (Context * parent)

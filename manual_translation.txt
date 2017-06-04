@@ -51,7 +51,7 @@ oop test(oop self, SEL selector, oop aParam )
 and of course test must become:
 oop test (oop self, SEL selector, oop aParam)
 {
-    struct heaptype0 heapvars0;
+    struct heaptype0 * heapvars0 = allocate(sizeof(Heapvars0));
     oop rval = nil;
     
     heapvars0->faux = ...;

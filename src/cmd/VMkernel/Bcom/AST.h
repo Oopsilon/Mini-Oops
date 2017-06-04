@@ -24,6 +24,7 @@ namespace MLIR
 {
 struct Program;
 struct Method;
+struct Class;
 }
 
 namespace AST
@@ -82,6 +83,10 @@ struct Directive
 {
     typedef std::list<Directive *> List;
     virtual void compile (Context * parent)
+    {
+        dbg ("Unknown compile request\n");
+    }
+    virtual void toMLIR (MLIR::Program * parent)
     {
         dbg ("Unknown compile request\n");
     }
@@ -171,6 +176,7 @@ struct Method : public Directive
     MethodContext * ctx;
 
     void compile (Context * parent);
+    MLIR::Method * toMLIR (MLIR::Class * parent);
 
     Method (bool aBool, SelectorDecl aSel, Symbol::List someTemps, Code aCode)
         : isClass (aBool), selector (aSel), temps (someTemps), code (aCode)
@@ -188,10 +194,13 @@ struct Class : public Directive
     Symbol::List nstVars, clsVars;
     MethodList nstMeths, clsMeths;
 
-    ClassContext * ctx;
     Class * super_ast;
 
+    ClassContext * ctx;
+    MLIR::Class * mlir;
+
     void compile (Context * parent);
+    void toMLIR (MLIR::Program * parent);
 
     Class (Symbol aName, Symbol aSuper, Symbol::List someNstVars,
            Symbol::List someClsVars, MethodList methods)

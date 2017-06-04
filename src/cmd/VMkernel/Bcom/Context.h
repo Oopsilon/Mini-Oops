@@ -67,6 +67,11 @@ struct MethodContext : public AbstractCodeContext
 {
     AST::Method * ast;
 
+    AST::Class * cls ()
+    {
+        return dynamic_cast<ClassContext *> (enclosing)->ast;
+    }
+
     MethodContext (Context * anEnclosing, AST::Method * anAst)
         : ast (anAst), AbstractCodeContext (anEnclosing)
     {
