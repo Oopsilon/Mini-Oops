@@ -65,5 +65,6 @@ struct FreeVar : public Variable
 
 struct HeapVar : public Variable
 {
-    HeapVar () : Variable (EHeapVar) {}
+    Variable * original;
+    HeapVar (Variable * anOrig) : original (anOrig), Variable (EHeapVar) {}
 };

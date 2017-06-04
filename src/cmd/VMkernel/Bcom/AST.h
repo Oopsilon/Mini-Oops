@@ -56,6 +56,7 @@ struct Symbol : public AST, public string
 
   public:
     static Symbol & oopSymbol ();
+    static Symbol & selfSymbol ();
 
     Symbol ()
         : symType (ESymLiteral), lineInfo (9999, 9999),

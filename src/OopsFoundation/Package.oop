@@ -16,7 +16,7 @@ class Boolean : Object
 [
     | faux. fox. |
     faux := aParam testMsg.
-    [ :ushanka | | phoney. | faux test: fox ] value
+    [ :ushanka | | phoney. | phoney. isa. faux test: fox ] value
 ]
 
 end

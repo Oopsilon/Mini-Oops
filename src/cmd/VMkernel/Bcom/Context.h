@@ -24,17 +24,15 @@ struct Context
 
     /* Looks up a variable for the given name. Searches through parent contexts.
      * Returns a reference to the variable pointer if it is found, and NULL if
-     * not. This function is not to be used except for the scope checking that
-     * occurs in Stage 1 Semantic Analysis. (TO-CONSIDER: should it also be
-     * usable after stage 2 is complete?) */
-    Variable *& lookup (AST::Symbol aSym);
-    /* Checks if the given variable is local to us.
-     * All variables are known as local except for accesses to variables of any
-     * kind within a block, other than that blocks' own formals and temporaries.
-     * The purpose of this function is intended to be for the determination of
-     * whether a heapvar must be created. A non-local variable must trigger the
-     * allocation of a heapvar in the context to which it is local. */
-    virtual bool variable_is_local (Variable * var) { return true; }
+     * not. */
+    virtual Variable *& lookup (AST::Symbol aSym);
+
+    /* Promotion semantics. */
+    virtual void using_name_in_block (AST::Symbol aSym)
+    {
+        fatalError ("Should not be called on a Context that isn't a subtype of "
+                    "AbstractCodeContext.\n");
+    }
 
     void register_var (AST::Symbol name, Variable * var) { vars[name] = var; }
 
@@ -57,14 +55,18 @@ struct ClassContext : public Context
     }
 };
 
+struct BlockContext;
+
 struct AbstractCodeContext : public Context
 {
+    virtual void using_name_in_block (AST::Symbol aSym);
     AbstractCodeContext (Context * anEnclosing) : Context (anEnclosing) {}
 };
 
 struct MethodContext : public AbstractCodeContext
 {
     AST::Method * ast;
+
     MethodContext (Context * anEnclosing, AST::Method * anAst)
         : ast (anAst), AbstractCodeContext (anEnclosing)
     {
@@ -74,6 +76,11 @@ struct MethodContext : public AbstractCodeContext
 struct BlockContext : public AbstractCodeContext
 {
     AST::Block * ast;
+
+    /* This adjusted lookup function invokes the using_name_in_block function on
+     * its enclosing context if the variable referenced is not a block formal or
+     * temporary. */
+    Variable *& lookup (AST::Symbol aSym);
 
     BlockContext (Context * anEnclosing, AST::Block * anAst)
         : ast (anAst), AbstractCodeContext (anEnclosing)

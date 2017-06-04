@@ -12,6 +12,12 @@ AST::Symbol & AST::Symbol::oopSymbol ()
     return sym;
 }
 
+AST::Symbol & AST::Symbol::selfSymbol ()
+{
+    static Symbol sym = (Symbol ("self"));
+    return sym;
+}
+
 AST::Symbol::Symbol (ParserState * pS)
     : lineInfo (pS->lineInfo ()), AST (), string ()
 {

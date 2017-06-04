@@ -61,6 +61,8 @@ void AST::Method::compile (Context * parent)
 {
     ctx = new MethodContext (parent, this);
 
+    ctx->register_var (Symbol::selfSymbol (), new NstVar);
+
     for (const auto & formal : selector.formalNames ())
         ctx->register_var (formal, new FormalVar);
 
@@ -75,6 +77,9 @@ void AST::Class::register_vars (Context * ctx)
     if (super_ast)
         super_ast->register_vars (ctx);
 
+    /* TO-DO: This certainly doesn't hold true in all cases. What about the
+     * class-var v.s. ivar distinction? We need to, probably, have an Instance
+     * Context and a Class Context distinct. */
     for (const auto & iv : nstVars)
         ctx->register_var (iv, new NstVar);
 
