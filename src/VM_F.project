@@ -29,6 +29,9 @@
       <File Name="cmd/VMkernel/CMakeLists.txt"/>
       <File Name="cmd/VMkernel/VMkernel.cxx"/>
       <File Name="cmd/VMkernel/VMkernel.h"/>
+      <VirtualDirectory Name="MLIR">
+        <File Name="cmd/VMkernel/MLIR/MLIR.h"/>
+      </VirtualDirectory>
     </VirtualDirectory>
     <VirtualDirectory Name="Classgen">
       <File Name="cmd/Classgen/Classgen.cxx"/>

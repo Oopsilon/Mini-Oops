@@ -14,6 +14,15 @@
 
 #pragma once
 
+namespace MLIR
+{
+
+struct Decl;
+struct Def;
+struct Stmt;
+struct Expr;
+
 struct Program
 {
+};
 };

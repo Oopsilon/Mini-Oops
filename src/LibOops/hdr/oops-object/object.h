@@ -4,8 +4,8 @@
 
 #pragma once
 
-#include <cstdio>
-#include <cstring>
+#include <stdio.h>
+#include <string.h>
 #include <string>
 #include <vector>
 
@@ -13,9 +13,7 @@ typedef const char * STR;
 typedef const char * SEL;
 typedef struct OopsBaseObject * oop;
 typedef struct OopsBaseClass * CLS;
-/* Method implementation. argBox holds the return value followed by the
- * arguments, in sequence. */
-typedef void (*IMP) (oop selfRef, SEL sel, void * argBox);
+typedef oop (*IMP) (oop selfRef, SEL sel, ...);
 typedef struct VtblEntry * vtbl;
 
 struct VtblEntry
@@ -39,18 +37,17 @@ struct OopsBaseClass
     vtbl vt;
 };
 
-inline void oops_send (oop rcvr, SEL selector, void * args)
+inline IMP oops_bind (oop rcvr, SEL selector)
 {
-    IMP imp;
     CLS cls = rcvr->isa;
-    VtblEntry * start;
+    VtblEntry * it;
 
-    for (start = cls->vt; start != 0; start++)
+    for (it = cls->vt; start != 0; it++)
         if (!strcmp (start->sel, selector))
-        {
-            imp = start->imp;
-            break;
-        }
+            return it->imp;
 
-    imp (rcvr, selector, args);
+    if (super)
+        return super->oops_bind (rcvr, selector);
+
+    abort (99);
 }
