@@ -1,0 +1,28 @@
+sudo: required
+dist: trusty
+language: c
+compiler:
+  - gcc
+  - clang
+
+before_script:
+  - |
+    if [[ "${TRAVIS_OS_NAME}" == "linux" ]] 
+    then
+      CMAKE_URL="https://cmake.org/files/v3.7/cmake-3.7.2-Linux-x86_64.tar.gz"
+      mkdir cmake && travis_retry wget --no-check-certificate --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C cmake
+      export PATH=`pwd`/cmake/bin:${PATH}
+      sudo apt-get update -q
+      sudo apt-get install flex ksh -q
+    else
+      brew upgrade
+      brew install flex
+      brew install ksh
+    fi
+  - cmake --version
+
+script:
+  - ksh src/tools/Nightly.sh
+
+notifications:
+  email: false

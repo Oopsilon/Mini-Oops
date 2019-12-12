@@ -1,0 +1,33 @@
+class Empty : Nil
+end
+
+class EmptyDeriv : Empty
+
++ (Instance) new
+[
+    self
+]
+
+end
+
+
+class Object T : Nil
+
++ (Instance) new (Empty) anObject
+    where N = this.arg 1
+[
+    self
+]
+
+end
+
+class Tester : Nil
+
+- (Self) doIt
+[
+    | X
+      Y |
+    X <- [ :blockParm1 | blockIV1 | blockIV1.new x]
+]
+
+end

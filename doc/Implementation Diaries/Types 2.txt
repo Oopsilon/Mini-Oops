@@ -1,0 +1,35 @@
+So, in a method -
+do we really want a full type context?
+Sure in the methods declared in one protocol itself.
+But for subsumed we want to start searching from the subsumed protocols'
+invocation.
+We need of course to have some access to the full type in order to handle
+the case of rebinding, Self, etc.
+
+This must hold true:
+
+for:
+
+class A of: T
+<InstanceType of: X> new: <X> :: X: arg: 1.
+end
+
+class Holder of: T
+<InstanceType of: X> new: <X> :: X: arg: 1.
+end
+
+class B ofA: T : A of: (Holder of: T)
+end
+
+when we reference B new
+the type context must make self to be B ofA: whatever
+the generic type resolution must search only in the invocation context of
+B's A, though.
+X must be constrained to be a Holder of:, and if we do:
+B new: (Holder new: (String new))
+then we must do:
+B's A's T bound to (Holder of: B's T) -> B's T bound to String.
+
+IDEA: Could copy types to create invocations; would that work? Then return type
+reference to self has to work with a prototype and the current invocation. Use
+both to determine result.

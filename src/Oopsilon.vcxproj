@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{11B8CD9E-95FA-4FBA-B2E0-C4BE49B3ADDE}</ProjectGuid>
+    <Keyword>MakeFileProj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <NMakeBuildCommandLine>"tools\WinBuild.bat"</NMakeBuildCommandLine>
+    <NMakeOutput>$(SolutionDir)obj/MSVC-Win32/bin/c-oopsC.exe</NMakeOutput>
+    <NMakePreprocessorDefinitions>OOPS_VERINFO=Win32 Debug;WIN32;_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <IntDir>$(SolutionDir)obj\MSVC-Win32\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)obj\MSVC-Win32\$(Configuration)\</OutDir>
+    <IncludePath>$(ProjectDir)LibOops\hdr;$(ProjectDir)cmd\Xoopsc\;$(ProjectDir);$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <NMakeBuildCommandLine>"tools\WinBuild.bat"</NMakeBuildCommandLine>
+    <NMakeOutput>$(SolutionDir)obj/MSVC-Win32/bin/c-oopsC.exe</NMakeOutput>
+    <NMakePreprocessorDefinitions>OOPS_VERINFO=Win32 Debug;_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <IntDir>obj\MSVC-Win32\$(Platform)\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)obj\MSVC-Win32\$(Platform)\$(Configuration)\</OutDir>
+    <IncludePath>$(SolutionDir)\src\LibOops\hdr;$(SolutionDir)\src\cmd\Xoopsc;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <NMakeBuildCommandLine>"tools\WinBuild.bat"</NMakeBuildCommandLine>
+    <NMakeOutput>$(SolutionDir)obj/MSVC-Win32/bin/c-oopsC.exe</NMakeOutput>
+    <NMakePreprocessorDefinitions>OOPS_VERINFO=Win32 Debug;WIN32;NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <NMakeBuildCommandLine>"tools\WinBuild.bat"</NMakeBuildCommandLine>
+    <NMakeOutput>$(SolutionDir)obj/MSVC-Win32/bin/c-oopsC.exe</NMakeOutput>
+    <NMakePreprocessorDefinitions>OOPS_VERINFO=Win32 Debug;NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <Text Include="CMakeLists.txt" />
+    <Text Include="cmd\c-oopsC\CMakeLists.txt" />
+    <Text Include="cmd\CMakeLists.txt" />
+    <Text Include="cmd\lemon\CMakeLists.txt" />
+    <Text Include="lib\CMakeLists.txt" />
+    <Text Include="lib\oopsrt\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="cmd\c-oopsC\front\ast\ast.cxx" />
+    <ClCompile Include="cmd\c-oopsC\front\ast\astPrinter.cxx" />
+    <ClCompile Include="cmd\c-oopsC\front\ast\symbol.cxx" />
+    <ClCompile Include="cmd\c-oopsC\front\ast\visitor.cxx" />
+    <ClCompile Include="cmd\c-oopsC\front\Bcom.cxx" />
+    <ClCompile Include="cmd\c-oopsC\front\state.cxx" />
+    <ClCompile Include="cmd\c-oopsC\OopsC.cxx" />
+    <ClCompile Include="cmd\lemon\lemon.cxx" />
+    <ClCompile Include="cmd\lemon\lempar.tpl.cxx" />
+    <ClCompile Include="lib\oopsrt\oops-platform\misc.cxx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="cmd\c-oopsC\front\ast\ast.h" />
+    <ClInclude Include="cmd\c-oopsC\front\ast\astPrinter.h" />
+    <ClInclude Include="cmd\c-oopsC\front\ast\class.h" />
+    <ClInclude Include="cmd\c-oopsC\front\ast\clsProto.h" />
+    <ClInclude Include="cmd\c-oopsC\front\ast\expr.h" />
+    <ClInclude Include="cmd\c-oopsC\front\ast\field.h" />
+    <ClInclude Include="cmd\c-oopsC\front\ast\methBlk.h" />
+    <ClInclude Include="cmd\c-oopsC\front\ast\method.h" />
+    <ClInclude Include="cmd\c-oopsC\front\ast\protocol.h" />
+    <ClInclude Include="cmd\c-oopsC\front\ast\typeRepr.h" />
+    <ClInclude Include="cmd\c-oopsC\front\ast\visitor.h" />
+    <ClInclude Include="cmd\c-oopsC\front\Bcom.h" />
+    <ClInclude Include="cmd\c-oopsC\front\state.h" />
+    <ClInclude Include="cmd\c-oopsC\OopsC.h" />
+    <ClInclude Include="hdr\oops-platform\basic-defs.h" />
+    <ClInclude Include="hdr\oops-platform\cast.h" />
+    <ClInclude Include="hdr\oops-platform\cxx.h" />
+    <ClInclude Include="hdr\oops-platform\endpack.h" />
+    <ClInclude Include="hdr\oops-platform\misc.h" />
+    <ClInclude Include="hdr\oops-platform\packstrc.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cmd\c-oopsC\front\gram.y" />
+    <None Include="cmd\c-oopsC\front\scan.l" />
+    <None Include="hdr\oops-platform\compats.hhh" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

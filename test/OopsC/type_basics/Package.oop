@@ -1,0 +1,18 @@
+class Type1 : Nil
+C| (Nil) i1 (Nil) i2 |
+end
+
+class Type2 : Nil
+
+end
+
+
+class Tester : Nil
+
+- testMethod (Type1) t1
+[
+    | (Type2) v2 |
+    v2 <- v1
+]
+
+end

@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="lib">
+      <UniqueIdentifier>{55d25c6d-4978-4a4d-b0d0-18d26a18ea17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lib\liboopsRt">
+      <UniqueIdentifier>{77b6b35d-a40f-457f-89d3-d3ad56fee902}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cmd">
+      <UniqueIdentifier>{306f2917-1e17-4fcc-8894-63910ff87e44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cmd\Lemon">
+      <UniqueIdentifier>{d0e5b9a9-a01d-4811-a2f7-47f9345e4a53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cmd\c-oopsC">
+      <UniqueIdentifier>{0890cd61-df58-4b0c-aed0-fd187d06179f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\oops-platform">
+      <UniqueIdentifier>{1d4da7a0-8987-4cd4-8480-584251155e95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cmd\c-oopsC\front">
+      <UniqueIdentifier>{bd3e0653-b7ff-4db1-8267-f16c9769ebc3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cmd\c-oopsC\front\ast">
+      <UniqueIdentifier>{1abe3f2d-1b36-4e2a-acf8-afe693af21b6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="CMakeLists.txt" />
+    <Text Include="cmd\lemon\CMakeLists.txt">
+      <Filter>cmd\Lemon</Filter>
+    </Text>
+    <Text Include="lib\oopsrt\CMakeLists.txt">
+      <Filter>lib\liboopsRt</Filter>
+    </Text>
+    <Text Include="lib\CMakeLists.txt">
+      <Filter>lib</Filter>
+    </Text>
+    <Text Include="cmd\CMakeLists.txt">
+      <Filter>cmd</Filter>
+    </Text>
+    <Text Include="cmd\c-oopsC\CMakeLists.txt">
+      <Filter>cmd\c-oopsC</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="cmd\lemon\lemon.cxx">
+      <Filter>cmd\Lemon</Filter>
+    </ClCompile>
+    <ClCompile Include="cmd\lemon\lempar.tpl.cxx">
+      <Filter>cmd\Lemon</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\oopsrt\oops-platform\misc.cxx">
+      <Filter>lib\liboopsRt</Filter>
+    </ClCompile>
+    <ClCompile Include="cmd\c-oopsC\front\Bcom.cxx">
+      <Filter>cmd\c-oopsC\front</Filter>
+    </ClCompile>
+    <ClCompile Include="cmd\c-oopsC\front\state.cxx">
+      <Filter>cmd\c-oopsC\front</Filter>
+    </ClCompile>
+    <ClCompile Include="cmd\c-oopsC\OopsC.cxx">
+      <Filter>cmd\c-oopsC</Filter>
+    </ClCompile>
+    <ClCompile Include="cmd\c-oopsC\front\ast\astPrinter.cxx">
+      <Filter>cmd\c-oopsC\front\ast</Filter>
+    </ClCompile>
+    <ClCompile Include="cmd\c-oopsC\front\ast\symbol.cxx">
+      <Filter>cmd\c-oopsC\front\ast</Filter>
+    </ClCompile>
+    <ClCompile Include="cmd\c-oopsC\front\ast\visitor.cxx">
+      <Filter>cmd\c-oopsC\front\ast</Filter>
+    </ClCompile>
+    <ClCompile Include="cmd\c-oopsC\front\ast\ast.cxx">
+      <Filter>cmd\c-oopsC\front\ast</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="cmd\c-oopsC\OopsC.h">
+      <Filter>cmd\c-oopsC</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\oops-platform\packstrc.h">
+      <Filter>Header Files\oops-platform</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\oops-platform\basic-defs.h">
+      <Filter>Header Files\oops-platform</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\oops-platform\cast.h">
+      <Filter>Header Files\oops-platform</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\oops-platform\cxx.h">
+      <Filter>Header Files\oops-platform</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\oops-platform\endpack.h">
+      <Filter>Header Files\oops-platform</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\oops-platform\misc.h">
+      <Filter>Header Files\oops-platform</Filter>
+    </ClInclude>
+    <ClInclude Include="cmd\c-oopsC\front\Bcom.h">
+      <Filter>cmd\c-oopsC\front</Filter>
+    </ClInclude>
+    <ClInclude Include="cmd\c-oopsC\front\state.h">
+      <Filter>cmd\c-oopsC\front</Filter>
+    </ClInclude>
+    <ClInclude Include="cmd\c-oopsC\front\ast\ast.h">
+      <Filter>cmd\c-oopsC\front\ast</Filter>
+    </ClInclude>
+    <ClInclude Include="cmd\c-oopsC\front\ast\astPrinter.h">
+      <Filter>cmd\c-oopsC\front\ast</Filter>
+    </ClInclude>
+    <ClInclude Include="cmd\c-oopsC\front\ast\class.h">
+      <Filter>cmd\c-oopsC\front\ast</Filter>
+    </ClInclude>
+    <ClInclude Include="cmd\c-oopsC\front\ast\clsProto.h">
+      <Filter>cmd\c-oopsC\front\ast</Filter>
+    </ClInclude>
+    <ClInclude Include="cmd\c-oopsC\front\ast\expr.h">
+      <Filter>cmd\c-oopsC\front\ast</Filter>
+    </ClInclude>
+    <ClInclude Include="cmd\c-oopsC\front\ast\methBlk.h">
+      <Filter>cmd\c-oopsC\front\ast</Filter>
+    </ClInclude>
+    <ClInclude Include="cmd\c-oopsC\front\ast\method.h">
+      <Filter>cmd\c-oopsC\front\ast</Filter>
+    </ClInclude>
+    <ClInclude Include="cmd\c-oopsC\front\ast\protocol.h">
+      <Filter>cmd\c-oopsC\front\ast</Filter>
+    </ClInclude>
+    <ClInclude Include="cmd\c-oopsC\front\ast\typeRepr.h">
+      <Filter>cmd\c-oopsC\front\ast</Filter>
+    </ClInclude>
+    <ClInclude Include="cmd\c-oopsC\front\ast\visitor.h">
+      <Filter>cmd\c-oopsC\front\ast</Filter>
+    </ClInclude>
+    <ClInclude Include="cmd\c-oopsC\front\ast\field.h">
+      <Filter>cmd\c-oopsC\front\ast</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="hdr\oops-platform\compats.hhh">
+      <Filter>Header Files\oops-platform</Filter>
+    </None>
+    <None Include="cmd\c-oopsC\front\gram.y">
+      <Filter>cmd\c-oopsC\front</Filter>
+    </None>
+    <None Include="cmd\c-oopsC\front\scan.l">
+      <Filter>cmd\c-oopsC\front</Filter>
+    </None>
+  </ItemGroup>
+</Project>

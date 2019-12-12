@@ -1,0 +1,61 @@
+
+
++ test: aParam
+{
+    | faux. fox. |
+    faux := aParam test: param.
+    { faux := fox. } value
+}
+
+method name:"test" params:{aParam}
+    locals: {faux, fox})
+    body:
+    {
+        assign(faux, send("faux", "test:", param))
+        return (send(createBlock(assign("faux", "fox"), value) )
+    }
+
+SO:
+we need to arrive thru:
+
+struct heaptype0
+{
+    oop faux;
+    oop fox;
+}
+
+oop blkfun0(struct heaptype0 * heapvars0)
+{
+    heapvars->faux = heapvars->fox;
+}
+
+oop newblk0(struct heaptype0 * heapvars0)
+{
+    return newblk(blkfun0, heapvars);
+}
+
+oop test(oop self, SEL selector, oop aParam )
+{
+    <promote tag> oop faux  = nil;
+    <promote tag> oop fox = nil;
+    oop rval = nil;
+    
+    faux = ((oop *)(oop,SEL,oop) lookup(aParam, "test:"))(self, "test:", param));
+    
+    rval = ((oop *)(oop, SEL)lookup(newblk0(heapvars...), "value")();
+    
+    return rval;
+    
+}
+
+and of course test must become:
+oop test (oop self, SEL selector, oop aParam)
+{
+    struct heaptype0 * heapvars0 = allocate(sizeof(Heapvars0));
+    oop rval = nil;
+    
+    heapvars0->faux = ...;
+    rval = ((oop *)(oop, SEL)lookup(newblk0(heapvars...), "value");
+ 
+    return rval;
+}
