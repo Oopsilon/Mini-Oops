@@ -10,6 +10,12 @@
  * and David Mackay is the sole copyright holder.
  *
  *      End Copyright Notice
+ *
+ * Oopsilon's type system is conceived of as an object language. We have type
+ * expressions which work with type objects - type objects can be types, type
+ * classes (which have their constructors), or arrays of types.
+ *
+ * Accordingly what we call a 'type' has greater meaning than it sounds.
  */
 
 #pragma once
@@ -21,10 +27,16 @@
 namespace AST
 {
 
-/* Abstract superclass. */
-struct TypeRepr
+struct TypeObject
 {
-    typedef std::list<TypeRepr *> List;
+};
+
+struct TypeExpr
+{
+    typedef std::list<TypeExpr *> List;
+
+    virtual bool isConcreteType () { return isId (); }
+    virtual bool isId () { return false; }
 };
 
 template <class T> struct Singleton
@@ -37,93 +49,103 @@ template <class T> struct Singleton
 };
 
 /* Any-object reference. */
-struct IdTypeRepr : TypeRepr, Singleton<IdTypeRepr>
+struct IdTypeExpr : TypeExpr, Singleton<IdTypeExpr>
 {
+    virtual bool isId () { return true; }
 };
 
 /* A pseudo-type referring to the type of self in this context.
  * Equivalent to ClassType if the context is a class method; otherwise, to
  * InstanceType. */
-struct SelfTypeRepr : TypeRepr, Singleton<SelfTypeRepr>
+struct SelfTypeExpr : TypeExpr, Singleton<SelfTypeExpr>
 {
 };
 
 /* A pseudo-type referring to the instance type of the current type. */
-struct InstanceTypeRepr : TypeRepr, Singleton<InstanceTypeRepr>
+struct InstanceTypeExpr : TypeExpr, Singleton<InstanceTypeExpr>
 {
 };
 
 /* A pseudo-type referring to the instance type of the current type. */
-struct ClassTypeRepr : TypeRepr, Singleton<ClassTypeRepr>
+struct ClassTypeExpr : TypeExpr, Singleton<ClassTypeExpr>
 {
 };
 
-struct NilTypeRepr : TypeRepr, Singleton<NilTypeRepr>
+struct NilTypeExpr : TypeExpr, Singleton<NilTypeExpr>
 {
 };
 
-struct NamedTypeRepr : TypeRepr
+struct NamedTypeExpr : TypeExpr
 {
     Symbol name;
 
-    NamedTypeRepr (Symbol aName) : name (aName) {}
+    NamedTypeExpr (Symbol aName) : name (aName) {}
 };
 
-struct PlaceholderTypeRepr : NamedTypeRepr, Singleton<PlaceholderTypeRepr>
+/* A placeholder for during inference. ( Do we need this? ) */
+struct PlaceholderTypeExpr : NamedTypeExpr, Singleton<PlaceholderTypeExpr>
 {
-    PlaceholderTypeRepr () : NamedTypeRepr (std::string ("Placeholder!")) {}
+    PlaceholderTypeExpr () : NamedTypeExpr (std::string ("Placeholder!")) {}
 };
 
-/* type is set afterwards. */
-struct ParameterisedTypeReprDecl : TypeRepr
+struct TypeInvocationExpr : TypeExpr
 {
-    TypeRepr * type;
-    /* Map of keyword entries to names (i.e. arg: T) */
-    Symbol::List paramNames;
+    TypeExpr * base;
+    TypeExpr::List params;
+    TypeExpr::List prots;
 
-    ParameterisedTypeReprDecl (Symbol::List aNames) : paramNames (aNames) {}
-};
-
-struct TypeInvocationRepr : TypeRepr
-{
-    TypeRepr * base;
-    TypeRepr::List params;
-
-    TypeInvocationRepr (TypeRepr * base, TypeRepr::List params)
-        : base (base), params (params)
+    TypeInvocationExpr (TypeExpr * base, TypeExpr::List params,
+                        TypeExpr::List prots)
+        : base (base), params (params), prots (prots)
     {
     }
 };
 
-struct ProtQualTypeRepr : TypeRepr
+/* struct SumTypeExpr : TypeWxpr
 {
-    TypeRepr * base;
-    TypeRepr::List prots;
+    TypeExpr * lhs;
+    TypeExpr * rhs;
 
-    ProtQualTypeRepr (TypeRepr * base, TypeRepr::List prots)
-        : base (base), prots (prots)
+    SumTypeExpr (TypeExpr * anLhs, TypeExpr * anRhs) : lhs (anLhs), rhs (anRhs)
     {
     }
 };
 
-struct SumTypeRepr : TypeRepr
+struct BlockTypeExpr : TypeExpr
 {
-    TypeRepr * lhs;
-    TypeRepr * rhs;
+    TypeExpr * ret;
+    TypeExpr::List formals;
 
-    SumTypeRepr (TypeRepr * anLhs, TypeRepr * anRhs) : lhs (anLhs), rhs (anRhs)
-    {
-    }
-};
-
-struct BlockTypeRepr : TypeRepr
-{
-    TypeRepr * ret;
-    TypeRepr::List formals;
-
-    BlockTypeRepr (TypeRepr * ret, TypeRepr::List formals)
+    BlockTypeExpr (TypeExpr * ret, TypeExpr::List formals)
         : ret (ret), formals (formals)
     {
     }
+}; */
+
+/* Type Objects */
+
+/* A type array is a literal only at the moment - so is also an expression.  */
+struct TypeArray : TypeObject
+{
+    TypeExpr::List entries;
+
+    TypeArray (TypeExpr::List entries) : entries (entries) {}
 };
+
+struct ParameterisedTypeConstructor : TypeObject
+{
+    // TypeRepr * type;
+    /* Selector for its constructor. */
+    Symbol constructor;
+    /* list of parameter names */
+    Symbol::List params;
+    TypeExpr::List prots;
+
+    ParameterisedTypeConstructor (Symbol constructor, Symbol::List params,
+                                  TypeExpr::List prots)
+        : constructor (constructor), params (params)
+    {
+    }
 };
+
+}; // namespace AST

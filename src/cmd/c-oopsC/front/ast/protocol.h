@@ -20,7 +20,7 @@ namespace AST
 {
 struct Protocol : public ClassProtocolCommon
 {
-    Protocol (TypeDecl * decl, TypeRepr::List protoList, Method::List meths)
+    Protocol (TypeDecl * decl, TypeExpr::List protoList, Method::List meths)
         : ClassProtocolCommon (decl, protoList, meths)
     {
     }

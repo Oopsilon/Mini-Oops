@@ -31,7 +31,7 @@ struct Visitor;
 
 struct Literal;
 struct Expr;
-struct TypeRepr;
+struct TypeExpr;
 struct InferenceClause;
 struct Protocol;
 struct FunctionType;

@@ -22,11 +22,11 @@ namespace AST
 
 struct Class : public ClassProtocolCommon
 {
-    TypeRepr * superRepr;
+    TypeExpr * superRepr;
 
     Field::List nstVars, clsVars;
 
-    Class (TypeDecl * decl, TypeRepr * superRepr, TypeRepr::List protoList,
+    Class (TypeDecl * decl, TypeExpr * superRepr, TypeExpr::List protoList,
            Field::List cVars, Field::List iVars, Method::List meths)
         : ClassProtocolCommon (decl, protoList, meths), superRepr (superRepr),
           nstVars (iVars), clsVars (cVars)

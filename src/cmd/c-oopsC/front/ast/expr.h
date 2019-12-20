@@ -72,7 +72,7 @@ struct BlockExpr : public Expr, MethodBlockCommon
     BlockContext * _ctx;
     BlockContext * ctx () override { return _ctx; }
 
-    BlockExpr (TypeRepr * retTypeRepr, Field::List someFormals,
+    BlockExpr (TypeExpr * retTypeRepr, Field::List someFormals,
                Field::List someTemps, Expr::List code)
         : MethodBlockCommon (retTypeRepr, someFormals, someTemps, code)
     {

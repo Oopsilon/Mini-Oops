@@ -2,6 +2,7 @@
 #include <iostream>
 #include <list>
 
+#include "front/msgUnpacking.h"
 #include "front/ast/ast.h"
 #include "front/ast/typeRepr.h"
 #include "front/ast/expr.h"
@@ -37,6 +38,7 @@ AST::Symbol passSym(AST::Symbol * sym)
 %right ASSIGN.
 %left ANGLE_OPEN BRACKET_OPEN SQB_OPEN ANGLE_CLOSE BRACKET_CLOSE SQB_CLOSE.
 %right DOT DotPrec.
+%left MsgPrec.
 
 %type directive { AST::Directive * }
 
@@ -63,23 +65,25 @@ AST::Symbol passSym(AST::Symbol * sym)
 %type block_formal { AST::Field * }
 %type field { AST::Field * }
 
-%type opt_proto_list { AST::TypeRepr::List * }
-%type proto_list { AST::TypeRepr::List *}
-%type type_comma_list { AST::TypeRepr::List *}
+%type opt_proto_list { AST::TypeExpr::List * }
+%type proto_list { AST::TypeExpr::List *}
+%type type_comma_list { AST::TypeExpr::List *}
 
-%type opt_bracketed_type { AST::TypeRepr * }
-%type type { AST::TypeRepr * }
+%type opt_bracketed_type { AST::TypeExpr * }
+%type type { AST::TypeExpr * }
 
-%type prot_qualifiable { AST::TypeRepr * }
-%type nom_invok_or_dyn { AST::TypeRepr * }
-%type self_invok { AST::TypeRepr * }
-%type primary_type { AST::TypeRepr * }
-%type self_type { AST::TypeRepr * }
-%type nil_type { AST::TypeRepr * }
-%type dyn_type { AST::TypeRepr * }
+%type type_parameters { std::vector<SymTypeExprPair> *}
 
-%type opt_primary_type_list { AST::TypeRepr::List * }
-%type primary_type_list { AST::TypeRepr::List * }
+%type prot_qualifiable { AST::TypeExpr * }
+%type nom_invok_or_dyn { AST::TypeExpr * }
+%type self_invok { AST::TypeExpr * }
+%type primary_type { AST::TypeExpr * }
+%type self_type { AST::TypeExpr * }
+%type nil_type { AST::TypeExpr * }
+%type dyn_type { AST::TypeExpr * }
+
+%type opt_primary_type_list { AST::TypeExpr::List * }
+%type primary_type_list { AST::TypeExpr::List * }
 
 %type expr { AST::Expr * }
 %type atomic_expr { AST::Expr * }
@@ -92,6 +96,24 @@ AST::Symbol passSym(AST::Symbol * sym)
 %type expr_list { AST::Expr::List * }
 %type opt_arg_list { AST::Expr::List * }
 %type arg_list { AST::Expr::List * }
+
+/* Msg stuff */
+%type binary_msg_atomic_expr { AST::Expr * }
+%type keyw_msg_argument { AST::Expr * }
+
+%type unary_msg { UnaryMsg * }
+%type unary_msg_chain { MsgChainEntry::List *}
+%type opt_unary_msg_chain { MsgChainEntry::List * }
+
+%type binary_msg { BinMsg * }
+%type binary_msg_chain { MsgChainEntry::List * }
+%type opt_binary_msg_chain { MsgChainEntry::List * }
+
+%type keyw_msg_segment { KeywMsgPart * }
+%type keyw_msg { KeywMsg * }
+%type opt_keyw_msg { KeywMsg * }
+
+%type msg_chain { MsgChainEntry::List * }
 
 %type meth_ci_spec { bool }
 
@@ -133,7 +155,7 @@ opt_proto_list    ::= proto_list.
 
 proto_list(L) ::= ANGLE_OPEN type_comma_list(l) ANGLE_CLOSE. { L = l; }
 
-type_comma_list(L) ::= type(t). { L = new AST::TypeRepr::List({t}); } 
+type_comma_list(L) ::= type(t). { L = new AST::TypeExpr::List({t}); } 
 type_comma_list(L)
     ::= type_comma_list(l) COMMA type(t).
     {
@@ -169,7 +191,7 @@ opt_bracketed_type(T)
         T = t;
     }
 opt_bracketed_type(T)
-    ::= . { T = AST::PlaceholderTypeRepr::instance(); }
+    ::= . { T = AST::PlaceholderTypeExpr::instance(); }
 
 meth_ci_spec(C)
     ::= PLUS. { C = true; }
@@ -213,32 +235,45 @@ comp_inf_expr ::= comp_inf_expr DOT inf_op.
 inf_op ::= RETURNTYPE.
 inf_op ::= ARG int_lit.
 
+/* types */
+
+type_parameters(P)
+	::= keyw_lit(k) type(t).
+	{
+		P = new std::vector<SymTypeExprPair>;
+	    P->push_back (SymTypeExprPair(*k, t));
+	    delete k;
+	}
+
+/*type_parameters(P)
+	::= type_parameters(p) keyw_lit(k) type(t).
+	{
+		P = p;
+	    (*P)[*k] = t;
+	    delete k;
+	}*/
+
+ 
 type ::= prot_qualifiable.
 
 prot_qualifiable
     ::= nom_invok_or_dyn. [TBelowInvoc]
-prot_qualifiable(T)
-    ::= nom_invok_or_dyn(t) proto_list(p). [TInvoc]
-    {
-        T = new AST::ProtQualTypeRepr(t, *p);
-        delete p;
-    }
 
 nom_invok_or_dyn
-    ::= primary_type. [TBelowInvoc]
+    ::= primary_type /*opt_proto_list*/. [TBelowInvoc]
 nom_invok_or_dyn(T)
-    ::= primary_type(t) primary_type_list(a). [TInvoc]
+    ::= primary_type(t) BRACKET_OPEN primary_type_list(a) BRACKET_CLOSE /*opt_proto_list(p)*/. [TInvoc]
     {
-        T = new AST::TypeInvocationRepr(t, *a);
-        delete a;
+        /*FIXME T = new AST::TypeInvocationExpr(t, *a);
+        delete a;*/
     }
 
-dyn_type(T) ::= ID. { T = AST::IdTypeRepr::instance(); }
+dyn_type(T) ::= ID. { T = AST::IdTypeExpr::instance(); }
 
 opt_primary_type_list(L) ::= . { L = NULL; }
 opt_primary_type_list    ::= primary_type_list .
 
-primary_type_list(L) ::= primary_type(t). { L = new AST::TypeRepr::List({t});}
+primary_type_list(L) ::= primary_type(t). { L = new AST::TypeExpr::List({t});}
 primary_type_list(L)
     ::= primary_type_list(l) COMMA primary_type(t).
     {
@@ -246,7 +281,7 @@ primary_type_list(L)
     }
 
 primary_type(T)
-    ::= sym_lit(s). { T = new AST::NamedTypeRepr(*s); delete s; }
+    ::= sym_lit(s). { T = new AST::NamedTypeExpr(*s); delete s; }
 primary_type
     ::= nil_type.
 primary_type
@@ -256,20 +291,20 @@ primary_type
 primary_type(T)
     ::= SQB_OPEN opt_primary_type_list(f) RETURN type(r) SQB_CLOSE.
     {
-        T = new AST::BlockTypeRepr(r, passList(f));
+        /*FIXME T = new AST::BlockTypeExpr(r, passList(f)); */
     }
 primary_type(T)
     ::= BRACKET_OPEN type(t) BRACKET_CLOSE. { T = t; }
 
 self_type(T)
-    ::= INSTANCE. { T = AST::InstanceTypeRepr::instance(); }
+    ::= INSTANCE. { T = AST::InstanceTypeExpr::instance(); }
 self_type(T)
-    ::= SELF. { T = AST::SelfTypeRepr::instance(); }
+    ::= SELF. { T = AST::SelfTypeExpr::instance(); }
 self_type(T)
-    ::= UCLASS. { T = AST::ClassTypeRepr::instance(); }
+    ::= UCLASS. { T = AST::ClassTypeExpr::instance(); }
 
 nil_type(T)
-    ::= NIL. { T = AST::NilTypeRepr::instance(); }
+    ::= NIL. { T = AST::NilTypeExpr::instance(); }
 
 expr_list(L) ::= expr(e). { L = new AST::Expr::List({e}); }
 expr_list(L) ::= expr_list(l) SEMICOLON expr(e). { (L = l)->push_back(e); }
@@ -304,16 +339,107 @@ block_expr(B)
     ::= SQB_OPEN opt_block_formals(f) opt_varlist(v)
         expr_list(e) SQB_CLOSE.
     {
-        B = new AST::BlockExpr(AST::PlaceholderTypeRepr::instance(),
+        B = new AST::BlockExpr(AST::PlaceholderTypeExpr::instance(),
                                passList(f), passList(v), passList(e));
     }
 
-msg_expr(M)
+/* msg_expr(M)
     ::= atomic_expr(r) DOT sym_lit(s) opt_arg_list(a).
     {
         //C = NULL;
         M = new AST::MsgExpr(r, passSym(s), passList(a));
+    } */
+
+unary_msg ::= sym_lit.
+
+unary_msg_chain(L) ::= unary_msg(u). { L = new MsgChainEntry::List({ u }); }
+unary_msg_chain(L)
+	::= unary_msg_chain(l) unary_msg(u).
+	{
+		L = l;
+		L->push_back(u);
+	}
+
+opt_unary_msg_chain    ::= unary_msg_chain.
+opt_unary_msg_chain(L) ::= . { L = NULL; }
+
+binary_selector ::= BINARYSEL.
+
+binary_msg_atomic_expr(O)
+	::= atomic_expr(o) opt_unary_msg_chain(c).
+	{
+		if (c)
+			O = unpackMsgChain(o, c);
+		else
+			O = o;
+	}
+binary_msg(B)
+	::= binary_selector(s) binary_msg_atomic_expr(o).
+	{
+		B = new BinMsg(*s, o);
+	}
+
+binary_msg_chain(C) ::= binary_msg(m). { C = new MsgChainEntry::List({ m }); }
+binary_msg_chain(C) ::= binary_msg_chain(c) binary_msg(m). {
+    C = c;
+    C->push_back(m);
+}
+
+opt_binary_msg_chain    ::= binary_msg_chain.
+opt_binary_msg_chain(C) ::= . { C = NULL; }
+
+keyw_msg_argument(O)
+	::= binary_msg_atomic_expr(o) opt_binary_msg_chain(c).
+	{
+		if (c)
+		    O = unpackMsgChain(o, c);
+		else
+		    O = o;
+	}
+
+keyw_msg_segment(K)
+	::= keyw_lit(k) keyw_msg_argument(e).
+	{
+		K = new KeywMsgPart(*k, e);
+		delete k;
+	}
+
+keyw_msg(L) ::= keyw_msg_segment(k). { L = new KeywMsg({*k}); }
+keyw_msg(L) ::= keyw_msg(l) keyw_msg_segment(k). {
+    L = l;
+    L->keyws.push_back(*k); 
+	delete k;
+}
+
+opt_keyw_msg(K) ::= . { K = NULL; }
+opt_keyw_msg    ::= keyw_msg .
+
+/* So what happens here? Let's represent the receiver as R.
+ * R is sent U. (R U) is sent UC[1], then ((R U) UC[1]) is sent UC[2...]
+ * (((R U) UC[1]) UC[n]) could be sent stuff from bc, but fuck that for now -
+ * this is already a pain to unpack.
+ * Finally we get ((((R U) UC[1])UC[n]) kw). */
+msg_chain(M)
+    ::= unary_msg(u) opt_unary_msg_chain(uc) opt_binary_msg_chain(bc)
+        opt_keyw_msg(kw).
+    {
+        M = new MsgChainEntry::List({u});
+        if (uc) M->insert(M->end(), uc->begin(), uc->end());
+        if (bc) M->insert(M->end(), bc->begin(), bc->end());
+        if (kw) M->push_back(kw);
     }
+msg_chain(M)
+    ::= binary_msg(b) opt_binary_msg_chain(bc) opt_keyw_msg(kw).
+    {
+        M = new MsgChainEntry::List({b});
+        if (bc) M->insert(M->end(), bc->begin(), bc->end());
+        if (kw) M->push_back(kw);
+    }
+msg_chain(M) ::= keyw_msg(k). { M = new MsgChainEntry::List({k}); }
+
+msg_expr(M)
+    ::= atomic_expr(r) msg_chain(k). [MsgPrec] { M = unpackMsgChain(r, k); }
+
 
 opt_block_formals
     ::= block_formals.
@@ -327,7 +453,7 @@ block_formals(L)
 block_formal(F)
     ::= quotesym_lit(s).
     {
-        F = new AST::Field(passSym(s), AST::PlaceholderTypeRepr::instance());
+        F = new AST::Field(passSym(s), AST::PlaceholderTypeExpr::instance());
     }
 
 int_lit         ::= INT.

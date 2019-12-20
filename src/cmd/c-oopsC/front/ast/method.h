@@ -34,7 +34,7 @@ struct Method : public MethodBlockCommon
     MethodContext * _ctx;
     MethodContext * ctx () override { return _ctx; }
 
-    Method (bool isCls, TypeRepr * retTypeRepr, Symbol name,
+    Method (bool isCls, TypeExpr * retTypeRepr, Symbol name,
             Field::List formals, Field::List temps, Expr::List code)
         : kind (isCls ? ECls : ENst),
           MethodBlockCommon (retTypeRepr, formals, {}, {})

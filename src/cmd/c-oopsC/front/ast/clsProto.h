@@ -27,10 +27,10 @@ struct TypeDecl : public AST
 {
     Symbol name;
     Field::List formals;
-    TypeRepr::List protoReprs;
+    TypeExpr::List protoReprs;
 
     TypeDecl (Symbol name, Field::List formals = {},
-              TypeRepr::List protoReprs = {})
+              TypeExpr::List protoReprs = {})
         : name (name), formals (formals), protoReprs (protoReprs)
     {
     }
@@ -47,7 +47,7 @@ struct ClassProtocolCommon : public Directive
     ClassContext * _ctx;
     virtual ClassContext * ctx () { return _ctx; }
 
-    ClassProtocolCommon (TypeDecl * decl, TypeRepr::List protoList,
+    ClassProtocolCommon (TypeDecl * decl, TypeExpr::List protoList,
                          Method::List meths)
         : decl (decl)
     {

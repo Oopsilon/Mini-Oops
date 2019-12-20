@@ -25,7 +25,7 @@ class Expr;
 
 struct MethodBlockCommon : public AST
 {
-    TypeRepr * retTypeRepr;
+    TypeExpr * retTypeRepr;
     Field::List formals;
     Field::List temps;
     std::list<Expr *> code;
@@ -33,7 +33,7 @@ struct MethodBlockCommon : public AST
     /* Anco */
     virtual CodeContext * ctx () = 0;
 
-    MethodBlockCommon (TypeRepr * retTypeRepr, Field::List formals,
+    MethodBlockCommon (TypeExpr * retTypeRepr, Field::List formals,
                        Field::List temps, std::list<Expr *> code)
         : formals (formals), temps (temps), code (code)
     {

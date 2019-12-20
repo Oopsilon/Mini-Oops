@@ -37,11 +37,11 @@ struct Field : public AST
         LOCAL
     } fieldType;
 
-    TypeRepr * repr;
+    TypeExpr * repr;
     Symbol name;
 
     Field (Symbol name) : name (name), repr (NULL) {}
-    Field (Symbol name, TypeRepr * repr) : name (name), repr (repr) {}
+    Field (Symbol name, TypeExpr * repr) : name (name), repr (repr) {}
 
     /* i.e. a class, or a protocol */
     virtual bool isGlobal () { return fieldType == CLASS; }
