@@ -11,21 +11,33 @@
 
 typedef std::pair<AST::Symbol, AST::TypeExpr *> SymTypeExprPair;
 
-/* Components of a MsgAST::Expr */
-struct UnaryMsg
+struct Msg
+{
+    virtual AST::Symbol sel ()      = 0;
+    virtual AST::Expr::List args () = 0;
+};
+
+struct UnaryMsg : Msg
 {
     typedef std::list<UnaryMsg> List;
     AST::Symbol unary;
 
     UnaryMsg (AST::Symbol anUnary) : unary (anUnary) {}
+
+    AST::Symbol sel () { return unary; }
+    AST::Expr::List args () { return AST::Expr::List (); }
 };
 
-struct BinMsg
+struct BinMsg : Msg
 {
     typedef std::list<BinMsg> List;
-    AST::Symbol sel;
+    AST::Symbol bin;
     AST::Expr * arg;
-    BinMsg (AST::Symbol aSel, AST::Expr * anArg) : sel (aSel), arg (anArg) {}
+
+    BinMsg (AST::Symbol aSel, AST::Expr * anArg) : bin (aSel), arg (anArg) {}
+
+    AST::Symbol sel () { return bin; }
+    AST::Expr::List args () { return AST::Expr::List ({arg}); }
 };
 
 struct KeywMsgPart
@@ -40,11 +52,26 @@ struct KeywMsgPart
     }
 };
 
-struct KeywMsg
+struct KeywMsg : Msg
 {
     KeywMsgPart::List keyws;
 
     KeywMsg (KeywMsgPart::List someKeyws) : keyws (someKeyws) {}
+
+    AST::Symbol sel ()
+    {
+        AST::Symbol r;
+        for (auto keywPart : keyws)
+            r += keywPart.keyw;
+        return r;
+    }
+    AST::Expr::List args ()
+    {
+        AST::Expr::List a;
+        for (auto keywPart : keyws)
+            a.push_back (keywPart.arg);
+        return a;
+    }
 };
 
 struct MsgChainEntry
@@ -56,17 +83,18 @@ struct MsgChainEntry
         EKeyw,
     } entryType;
 
-    union {
-        UnaryMsg * unary;
-        BinMsg * bin;
-        KeywMsg * keyw;
-    };
+    Msg * entry;
 
     typedef std::list<MsgChainEntry> List;
 
-    MsgChainEntry (UnaryMsg * anUnary) : entryType (EUnary), unary (anUnary) {}
-    MsgChainEntry (BinMsg * anUnary) : entryType (EBin), bin (anUnary) {}
-    MsgChainEntry (KeywMsg * someKeyws) : entryType (EKeyw), keyw (someKeyws) {}
+    MsgChainEntry (UnaryMsg * anUnary) : entryType (EUnary), entry (anUnary) {}
+    MsgChainEntry (BinMsg * anUnary) : entryType (EBin), entry (anUnary) {}
+    MsgChainEntry (KeywMsg * someKeyws) : entryType (EKeyw), entry (someKeyws)
+    {
+    }
+
+    AST::Symbol sel () { return entry->sel (); }
+    AST::Expr::List args () { return entry->args (); }
 };
 
 AST::MsgExpr * unpackMsgChain (AST::Expr * rcvr, MsgChainEntry::List * chain);

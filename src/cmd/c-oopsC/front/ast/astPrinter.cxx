@@ -98,7 +98,7 @@ void Printer::visitProtocol (Protocol & aNode)
 void Printer::visitMethod (Method & aNode) {}
 
 /* Type reprs */
-void Printer::visitTypeRepr (TypeRepr & aNode) {}
+/*void Printer::visitTypeRepr (TypeRepr & aNode) {}
 void Printer::visitIdTypeRepr (IdTypeRepr & aNode) {}
 void Printer::visitSelfTypeRepr (SelfTypeRepr & aNode) {}
 void Printer::visitInstanceTypeRepr (InstanceTypeRepr & aNode) {}
@@ -112,5 +112,5 @@ void Printer::visitParameterisedTypeReprDecl (ParameterisedTypeReprDecl & aNode)
 void Printer::visitTypeInvocationRepr (TypeInvocationRepr & aNode) {}
 // void Printer::visitTypeProtQualRepr (TypeProtQualRepr & aNode){ }
 void Printer::visitSumTypeRepr (SumTypeRepr & aNode) {}
-void Printer::visitBlockTypeRepr (BlockTypeRepr & aNode) {}
+void Printer::visitBlockTypeRepr (BlockTypeRepr & aNode) */
 } // namespace AST

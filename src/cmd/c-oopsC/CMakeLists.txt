@@ -21,7 +21,7 @@ set (c-oopsC_srcs
     ${PROJECT_BINARY_DIR}/gram.tab.cxx ${PROJECT_BINARY_DIR}/scan.yy.cxx
 	front/ast/symbol.cxx front/ast/visitor.cxx front/ast/astPrinter.cxx
     front/ast/ast.cxx front/ast/field.cxx
-    front/state.cxx
+    front/state.cxx front/msgUnpacking.cxx
 	OopsC.cxx)
 
 add_executable (c-oopsC "")

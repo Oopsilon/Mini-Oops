@@ -98,6 +98,8 @@ SYLI ":"{SYM_ST}({SYM_END}?)+
 "-"         return TK_MINUS;
 "C|"        return TK_CBAR;
 "|"         return TK_BAR;
+"/"			return TK_FSLASH;
+"\\"			return TK_BSLASH;
 
  /* Brace-enclosed C code. */
 "{"	{

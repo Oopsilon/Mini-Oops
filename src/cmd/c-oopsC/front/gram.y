@@ -343,13 +343,6 @@ block_expr(B)
                                passList(f), passList(v), passList(e));
     }
 
-/* msg_expr(M)
-    ::= atomic_expr(r) DOT sym_lit(s) opt_arg_list(a).
-    {
-        //C = NULL;
-        M = new AST::MsgExpr(r, passSym(s), passList(a));
-    } */
-
 unary_msg ::= sym_lit.
 
 unary_msg_chain(L) ::= unary_msg(u). { L = new MsgChainEntry::List({ u }); }
@@ -363,7 +356,12 @@ unary_msg_chain(L)
 opt_unary_msg_chain    ::= unary_msg_chain.
 opt_unary_msg_chain(L) ::= . { L = NULL; }
 
-binary_selector ::= BINARYSEL.
+binary_selector ::= binary_selector_part.
+
+binary_selector_part ::= FSLASH.
+binary_selector_part ::= BSLASH.
+binary_selector_part ::= PLUS.
+binary_selector_part ::= MINUS.
 
 binary_msg_atomic_expr(O)
 	::= atomic_expr(o) opt_unary_msg_chain(c).

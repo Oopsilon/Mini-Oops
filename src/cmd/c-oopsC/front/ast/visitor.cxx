@@ -80,7 +80,7 @@ void Visitor::visitProtocol (Protocol & aNode)
 void Visitor::visitMethod (Method & aNode) {}
 
 /* Type reprs */
-void Visitor::visitTypeRepr (TypeRepr & aNode) {}
+/*void Visitor::visitTypeRepr (TypeRepr & aNode) {}
 void Visitor::visitIdTypeRepr (IdTypeRepr & aNode) {}
 void Visitor::visitSelfTypeRepr (SelfTypeRepr & aNode) {}
 void Visitor::visitInstanceTypeRepr (InstanceTypeRepr & aNode) {}
@@ -94,5 +94,5 @@ void Visitor::visitParameterisedTypeReprDecl (ParameterisedTypeReprDecl & aNode)
 void Visitor::visitTypeInvocationRepr (TypeInvocationRepr & aNode) {}
 // void Visitor::visitTypeProtQualRepr (TypeProtQualRepr & aNode){ }
 void Visitor::visitSumTypeRepr (SumTypeRepr & aNode) {}
-void Visitor::visitBlockTypeRepr (BlockTypeRepr & aNode) {}
+void Visitor::visitBlockTypeRepr (BlockTypeRepr & aNode) {}*/
 } // namespace AST

@@ -55,7 +55,7 @@ struct Visitor
     virtual void visitMethod (Method & aNode);
 
     /* Type reprs */
-    virtual void visitTypeRepr (TypeRepr & aNode);
+    /*virtual void visitTypeRepr (TypeRepr & aNode);
     virtual void visitIdTypeRepr (IdTypeRepr & aNode);
     virtual void visitSelfTypeRepr (SelfTypeRepr & aNode);
     virtual void visitInstanceTypeRepr (InstanceTypeRepr & aNode);
@@ -68,6 +68,6 @@ struct Visitor
     virtual void visitTypeInvocationRepr (TypeInvocationRepr & aNode);
     // virtual void visitTypeProtQualRepr (TypeProtQualRepr & aNode);
     virtual void visitSumTypeRepr (SumTypeRepr & aNode);
-    virtual void visitBlockTypeRepr (BlockTypeRepr & aNode);
+    virtual void visitBlockTypeRepr (BlockTypeRepr & aNode*/
 };
 } // namespace AST
